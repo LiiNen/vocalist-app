@@ -1,0 +1,6 @@
+version: "Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)"
+options: "b959bf6442d7c2a73489ce5d3fccdb0321bd11a20b9417ab88894c5e4c1be6fc"
+build_start_time: [1634042124, 288198947]
+build_end_time: [1634042124, 322935104]
+inputs:
+  "/Users/liinen/Workspace/flutter/vocalist/ios/Runner/AppDelegate.swift": !private [1623437044, 0]
