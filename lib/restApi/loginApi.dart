@@ -3,19 +3,15 @@ import 'package:http/http.dart' as http;
 
 import 'restApi.dart';
 
-var _pathLogin = '/login';
-
 loginApi({required String email, required String type}) async {
   var query = '?email=$email&type=$type';
-  var response = await http.get(Uri.parse('$baseUrl$_pathLogin$query'),);
+  var response = await http.get(Uri.parse('$baseUrl$pathLogin$query'),);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    if(responseBody['status'] == false) return null;
-    return responseBody['body'];
-  }
-  else {
+    if(responseBody['status'] == true) return responseBody['body'];
     return null;
   }
+  return null;
 }
 
 signupAction({required String email, required String name, required String type}) async {
@@ -24,14 +20,11 @@ signupAction({required String email, required String name, required String type}
   requestBody['name'] = name;
   requestBody['type'] = type;
 
-  var response = await http.post(Uri.parse('$baseUrl$_pathLogin'), body: requestBody);
+  var response = await http.post(Uri.parse('$baseUrl$pathLogin'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    print(responseBody);
-    if(responseBody['status'] == true) {
-      return responseBody['body'];
-    }
-    else return null;
+    if(responseBody['status'] == true) return responseBody['body'];
+    return null;
   }
-  else return null;
+  return null;
 }
