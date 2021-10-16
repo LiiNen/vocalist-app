@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vocalist/loginView/loginView.dart';
+import 'package:vocalist/mainNavView/mainNavView.dart';
 
 import 'collections/statelessWidget.dart';
 import 'collections/function.dart';
@@ -46,7 +47,8 @@ class _InitialView extends State<InitialView> {
   loginViewButton() {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {navigatorPush(context: context, route: LoginView());},
+      // onTap: () {navigatorPush(context: context, widget: LoginView());},
+      onTap: () {navigatorPush(context: context, widget: MainNavView());},
       child: Center(child: Container(
         width: 100, height: 100,
         child: Center(child: Text('login'))

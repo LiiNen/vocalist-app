@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-navigatorPush({required BuildContext context, required Widget route, bool isReplace=false}) {
-  isReplace
-    ? Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => route))
-    : Navigator.push(context, MaterialPageRoute(builder: (context) => route));
+navigatorPush({required context, required widget, replacement=false, all=false}) {
+  replacement
+    ? all
+      ? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget), (route) => false)
+      : Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget))
+    : Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 }
 
 Future<bool> onWillPop(BuildContext context) async {
@@ -25,4 +27,8 @@ Future<bool> onWillPop(BuildContext context) async {
       ],
     ),
   )) ?? false;
+}
+
+textFieldClear(TextEditingController controller) {
+  controller.clear();
 }
