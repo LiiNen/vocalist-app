@@ -59,27 +59,40 @@ class _SearchView extends State<SearchView> {
       margin: EdgeInsets.only(top: 18),
       child: Container(
         height: 40,
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.all(Radius.circular(10)),
-        //   color: Color(0xfff5f5f5)
-        // ),
         child: TextField(
           controller: controller,
           focusNode: focusNode,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
             fillColor: Color(0xfff5f5f5),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: Color(0xfff5f5f5)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: Color(0xfff5f5f5)),
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: Color(0xfff5f5f5)),
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 14),
+            contentPadding: EdgeInsets.symmetric(horizontal: 0),
             hintText: '검색어를 입력하세요',
             hintStyle: textStyle(color: Color(0xff8a8a8a), weight: 400, size: 12.0),
-            suffixIcon: controller.text != '' ? IconButton(
-              onPressed: () => {setState(() {textFieldClear(controller);})},
-              icon: Icon(Icons.cancel, size: 20, color: Colors.grey)
-            ) : null
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(left: 10, right: 15),
+              child: Icon(Icons.search, size: 20, color: Colors.grey),
+            ),
+            prefixIconConstraints: BoxConstraints(maxWidth: 45, maxHeight: 40),
+            suffixIcon: controller.text != '' ? Padding(
+              padding: EdgeInsets.only(left: 10, right: 15),
+              child: IconButton(
+                onPressed: () => {setState(() {textFieldClear(controller);})},
+                icon: Icon(Icons.cancel, size: 20, color: Colors.grey)
+              )
+            ) : null,
+            suffixIconConstraints: BoxConstraints(maxWidth: 45, maxHeight: 40),
           ),
           style: textStyle(weight: 600, size: 12.0),
           onChanged: (value) => {setState(() {})},

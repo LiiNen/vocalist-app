@@ -17,7 +17,7 @@ class _SearchResultView extends State<SearchResultView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: '검색 결과'),
+      appBar: MainAppBar(title: '검색 결과', back: true),
     );
   }
 }
