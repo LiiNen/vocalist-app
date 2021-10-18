@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
+import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/restApi/loginApi.dart';
 
 class LoginView extends StatefulWidget {
@@ -15,14 +18,36 @@ class _LoginView extends State<LoginView> {
   @override
   void initState() {
     super.initState();
-    appleLogin();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MainAppBar(title: 'login'),
+    return WillPopScope(
+      onWillPop: () => onWillPop(context),
+      child: Scaffold(
+        appBar: MainAppBar(title: 'login'),
+        body: Container(
+          margin: EdgeInsets.symmetric(horizontal: 21),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SignInButton(Buttons.Google, onPressed: googleLogin),
+              SignInButton(Buttons.Apple, onPressed: appleLogin)
+            ]
+          )
+        )
+      )
     );
+  }
+
+  loginButton({required String title, required dynamic action}) {
+    return Container(
+
+    );
+  }
+
+  void googleLogin() async {
+    navigatorPush(context: context, widget: MainNavView(), replacement: true, all: true);
   }
 
   void appleLogin() async {

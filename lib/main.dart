@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:vocalist/loginView/loginView.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
@@ -16,19 +17,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: InitialView(),
+      home: SplashView(),
     );
   }
 }
 
-class InitialView extends StatefulWidget {
+class SplashView extends StatefulWidget {
   @override
-  State<InitialView> createState() => _InitialView();
+  State<SplashView> createState() => _SplashView();
 }
-class _InitialView extends State<InitialView> {
+class _SplashView extends State<SplashView> {
+
+  bool? _isLogin;
+
   @override
   void initState() {
     super.initState();
+    new Future.delayed(new Duration(seconds: 1), _checkLogin);
+  }
+
+  void _checkLogin() async {
+    final pref = await SharedPreferences.getInstance();
+    setState(() {
+      _isLogin = pref.getBool('isLogin') ?? false;
+    });
+    navigatorPush(context: context, widget: _isLogin! ? MainNavView() : LoginView(), replacement: true, all: true);
   }
 
   @override
@@ -38,7 +51,7 @@ class _InitialView extends State<InitialView> {
       child: Scaffold(
         appBar: MainAppBar(),
         body: Container(
-          child: loginViewButton()
+          // child: loginViewButton()
         )
       )
     );
