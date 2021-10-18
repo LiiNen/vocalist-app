@@ -40,12 +40,6 @@ class _LoginView extends State<LoginView> {
     );
   }
 
-  loginButton({required String title, required dynamic action}) {
-    return Container(
-
-    );
-  }
-
   void googleLogin() async {
     navigatorPush(context: context, widget: MainNavView(), replacement: true, all: true);
   }

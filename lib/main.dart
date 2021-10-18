@@ -51,21 +51,11 @@ class _SplashView extends State<SplashView> {
       child: Scaffold(
         appBar: MainAppBar(),
         body: Container(
-          // child: loginViewButton()
+          child: Center(
+            child: FlutterLogo(size: 30),
+          )
         )
       )
-    );
-  }
-
-  loginViewButton() {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      // onTap: () {navigatorPush(context: context, widget: LoginView());},
-      onTap: () {navigatorPush(context: context, widget: MainNavView());},
-      child: Center(child: Container(
-        width: 100, height: 100,
-        child: Center(child: Text('login'))
-      ))
     );
   }
 }

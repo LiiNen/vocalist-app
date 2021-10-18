@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/music/musicListContainer.dart';
+import 'package:vocalist/restApi/curationItemApi.dart';
 
 class SearchResultView extends StatefulWidget {
   final String input;
@@ -14,10 +16,33 @@ class _SearchResultView extends State<SearchResultView> {
   String type;
   _SearchResultView(this.input, this.type);
 
+  var musicList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getResult();
+  }
+
+  void _getResult() async {
+    //todo: change to search result api
+    var _temp = await getCurationItem(curationId: 52, userId: 1, type: 'part');
+    setState(() {
+      musicList = _temp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(title: '검색 결과', back: true),
+      body: Container(
+        child: Column(
+          children: [
+            musicList.length != 0 ? MusicListContainer(musicList: musicList) : FlutterLogo(size: 30),
+          ]
+        )
+      )
     );
   }
 }
