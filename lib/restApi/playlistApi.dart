@@ -13,9 +13,21 @@ getPlaylist({required int userId}) async {
     if(responseBody['status'] == true) {
       return responseBody['body'];
     }
-    else {
-      return null;
+    return null;
+  }
+  return null;
+}
+
+getPlaylistCount({required int userId}) async {
+  var query = '/count?user_id=${userId.toString()}';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathPlaylist$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) {
+      return responseBody['body'];
     }
+    return null;
   }
   return null;
 }
