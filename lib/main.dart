@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vocalist/collections/userInfo.dart';
 
 import 'package:vocalist/loginView/loginView.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
@@ -22,6 +23,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+late UserInfo userInfo;
+
 class SplashView extends StatefulWidget {
   @override
   State<SplashView> createState() => _SplashView();
@@ -38,8 +41,14 @@ class _SplashView extends State<SplashView> {
 
   void _checkLogin() async {
     final pref = await SharedPreferences.getInstance();
+    _isLogin = pref.getBool('isLogin') ?? false;
+    setUserInfo(id:1, name:'김정훈', email: 'kjeonghoon065@gmail.com', type: 'google');
+    userInfo = await getUserInfo();
     setState(() {
-      _isLogin = pref.getBool('isLogin') ?? false;
+      print(userInfo.id);
+      print(userInfo.name);
+      print(userInfo.email);
+      print(userInfo.type);
     });
     navigatorPush(context: context, widget: _isLogin! ? MainNavView() : LoginView(), replacement: true, all: true);
   }

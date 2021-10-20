@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/scrapView/addPlaylistView.dart';
 import 'package:vocalist/mainNavView/searchView/searchResultView.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
@@ -19,7 +20,7 @@ class _PlayListView extends State<PlayListView> {
   }
 
   void _getPlaylist() async {
-    var _temp = await getPlaylist(userId: 1);
+    var _temp = await getPlaylist(userId: userInfo.id);
     setState(() {
       _playlist = _temp;
       print(_playlist);

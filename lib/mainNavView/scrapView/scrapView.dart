@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/scrapView/likeListView.dart';
 import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 import 'package:vocalist/restApi/loveApi.dart';
@@ -31,8 +32,8 @@ class _ScrapView extends State<ScrapView> {
   }
 
   _getCount() async {
-    var _likeTemp = await getLoveCount(userId: 1);
-    var _playTemp = await getPlaylistCount(userId: 1);
+    var _likeTemp = await getLoveCount(userId: userInfo.id);
+    var _playTemp = await getPlaylistCount(userId: userInfo.id);
     setState(() {
       _menuObjectList[0]['count'] = _likeTemp['count'];
       _menuObjectList[1]['count'] = _playTemp['count'];

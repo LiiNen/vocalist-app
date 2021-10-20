@@ -3,6 +3,8 @@ import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/music/musicListContainer.dart';
 import 'package:vocalist/restApi/curationItemApi.dart';
 
+import '../../main.dart';
+
 class SearchResultView extends StatefulWidget {
   final String input;
   final String type;
@@ -26,7 +28,7 @@ class _SearchResultView extends State<SearchResultView> {
 
   void _getResult() async {
     //todo: change to search result api
-    var _temp = await getCurationItem(curationId: 52, userId: 1, type: 'part');
+    var _temp = await getCurationItem(curationId: 52, userId: userInfo.id, type: 'part');
     setState(() {
       musicList = _temp;
     });
