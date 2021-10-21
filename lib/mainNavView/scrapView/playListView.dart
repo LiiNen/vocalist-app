@@ -3,6 +3,7 @@ import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/scrapView/addPlaylistView.dart';
+import 'package:vocalist/mainNavView/scrapView/playListMusicView.dart';
 import 'package:vocalist/mainNavView/searchView/searchResultView.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
 
@@ -29,9 +30,9 @@ class _PlayListView extends State<PlayListView> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _scrollableList = [addPlaylistButton()];
+    List<Widget> _scrollableList = [addPlaylistButton(context)];
     if(_playlist != []) _scrollableList = _scrollableList + List.generate(_playlist.length, (index) {
-      return playlistContainer(_playlist[index]);
+      return playlistContainer(_playlist[index], context);
     });
 
     return Scaffold(
@@ -48,7 +49,7 @@ class _PlayListView extends State<PlayListView> {
     );
   }
   
-  addPlaylistButton() {
+  addPlaylistButton(context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {navigatorPush(context: context, widget: AddPlaylistView());},
@@ -80,10 +81,10 @@ class _PlayListView extends State<PlayListView> {
     );
   }
 
-  playlistContainer(playlistItem) {
+  playlistContainer(playlistItem, context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {navigatorPush(context: context, widget: SearchResultView(type: '', input: ''));},
+      onTap: () {navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id']));},
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Row(

@@ -20,7 +20,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
           children: [
             back ? backButton(context) : Container(),
             Text(title != null ? title! : 'vloom', style: TextStyle(color: Colors.black),),
-            back ? SizedBox(width: 16) : Container()
+            back ? SizedBox(width: 32) : Container()
           ]
         )
       ),
@@ -29,9 +29,11 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   backButton(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {Navigator.pop(context);},
       child: Container(
-        width: 16,
+        width: 32,
+        height: 32,
         child: Center(
           child: Icon(Icons.arrow_back, color: Colors.black)
         )

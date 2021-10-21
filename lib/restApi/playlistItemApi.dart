@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'restApi.dart';
 
 getPlaylistItem({required int playlistId, required int userId, String? type}) async {
-  var query = (type == null ? '' : '/${type!}')
+  var query = (type == null ? '' : '/$type')
       + '?playlist_id=${playlistId.toString()}&?user_id=${userId.toString()}';
 
   var response = await http.get(Uri.parse('$baseUrl$pathPlaylistItem$query'));

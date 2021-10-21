@@ -17,6 +17,20 @@ getLoveCount({required int userId}) async {
   return null;
 }
 
+getLoveList({required int userId}) async {
+  var query = '/list?user_id=$userId';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathLove$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) {
+      return responseBody['body'];
+    }
+    return null;
+  }
+  return null;
+}
+
 postLove({required int musicId, required int userId}) async {
   var requestBody = Map();
   requestBody['music_id'] = musicId.toString();
