@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 navigatorPush({required context, required widget, replacement=false, all=false}) {
   replacement
@@ -31,4 +32,10 @@ Future<bool> onWillPop(BuildContext context) async {
 
 textFieldClear(TextEditingController controller) {
   controller.clear();
+}
+
+showToast(String message) {
+  Fluttertoast.showToast(msg: message,
+    gravity: ToastGravity.BOTTOM
+  );
 }
