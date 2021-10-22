@@ -42,14 +42,15 @@ class _SplashView extends State<SplashView> {
   void _checkLogin() async {
     final pref = await SharedPreferences.getInstance();
     _isLogin = pref.getBool('isLogin') ?? false;
-    setUserInfo(id:1, name:'김정훈', email: 'kjeonghoon065@gmail.com', type: 'google');
-    userInfo = await getUserInfo();
-    setState(() {
-      print(userInfo.id);
-      print(userInfo.name);
-      print(userInfo.email);
-      print(userInfo.type);
-    });
+    if(_isLogin == true) {
+      userInfo = await getUserInfo();
+      setState(() {
+        print(userInfo.id);
+        print(userInfo.name);
+        print(userInfo.email);
+        print(userInfo.type);
+      });
+    }
     navigatorPush(context: context, widget: _isLogin! ? MainNavView() : LoginView(), replacement: true, all: true);
   }
 

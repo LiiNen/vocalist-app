@@ -3,9 +3,12 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/collections/userInfo.dart';
+import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/restApi/loginApi.dart';
 
@@ -41,6 +44,7 @@ class _LoginView extends State<LoginView> {
   }
 
   void googleLogin() async {
+    _loginPref();
     navigatorPush(context: context, widget: MainNavView(), replacement: true, all: true);
   }
 
@@ -99,5 +103,14 @@ class _LoginView extends State<LoginView> {
           break;
       }
     }
+  }
+
+  void _loginPref() async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setBool('isLogin', true);
+    setUserInfo(id: 1, name: '김정훈 테스트222', email: 'test@vloom.co.kr', type: 'google');
+    userInfo = await getUserInfo();
+    print(userInfo.id);
+    print(userInfo.name);
   }
 }

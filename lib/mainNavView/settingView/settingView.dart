@@ -57,9 +57,12 @@ buttonContainer({required context, required callback, required title, rightItem}
           bottom: BorderSide(width: 1, color: Colors.grey)
         )
       ),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(title)
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title),
+          rightItem != null ? rightItem : Container()
+        ]
       )
     )
   );
