@@ -3,10 +3,12 @@ import 'package:http/http.dart' as http;
 
 import 'restApi.dart';
 
-getMusic({int id = 0, required int userId}) async {
-  String query = '?id=${id.toString()}&user_id=${userId.toString()}';
-
-  var response = await http.get(Uri.parse('$baseUrl$pathMusic$query'));
+patchUser({required int id, required String name}) async {
+  var requestBody = Map();
+  requestBody['id'] = id.toString();
+  requestBody['name'] = name;
+  
+  var response = await http.patch(Uri.parse('$baseUrl$pathUser'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) return responseBody['body'];
@@ -14,4 +16,3 @@ getMusic({int id = 0, required int userId}) async {
   }
   return null;
 }
-
