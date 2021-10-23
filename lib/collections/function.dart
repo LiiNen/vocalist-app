@@ -36,6 +36,6 @@ textFieldClear(TextEditingController controller) {
 
 showToast(String message) {
   Fluttertoast.showToast(msg: message,
-    gravity: ToastGravity.BOTTOM
+    gravity: ToastGravity.BOTTOM,
   );
 }

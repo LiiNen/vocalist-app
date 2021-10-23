@@ -4,9 +4,11 @@ import 'package:vocalist/collections/userInfo.dart';
 
 import 'package:vocalist/loginView/loginView.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
+import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 
 import 'collections/statelessWidget.dart';
 import 'collections/function.dart';
+import 'mainNavView/scrapView/likeListView.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/login': (context) => LoginView(),
+        '/mainNav': (context) => MainNavView(),
+        '/likeList': (context) => LikeListView(),
+        '/playList': (context) => PlayListView()
+      },
       home: SplashView(),
     );
   }
@@ -50,8 +58,11 @@ class _SplashView extends State<SplashView> {
         print(userInfo.email);
         print(userInfo.type);
       });
+      Navigator.pushReplacementNamed(context, '/mainNav');
     }
-    navigatorPush(context: context, widget: _isLogin! ? MainNavView() : LoginView(), replacement: true, all: true);
+    else {
+      Navigator.pushReplacementNamed(context, '/login');
+    }
   }
 
   @override

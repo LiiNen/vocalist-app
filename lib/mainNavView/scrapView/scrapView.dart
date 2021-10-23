@@ -16,12 +16,12 @@ class _ScrapView extends State<ScrapView> {
     {
       'title': '좋아요한 노래',
       'count': -1,
-      'widget': LikeListView()
+      'route': '/likeList'
     },
     {
       'title': '저장한 플레이리스트',
       'count': -1,
-      'widget': PlayListView()
+      'route': '/playList'
     }
   ];
 
@@ -62,7 +62,7 @@ class _ScrapView extends State<ScrapView> {
     var _menuObject = _menuObjectList[index];
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {navigatorPush(context: context, widget: _menuObject['widget']);},
+      onTap: () {Navigator.pushNamed(context, _menuObject['route'].toString());},
       child: Container(
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.symmetric(horizontal: 10),
