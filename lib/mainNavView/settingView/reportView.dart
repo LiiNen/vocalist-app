@@ -12,6 +12,7 @@ class ReportView extends StatefulWidget {
 class _ReportView extends State<ReportView> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,12 @@ class _ReportView extends State<ReportView> {
                     controller: _contentController,
                     decoration: InputDecoration(
                       hintText: '내용'
+                    ),
+                  ),
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      hintText: userInfo.email
                     ),
                   ),
                 ]
@@ -66,7 +73,8 @@ class _ReportView extends State<ReportView> {
   }
 
   _sendReport() async {
-    var result = await postBugReport(userId: userInfo.id, title: _titleController.text, content: _contentController.text);
+    var _email = _emailController.text == '' ? userInfo.email : _emailController.text;
+    var result = await postBugReport(userId: userInfo.id, title: _titleController.text, content: _contentController.text, email: _email);
     if(result == null) {
       print('error occur');
     }
