@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/userInfo.dart';
 
@@ -73,7 +74,7 @@ class _SplashView extends State<SplashView> {
         appBar: MainAppBar(),
         body: Container(
           child: Center(
-            child: FlutterLogo(size: 30),
+            child: SvgPicture.asset('asset/image/splashImage.svg')
           )
         )
       )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
@@ -12,9 +13,19 @@ class SettingView extends StatefulWidget {
 }
 class _SettingView extends State<SettingView> {
 
+  String _karaoke = '';
+
   @override
   void initState() {
     super.initState();
+    _getKaraoke();
+  }
+
+  void _getKaraoke() async {
+    final pref = await SharedPreferences.getInstance();
+    setState(() {
+      _karaoke = pref.getString('karaoke') ?? 'TJ';
+    });
   }
 
   @override
@@ -26,6 +37,8 @@ class _SettingView extends State<SettingView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Text(userInfo.name),
+              buttonContainer(context: context, callback: null, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke)),
               buttonContainer(context: context, callback: _pushNavigatorInfo, title: '계정 관리'),
               buttonContainer(context: context, callback: _pushReport, title: '버그리포트'),
               buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
@@ -36,6 +49,10 @@ class _SettingView extends State<SettingView> {
         )
       )
     );
+  }
+
+  _karaokeChange() {
+
   }
 
   _pushNavigatorInfo() {

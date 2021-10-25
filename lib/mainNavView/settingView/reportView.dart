@@ -39,6 +39,7 @@ class _ReportView extends State<ReportView> {
                       hintText: '내용'
                     ),
                   ),
+                  Text('연락받으실 이메일을 입력해주세요'),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
