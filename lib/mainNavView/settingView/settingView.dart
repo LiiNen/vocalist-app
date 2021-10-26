@@ -40,11 +40,12 @@ class _SettingView extends State<SettingView> {
     return Scaffold(
       appBar: MainAppBar(title: '더보기'),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 21),
+        margin: EdgeInsets.symmetric(horizontal: 21, vertical: 32),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Text(userInfo.name),
+              SizedBox(height: 20),
               buttonContainer(context: context, callback: _karaokeChange, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke)),
               buttonContainer(context: context, callback: _pushNavigatorInfo, title: '계정 관리'),
               buttonContainer(context: context, callback: _pushReport, title: '버그리포트'),

@@ -108,7 +108,7 @@ class _LoginView extends State<LoginView> {
   void _loginPref() async {
     final pref = await SharedPreferences.getInstance();
     pref.setBool('isLogin', true);
-    setUserInfo(id: 1, name: '김정훈 테스트222', email: 'test@vloom.co.kr', type: 'google');
+    setUserInfo(id: 1, name: '김정훈', email: 'test@vloom.co.kr', type: 'google');
     userInfo = await getUserInfo();
     print(userInfo.id);
     print(userInfo.name);

@@ -83,7 +83,7 @@ class _SplashView extends State<SplashView> {
             children: [
               Image.asset('asset/image/splashImage.png', width: 88),
               SizedBox(height: 25),
-              Text('Coming Soon!', style: TextStyle(foreground: Paint()..shader = linearGradientShader, fontSize: 28, fontWeight: FontWeight.w700)),
+              Text('BLOOMING\nYOUR VOICE', style: TextStyle(foreground: Paint()..shader = linearGradientShader, fontSize: 22, fontWeight: FontWeight.w700,), textAlign: TextAlign.center),
               SizedBox(height: 120)
             ]
           )
