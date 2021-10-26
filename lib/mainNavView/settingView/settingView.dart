@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
 
 import '../../main.dart';
@@ -14,6 +15,7 @@ class SettingView extends StatefulWidget {
 class _SettingView extends State<SettingView> {
 
   String _karaoke = '';
+  var _karaokeList = ['TJ', '금영'];
 
   @override
   void initState() {
@@ -28,6 +30,11 @@ class _SettingView extends State<SettingView> {
     });
   }
 
+  void _setKaraoke(String _type) async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setString('karaoke', _type);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +45,7 @@ class _SettingView extends State<SettingView> {
           child: Column(
             children: [
               Text(userInfo.name),
-              buttonContainer(context: context, callback: null, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke)),
+              buttonContainer(context: context, callback: _karaokeChange, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke)),
               buttonContainer(context: context, callback: _pushNavigatorInfo, title: '계정 관리'),
               buttonContainer(context: context, callback: _pushReport, title: '버그리포트'),
               buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
@@ -52,7 +59,66 @@ class _SettingView extends State<SettingView> {
   }
 
   _karaokeChange() {
-
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.only(left: 28),
+          width: MediaQuery.of(context).size.width,
+          child: Container(
+            margin: EdgeInsets.only(top: 20),
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: List<Widget>.generate(_karaokeList.length, (index) {
+                var _selected = (_karaoke == _karaokeList[index]);
+                return GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: ((){
+                    Navigator.pop(context);
+                    _setKaraoke(_karaokeList[index]);
+                    setState(() {
+                      _karaoke = _karaokeList[index];
+                    });
+                  }),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Text(
+                            _karaokeList[index],
+                            style: _selected
+                              ? textStyle(color: Color(0xff0958c5), weight: 700, size: 18.0)
+                              : textStyle(color: Colors.black, weight: 600, size: 18.0)
+                          ),
+                        ),
+                        Container(
+                          child: _selected ? Container(
+                            width: 24, height: 24,
+                            margin: EdgeInsets.only(right: 31),
+                            child: Icon(Icons.check)
+                          ) : Container()
+                        )
+                      ]
+                    )
+                  ),
+                );
+              }),
+            ),
+          )
+        );
+      }
+    );
   }
 
   _pushNavigatorInfo() {

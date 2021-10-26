@@ -1,6 +1,9 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/collections/userInfo.dart';
 
 import 'package:vocalist/loginView/loginView.dart';
@@ -68,13 +71,21 @@ class _SplashView extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
+    final Shader linearGradientShader = ui.Gradient.linear(Offset(0, 20), Offset(270, 0), [Colors.purple.shade600, Colors.red.shade200]);
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
-        appBar: MainAppBar(),
         body: Container(
-          child: Center(
-            child: SvgPicture.asset('asset/image/splashImage.svg')
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('asset/image/splashImage.png', width: 88),
+              SizedBox(height: 25),
+              Text('Coming Soon!', style: TextStyle(foreground: Paint()..shader = linearGradientShader, fontSize: 28, fontWeight: FontWeight.w700)),
+              SizedBox(height: 120)
+            ]
           )
         )
       )
