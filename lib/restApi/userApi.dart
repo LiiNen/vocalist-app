@@ -16,3 +16,16 @@ patchUser({required int id, required String name}) async {
   }
   return null;
 }
+
+deleteUser({required int id}) async {
+  var requestBody = Map();
+  requestBody['id'] = id.toString();
+
+  var response = await http.delete(Uri.parse('$baseUrl$pathUser'), body: requestBody);
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return true;
+    return null;
+  }
+  return null;
+}
