@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:emoji_picker/emoji_picker.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
+import 'package:vocalist/restApi/userApi.dart';
 
 import '../../main.dart';
 import 'infoView.dart';
@@ -35,6 +38,9 @@ class _SettingView extends State<SettingView> {
     pref.setString('karaoke', _type);
   }
 
+
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,12 +57,25 @@ class _SettingView extends State<SettingView> {
               buttonContainer(context: context, callback: _pushReport, title: '버그리포트'),
               buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
               buttonContainer(context: context, callback: null, title: '이용 약관'),
-              buttonContainer(context: context, callback: null, title: '개인정보 취급 방침')
+              buttonContainer(context: context, callback: _postTest, title: '개인정보 취급 방침'),
+              EmojiPicker(
+                rows: 3,
+                columns: 7,
+                buttonMode: ButtonMode.MATERIAL,
+                numRecommended: 10,
+                onEmojiSelected: (emoji, category) {
+                  _postTest(emoji.emoji);
+                },
+              )
             ]
           )
         )
       )
     );
+  }
+
+  _postTest(String emoji) async {
+    await postUser(emoji: emoji);
   }
 
   _karaokeChange() {

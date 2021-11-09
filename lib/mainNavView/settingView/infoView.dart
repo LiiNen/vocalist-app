@@ -17,7 +17,7 @@ class _InfoView extends State<InfoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: '계정 관리', back: true,),
+      appBar: DefaultAppBar(title: '계정 관리', back: true,),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 21),
         child: SingleChildScrollView(

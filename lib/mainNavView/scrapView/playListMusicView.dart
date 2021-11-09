@@ -35,7 +35,7 @@ class _PlayListMusicView extends State<PlayListMusicView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: title, back: true),
+      appBar: DefaultAppBar(title: title, back: true),
       body: Container(
         child: Column(
           children: [

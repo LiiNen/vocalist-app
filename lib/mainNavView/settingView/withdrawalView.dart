@@ -14,7 +14,7 @@ class _WithdrawalView extends State<WithdrawalView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: '회원 탈퇴', back: true),
+      appBar: DefaultAppBar(title: '회원 탈퇴', back: true),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 21, vertical: 18),
         child: Column(

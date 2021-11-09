@@ -3,6 +3,15 @@ import 'package:http/http.dart' as http;
 
 import 'restApi.dart';
 
+
+postUser({required String emoji}) async {
+  var requestBody = Map();
+  requestBody['emoji'] = emoji;
+
+  var response = await http.post(Uri.parse('$baseUrl$pathUser'), body: requestBody);
+
+}
+
 patchUser({required int id, required String name}) async {
   var requestBody = Map();
   requestBody['id'] = id.toString();

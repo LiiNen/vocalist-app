@@ -18,7 +18,7 @@ class _AddPlaylistView extends State<AddPlaylistView> {
     return GestureDetector(
       onTap: () {FocusManager.instance.primaryFocus?.unfocus();},
       child: Scaffold(
-        appBar: MainAppBar(title: '플레이리스트 추가', back: true),
+        appBar: DefaultAppBar(title: '플레이리스트 추가', back: true),
         body: SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,

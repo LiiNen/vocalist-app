@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
+import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/music/musicInfoView.dart';
 import 'package:vocalist/restApi/loveApi.dart';
 
@@ -16,13 +17,10 @@ class _MusicListContainer extends State<MusicListContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        shrinkWrap: true,
-        children: List.generate(musicList.length, (index) {
-          return musicItemContainer(index);
-        })
-      )
+    return Column(
+      children: List.generate(musicList.length, (index) {
+        return musicItemContainer(index);
+      })
     );
   }
 
@@ -32,35 +30,58 @@ class _MusicListContainer extends State<MusicListContainer> {
       behavior: HitTestBehavior.translucent,
       onTap: () {navigatorPush(context: context, widget: MusicInfoView(musicId: _music['id'],));},
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 21, vertical: 10),
-        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        width: MediaQuery.of(context).size.width, height: 68,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            indexBox(index),
             karaokeNumber(),
             musicInfo(_music['title'], _music['artist']),
-            likeBox(index, _music['islike']),
+            // likeBox(index, _music['islike']),
+            pitchBox(index),
             playlistBox(_music['id']),
           ]
         )
       )
     );
   }
-
+  
+  indexBox(index) {
+    return Container(
+      width: 16,
+      child: Text(index.toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 17.0), textAlign: TextAlign.center)
+    );
+  }
+  
   karaokeNumber() {
     return Container(
-      margin: EdgeInsets.only(right: 10),
-      child: Center(child: Text('000000'))
+      margin: EdgeInsets.only(left: 21, right: 15),
+      child: Center(child: Text('00000', style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0)))
     );
   }
 
   musicInfo(String _title, String _artist) {
     return Expanded(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(_title),
-          Text(_artist),
+          Text(_title, style: textStyle(weight: 700, size: 13.0)),
+          Text(_artist, style: textStyle(weight: 500, size: 10.0)),
         ]
+      )
+    );
+  }
+
+  pitchBox(int index) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {},
+      child: Container(
+        child: Center(
+          child: Icon(Icons.music_note_outlined, color: Color(0xffe4e4e4), size: 28.4)
+        )
       )
     );
   }
@@ -69,15 +90,7 @@ class _MusicListContainer extends State<MusicListContainer> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if(musicList[index]['islike'] == 0) {
-          postLove(musicId: musicList[index]['id'], userId: 1);
-        }
-        else {
-          deleteLove(musicId: musicList[index]['id'], userId: 1);
-        }
-        setState(() {
-          musicList[index]['islike'] = musicList[index]['islike']==0 ? 1 : 0;
-        });
+
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
@@ -96,9 +109,21 @@ class _MusicListContainer extends State<MusicListContainer> {
       },
       child: Container(
         child: Center(
-          child: Icon(Icons.playlist_add_rounded)
+          child: Icon(Icons.more_vert_outlined, color: Color(0xffe4e4e4), size: 32.4)
         )
       )
     );
+  }
+
+  likeAction(index) {
+    if(musicList[index]['islike'] == 0) {
+      postLove(musicId: musicList[index]['id'], userId: 1);
+    }
+    else {
+      deleteLove(musicId: musicList[index]['id'], userId: 1);
+    }
+    setState(() {
+      musicList[index]['islike'] = musicList[index]['islike']==0 ? 1 : 0;
+    });
   }
 }

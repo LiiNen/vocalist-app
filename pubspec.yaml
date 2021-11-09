@@ -36,6 +36,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   fluttertoast: ^8.0.8
   flutter_svg: ^0.23.0+1
+  emoji_picker: ^0.0.2
 
 dev_dependencies:
   flutter_test:

@@ -19,7 +19,7 @@ class _ReportView extends State<ReportView> {
     return GestureDetector(
       onTap: () => {FocusManager.instance.primaryFocus?.unfocus()},
       child: Scaffold(
-        appBar: MainAppBar(title: '버그 리포트', back: true),
+        appBar: DefaultAppBar(title: '버그 리포트', back: true),
         body: Stack(
           children: [
             SingleChildScrollView(

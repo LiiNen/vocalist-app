@@ -9,7 +9,7 @@ class _NameModifyView extends State<NameModifyView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: '이름 변경', back: true)
+      appBar: DefaultAppBar(title: '이름 변경', back: true)
     );
   }
 }

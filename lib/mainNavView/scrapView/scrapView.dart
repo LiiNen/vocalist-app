@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
-import 'package:vocalist/mainNavView/scrapView/likeListView.dart';
-import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 import 'package:vocalist/restApi/friendApi.dart';
 import 'package:vocalist/restApi/loveApi.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
@@ -54,15 +51,17 @@ class _ScrapView extends State<ScrapView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: '보관함'),
+      backgroundColor: Colors.white,
+      appBar: MainAppBar(title: '애창곡 보관함'),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 21, vertical: 20),
+        margin: EdgeInsets.symmetric(horizontal: 24),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 18),
               menuButton(0),
               menuButton(1),
-              friendContainer()
+              friendContainer(),
             ]
           )
         )
@@ -76,19 +75,25 @@ class _ScrapView extends State<ScrapView> {
       behavior: HitTestBehavior.translucent,
       onTap: () {Navigator.pushNamed(context, _menuObject['route'].toString());},
       child: Container(
-        margin: EdgeInsets.only(top: 10),
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        height: 40,
+        margin: EdgeInsets.only(top: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        height: 42,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          border: Border.all(color: Colors.grey, width: 1),
-          color: Colors.white
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color(0xfff0f0f0)
         ),
         child: _menuObject['count'] != -1 ? Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(_menuObject['title'].toString(), style: textStyle(size: 16.0)),
-            Text(_menuObject['count'].toString(), style: textStyle(size: 16.0))
+            Text(_menuObject['title'].toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 700, size: 16.0)),
+            Row(
+              children: [
+                Text(_menuObject['count'].toString(), style: textStyle(color: Color(0xffd1d1d1), weight: 700, size: 14.0)),
+                SizedBox(width: 4.3),
+                // todo: arrow right button
+              ]
+            )
           ]
         ) : Container()
       )
@@ -99,11 +104,11 @@ class _ScrapView extends State<ScrapView> {
   friendContainer() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(top: 36),
-      padding: EdgeInsets.only(left: 10, right: 10, top: 16, bottom: 2),
+      margin: EdgeInsets.only(top: 16),
+      padding: EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 4),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-        border: Border.all(color: Colors.grey, width: 1),
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: Border.all(color: Color(0xffdddddd), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,18 +116,18 @@ class _ScrapView extends State<ScrapView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('친구 플레이리스트', style: textStyle(size: 16.0)),
-              Icon(Icons.add_box_outlined, size: 20)
+              Text('친구 애창곡 보기', style: textStyle(color: Color(0xff5642a0), weight: 700, size: 14.0)),
+              Icon(Icons.add_box_outlined, size: 24)
             ]
           ),
-          SizedBox(height: 18),
+          SizedBox(height: 16),
         ] + List.generate(_friendList.length, (index) {
           return Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(_friendList[index]['name']),
-                SizedBox(height: 14),
+                Text(_friendList[index]['name'], style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0)),
+                SizedBox(height: 16),
               ]
             )
           );

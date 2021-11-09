@@ -1,6 +1,8 @@
 PODS:
   - apple_sign_in (0.0.1):
     - Flutter
+  - device_info (0.0.1):
+    - Flutter
   - Firebase/Auth (8.7.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.7.0)
@@ -65,6 +67,7 @@ PODS:
 
 DEPENDENCIES:
   - apple_sign_in (from `.symlinks/plugins/apple_sign_in/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
@@ -88,6 +91,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   apple_sign_in:
     :path: ".symlinks/plugins/apple_sign_in/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -103,6 +108,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   apple_sign_in: 7716c7ddfa195aeab7dec0dc374ef4ff45d1adb4
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: bc9325d5ee2041524bac78a5213d0e530c651309
   firebase_auth: 25f34550b0023cbc3824731240608cd0aa515ca2
   firebase_core: f5ac1f2726a2bd0468cea0161eddeea3d83d7e3e

@@ -36,7 +36,7 @@ class _PlayListView extends State<PlayListView> {
     });
 
     return Scaffold(
-      appBar: MainAppBar(title: '내 플레이리스트', back: true),
+      appBar: DefaultAppBar(title: '내 플레이리스트', back: true),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 21),

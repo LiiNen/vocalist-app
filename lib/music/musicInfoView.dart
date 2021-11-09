@@ -34,7 +34,7 @@ class _MusicInfoView extends State<MusicInfoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: '상세 결과', back: true,),
+      appBar: DefaultAppBar(title: '상세 결과', back: true,),
     );
   }
 }
