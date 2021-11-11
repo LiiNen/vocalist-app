@@ -4,16 +4,20 @@ import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/music/musicInfoView.dart';
 import 'package:vocalist/restApi/loveApi.dart';
 
+import '../main.dart';
+
 class MusicListContainer extends StatefulWidget {
   final musicList;
-  MusicListContainer({required this.musicList});
+  final bool isScrap;
+  MusicListContainer({required this.musicList, this.isScrap=false});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap);
 }
 class _MusicListContainer extends State<MusicListContainer> {
   var musicList;
-  _MusicListContainer(this.musicList);
+  bool isScrap;
+  _MusicListContainer(this.musicList, this.isScrap);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +42,8 @@ class _MusicListContainer extends State<MusicListContainer> {
             indexBox(index),
             karaokeNumber(),
             musicInfo(_music['title'], _music['artist']),
-            // likeBox(index, _music['islike']),
-            pitchBox(index),
-            playlistBox(_music['id']),
+            isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
+            playlistBox(index),
           ]
         )
       )
@@ -50,7 +53,7 @@ class _MusicListContainer extends State<MusicListContainer> {
   indexBox(index) {
     return Container(
       width: 16,
-      child: Text(index.toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 17.0), textAlign: TextAlign.center)
+      child: Text((index+1).toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 17.0), textAlign: TextAlign.center)
     );
   }
   
@@ -90,7 +93,7 @@ class _MusicListContainer extends State<MusicListContainer> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-
+        likeAction(index);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
@@ -101,29 +104,112 @@ class _MusicListContainer extends State<MusicListContainer> {
     );
   }
 
-  playlistBox(int id) {
+  likeAction(index) async {
+    bool isResponse;
+    if(musicList[index]['islike'] == 0) {
+      isResponse = await postLove(musicId: musicList[index]['id'], userId: userInfo.id);
+    }
+    else {
+      isResponse = await deleteLove(musicId: musicList[index]['id'], userId: userInfo.id);
+    }
+    setState(() {
+      if(isResponse) musicList[index]['islike'] = musicList[index]['islike']==0 ? 1 : 0;
+      else showToast('네트워크를 확인해주세요.');
+    });
+  }
+
+  playlistBox(int index) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-
+        if(isScrap) _scrapModal(index);
+        else _addPlaylist(index);
       },
       child: Container(
         child: Center(
-          child: Icon(Icons.more_vert_outlined, color: Color(0xffe4e4e4), size: 32.4)
+          child: Icon(isScrap ? Icons.more_vert_outlined : Icons.playlist_add_rounded, color: Color(0xffe4e4e4), size: 32.4)
         )
       )
     );
   }
 
-  likeAction(index) {
-    if(musicList[index]['islike'] == 0) {
-      postLove(musicId: musicList[index]['id'], userId: 1);
+  _scrapModal(index) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.symmetric(vertical: 21, horizontal: 24),
+          width: MediaQuery.of(context).size.width,
+          height: 220,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {Navigator.pop(context);},
+                    child: Icon(Icons.keyboard_arrow_down_rounded, size: 24),
+                  ),
+                  SizedBox(width: 15),
+                  Text('00000', style: textStyle(weight: 700, size: 21.0)),
+                  SizedBox(width: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(musicList[index]['title'], style: textStyle(weight: 700, size: 13.0)),
+                      Text(musicList[index]['artist'], style: textStyle(weight: 500, size: 10.0)),
+                    ]
+                  )
+                ]
+              ),
+              SizedBox(height: 21),
+              lineDivider(context: context),
+              SizedBox(height: 12),
+              modalBox(0),
+              modalBox(1),
+            ]
+          )
+        );
+      }
+    );
+  }
+
+  modalBox(int index) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        Navigator.pop(context);
+        setState(() {
+          if(index == 0) {
+            _reloadList(index);
+          }
+          else {
+            _addPlaylist(index);
+          }
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 12),
+        child: Text(index == 0 ? '좋아요 해제' : '플레이리스트 추가', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 14.0))
+      )
+    );
+  }
+
+  _reloadList(index) async {
+    var response = await deleteLove(musicId: musicList[index]['id'], userId: userInfo.id);
+    if(response) {
+      var temp = await getLoveList(userId: userInfo.id);
+      setState(() {
+        if(temp != null) musicList = temp;
+      });
     }
-    else {
-      deleteLove(musicId: musicList[index]['id'], userId: 1);
-    }
-    setState(() {
-      musicList[index]['islike'] = musicList[index]['islike']==0 ? 1 : 0;
-    });
+  }
+
+  _addPlaylist(index) {
+
   }
 }

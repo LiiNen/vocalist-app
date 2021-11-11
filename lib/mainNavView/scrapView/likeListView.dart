@@ -34,11 +34,7 @@ class _LikeListView extends State<LikeListView> {
         child: Column(
           children: [
             descriptionBox(),
-            _likeList.length == 0 ? Container() : MusicListContainer(musicList: _likeList),
-            _likeList.length == 0 ? Container() : MusicListContainer(musicList: _likeList),
-            _likeList.length == 0 ? Container() : MusicListContainer(musicList: _likeList),
-            _likeList.length == 0 ? Container() : MusicListContainer(musicList: _likeList),
-            _likeList.length == 0 ? Container() : MusicListContainer(musicList: _likeList),
+            _likeList.length == 0 ? Container() : MusicListContainer(musicList: _likeList, isScrap: true),
           ]
         )
       )

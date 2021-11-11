@@ -40,11 +40,11 @@ postLove({required int musicId, required int userId}) async {
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) {
-      return responseBody['body'];
+      return true;
     }
-    return null;
+    return false;
   }
-  return null;
+  return false;
 }
 
 deleteLove({required int musicId, required int userId}) async {
@@ -57,9 +57,9 @@ deleteLove({required int musicId, required int userId}) async {
     var responseBody = json.decode(response.body);
     print(responseBody);
     if(responseBody['status'] == true) {
-      return responseBody['body'];
+      return true;
     }
-    else return null;
+    else return false;
   }
-  else return null;
+  else return false;
 }
