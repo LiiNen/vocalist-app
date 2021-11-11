@@ -58,15 +58,6 @@ class _SettingView extends State<SettingView> {
               buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
               buttonContainer(context: context, callback: null, title: '이용 약관'),
               buttonContainer(context: context, callback: _postTest, title: '개인정보 취급 방침'),
-              EmojiPicker(
-                rows: 3,
-                columns: 7,
-                buttonMode: ButtonMode.MATERIAL,
-                numRecommended: 10,
-                onEmojiSelected: (emoji, category) {
-                  _postTest(emoji.emoji);
-                },
-              )
             ]
           )
         )

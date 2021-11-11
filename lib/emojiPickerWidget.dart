@@ -11,6 +11,7 @@ class EmojiPickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EmojiPicker(
+      rows: 4, columns: 7,
       onEmojiSelected: (emoji, category) => onEmojiSelected(emoji.emoji),
     );
   }

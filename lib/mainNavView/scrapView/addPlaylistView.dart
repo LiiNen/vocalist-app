@@ -4,8 +4,6 @@ import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/emojiPickerWidget.dart';
 import 'package:vocalist/main.dart';
-import 'package:vocalist/mainNavView/mainNavView.dart';
-import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
 
 class AddPlaylistView extends StatefulWidget {
@@ -14,46 +12,51 @@ class AddPlaylistView extends StatefulWidget {
 }
 class _AddPlaylistView extends State<AddPlaylistView> {
   TextEditingController _controller = TextEditingController();
+  TextEditingController _emojiController = TextEditingController();
+  bool isEmojiFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
+        setState(() {isEmojiFocused = false;});
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: DefaultAppBar(title: '플레이리스트 생성', back: true),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      SizedBox(height: 57),
-                      setEmojiContainer(),
-                      SizedBox(height: 33),
-                      playlistTitleContainer(),
-                      SizedBox(height: 16),
-                      addMusicButton(),
-                      SizedBox(height: 46),
-                      confirmButton(),
-                    ]
-                  )
-                ),
-                Align(
-                  widthFactor: 1.0, heightFactor: 1.0,
-                  alignment: Alignment.bottomCenter,
-                  child: _emojiPicker()
-                )
-              ]
-            )
-          )
+        body: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: [
+                  SizedBox(height: 57),
+                  setEmojiContainer(),
+                  SizedBox(height: 33),
+                  playlistTitleContainer(),
+                  SizedBox(height: 16),
+                  addMusicButton(),
+                  SizedBox(height: 46),
+                  confirmButton(),
+                  Expanded(
+                    child: Container()
+                  ),
+                ]
+              )
+            ),
+            isEmojiFocused ? Positioned(
+              bottom: 20,
+              child: _emojiPicker()
+            ) : Container()
+          ]
         )
       )
     );
@@ -63,6 +66,7 @@ class _AddPlaylistView extends State<AddPlaylistView> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         _showEmojiPicker();
       },
       child: Container(
@@ -75,6 +79,17 @@ class _AddPlaylistView extends State<AddPlaylistView> {
                 color: Color(0xfff0f0f0),
                 borderRadius: BorderRadius.all(Radius.circular(85)),
               ),
+              alignment: Alignment.center,
+              child: TextField(
+                controller: _emojiController,
+                enabled: false,
+                style: textStyle(size: 100.0),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(0),
+                )
+              )
             ),
             Positioned(
               bottom: 0, right: 0,
@@ -162,13 +177,13 @@ class _AddPlaylistView extends State<AddPlaylistView> {
     return EmojiPickerWidget(
       onEmojiSelected: (String emoji) {
         setState(() {
-          _controller.text = emoji;
+          _emojiController.text = emoji;
         });
       }
     );
   }
 
   _showEmojiPicker() {
-
+    setState(() {isEmojiFocused = true;});
   }
 }
