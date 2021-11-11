@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/emojiPickerWidget.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/mainNavView/scrapView/playListView.dart';
@@ -17,25 +18,39 @@ class _AddPlaylistView extends State<AddPlaylistView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {FocusManager.instance.primaryFocus?.unfocus();},
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: DefaultAppBar(title: '플레이리스트 생성', back: true),
-        body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Stack(
               children: [
-                SizedBox(height: 57),
-                setEmojiContainer(),
-                SizedBox(height: 33),
-                playlistTitleContainer(),
-                SizedBox(height: 16),
-                addMusicButton(),
-                SizedBox(height: 46),
-                confirmButton(),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(height: 57),
+                      setEmojiContainer(),
+                      SizedBox(height: 33),
+                      playlistTitleContainer(),
+                      SizedBox(height: 16),
+                      addMusicButton(),
+                      SizedBox(height: 46),
+                      confirmButton(),
+                    ]
+                  )
+                ),
+                Align(
+                  widthFactor: 1.0, heightFactor: 1.0,
+                  alignment: Alignment.bottomCenter,
+                  child: _emojiPicker()
+                )
               ]
             )
           )
@@ -47,7 +62,9 @@ class _AddPlaylistView extends State<AddPlaylistView> {
   setEmojiContainer() {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {},
+      onTap: () {
+        _showEmojiPicker();
+      },
       child: Container(
         width: 170, height: 170,
         child: Stack(
@@ -139,5 +156,19 @@ class _AddPlaylistView extends State<AddPlaylistView> {
     else {
       showToast('플레이리스트 제목을 입력해주세요');
     }
+  }
+
+  _emojiPicker() {
+    return EmojiPickerWidget(
+      onEmojiSelected: (String emoji) {
+        setState(() {
+          _controller.text = emoji;
+        });
+      }
+    );
+  }
+
+  _showEmojiPicker() {
+
   }
 }
