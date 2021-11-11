@@ -80,12 +80,88 @@ class _MusicListContainer extends State<MusicListContainer> {
   pitchBox(int index) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {},
+      onTap: () {
+        _pitchModal(index);
+      },
       child: Container(
         child: Center(
           child: Icon(Icons.music_note_outlined, color: Color(0xffe4e4e4), size: 28.4)
         )
       )
+    );
+  }
+
+  _pitchModal(int index) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 272,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: Color(0xfff0f0f0),
+                padding: EdgeInsets.symmetric(horizontal: 18),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {Navigator.pop(context);},
+                          child: Icon(Icons.keyboard_arrow_down_rounded, color: Color(0xff7c7c7c), size: 24),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 16),
+                          child: Text('음정메모', style: textStyle(color: Color(0xff7156d2), weight: 700, size: 18.0), textAlign: TextAlign.center,),
+                        ),
+                        GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {Navigator.pop(context);},
+                          child: Container(
+                            width: 24,
+                            child: Text('완료', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0), textAlign: TextAlign.center,),
+                          )
+                        ),
+                      ]
+                    ),
+                    Text('이 노래를 부를 때, ${userInfo.name}님이 부르기 편한\n음정(key)을 메모해보세요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,),
+                    SizedBox(height: 20),
+                  ]
+                )
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('00000', style: textStyle(weight: 700, size: 21.0),),
+                          SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(musicList[index]['title'], style: textStyle(weight: 700, size: 13.0)),
+                              Text(musicList[index]['artist'], style: textStyle(weight: 500, size: 10.0))
+                            ]
+                          ),
+                          SizedBox(height: 12),
+                        ]
+                      )
+                    ]
+                  )
+                )
+              )
+            ]
+          )
+        );
+      }
     );
   }
 
