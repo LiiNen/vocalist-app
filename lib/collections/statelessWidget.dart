@@ -66,3 +66,18 @@ backButton(BuildContext context) {
     )
   );
 }
+
+additionalButton({required String title, dynamic callback}) {
+  return GestureDetector(
+    behavior: HitTestBehavior.translucent,
+    onTap: () {if(callback != null) callback();},
+    child: Container(
+      width: 48, height: 21,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(11)),
+        color: Color(0xfff6c873),
+      ),
+      child: Center(child: Text(title, style: textStyle(weight: 500, size: 10.0)))
+    )
+  );
+}

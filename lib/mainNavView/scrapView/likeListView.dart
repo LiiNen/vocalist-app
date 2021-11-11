@@ -96,29 +96,12 @@ class _LikeListView extends State<LikeListView> {
                   : '친구의 좋아요 목록을 확인하고\n같이 노래방에 가서 불러봐요!',
                 style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 10.0)
               ),
-              modifyButton(),
+              additionalButton(title: friendId == -1 ? '편집' : '공유'),
             ]
           ),
           SizedBox(height: 15),
           lineDivider(context: context),
         ]
-      )
-    );
-  }
-
-  modifyButton() {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        //todo : modifying action
-      },
-      child: Container(
-        width: 48, height: 21,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(11)),
-          color: Color(0xfff6c873),
-        ),
-        child: Center(child: Text(friendId == -1 ? '편집' : '공유', style: textStyle(weight: 500, size: 10.0)))
       )
     );
   }
