@@ -5,8 +5,9 @@ import 'restApi.dart';
 
 getLoveCount({required int userId}) async {
   var query = '/count?user_id=$userId';
-  
+  print(query);
   var response = await http.get(Uri.parse('$baseUrl$pathLove$query'));
+  print(response.statusCode);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) {

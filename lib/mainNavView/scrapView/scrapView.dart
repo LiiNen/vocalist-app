@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
+import 'package:vocalist/mainNavView/scrapView/likeListView.dart';
 import 'package:vocalist/restApi/friendApi.dart';
 import 'package:vocalist/restApi/loveApi.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
@@ -117,20 +119,25 @@ class _ScrapView extends State<ScrapView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('친구 애창곡 보기', style: textStyle(color: Color(0xff5642a0), weight: 700, size: 14.0)),
-              Icon(Icons.add_box_outlined, size: 24)
+              Icon(Icons.person_add_outlined, size: 22, color: Color(0xff7c7c7c))
             ]
           ),
           SizedBox(height: 16),
-        ] + List.generate(_friendList.length, (index) {
-          return Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(_friendList[index]['name'], style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0)),
-                SizedBox(height: 16),
-              ]
+        ] + List.generate(_friendList.length * 2, (index) {
+          if(index%2 == 0) return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {navigatorPush(context: context, widget: LikeListView(friendId: _friendList[(index/2).floor()]['friend_id'], friendName: _friendList[(index/2).floor()]['name']));},
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(_friendList[(index/2).floor()]['name'], style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0)),
+                ]
+              )
             )
           );
+          else return SizedBox(height: 16);
         })
       )
     );
