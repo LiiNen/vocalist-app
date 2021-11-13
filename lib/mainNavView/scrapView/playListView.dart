@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
@@ -101,7 +103,7 @@ class _PlayListView extends State<PlayListView> {
                   borderRadius: BorderRadius.all(Radius.circular(13)),
                 ),
                 child: Center(
-                  child: Icon(Icons.star)
+                  child: playlistItem['emoji'] == '' ? Container() : Text(unicodeToEmoji(playlistItem['emoji']), style: textStyle(size: 22.0))
                 )
               ),
               SizedBox(width: 25),

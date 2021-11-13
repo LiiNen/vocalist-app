@@ -13,18 +13,11 @@ getUser({required int id}) async {
   return null;
 }
 
-postUser({required String emoji}) async {
-  var requestBody = Map();
-  requestBody['emoji'] = emoji;
-
-  var response = await http.post(Uri.parse('$baseUrl$pathUser'), body: requestBody);
-
-}
-
-patchUser({required int id, required String name}) async {
+patchUser({required int id, required String name, String emoji = ''}) async {
   var requestBody = Map();
   requestBody['id'] = id.toString();
   requestBody['name'] = name;
+  requestBody['emoji'] = emoji;
   
   var response = await http.patch(Uri.parse('$baseUrl$pathUser'), body: requestBody);
   if(response.statusCode == 200) {

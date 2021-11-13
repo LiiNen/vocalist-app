@@ -57,16 +57,12 @@ class _SettingView extends State<SettingView> {
               buttonContainer(context: context, callback: _pushReport, title: '버그리포트'),
               buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
               buttonContainer(context: context, callback: null, title: '이용 약관'),
-              buttonContainer(context: context, callback: _postTest, title: '개인정보 취급 방침'),
+              buttonContainer(context: context, callback: null, title: '개인정보 취급 방침'),
             ]
           )
         )
       )
     );
-  }
-
-  _postTest(String emoji) async {
-    await postUser(emoji: emoji);
   }
 
   _karaokeChange() {

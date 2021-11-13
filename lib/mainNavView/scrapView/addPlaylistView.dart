@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
@@ -165,8 +167,9 @@ class _AddPlaylistView extends State<AddPlaylistView> {
 
   _confirmAction() async {
     if(_controller.text != '') {
-      postPlaylist(userId: userInfo.id, title: _controller.text);
-      Navigator.pushNamedAndRemoveUntil(context, '/playList', ModalRoute.withName('/mainNav'));
+      var response = await postPlaylist(userId: userInfo.id, title: _controller.text, emoji: emojiToUnicode(_emojiController.text));
+      if(response == true) Navigator.pushNamedAndRemoveUntil(context, '/playList', ModalRoute.withName('/mainNav'));
+      else showToast('error');
     }
     else {
       showToast('플레이리스트 제목을 입력해주세요');

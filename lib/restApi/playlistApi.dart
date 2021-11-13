@@ -9,7 +9,6 @@ getPlaylist({required int userId}) async {
   var response = await http.get(Uri.parse('$baseUrl$pathPlaylist$query'));
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    print(responseBody);
     if(responseBody['status'] == true) {
       return responseBody['body'];
     }
@@ -32,17 +31,18 @@ getPlaylistCount({required int userId}) async {
   return null;
 }
 
-postPlaylist({required int userId, required String title, int visible=0 }) async {
+postPlaylist({required int userId, required String title, int visible=0, String emoji=''}) async {
   var requestBody = Map();
   requestBody['user_id'] = userId.toString();
   requestBody['title'] = title;
   requestBody['visible'] = visible.toString();
+  requestBody['emoji'] = emoji;
 
   var response = await http.post(Uri.parse('$baseUrl$pathPlaylist'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) {
-      return responseBody['body'];
+      return true;
     }
     return null;
   }
