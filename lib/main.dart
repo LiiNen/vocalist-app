@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginView(),
         '/mainNav': (context) => MainNavView(),
+        '/search': (context) => MainNavView(selectedIndex: 3),
         '/likeList': (context) => LikeListView(),
         '/playList': (context) => PlayListView()
       },

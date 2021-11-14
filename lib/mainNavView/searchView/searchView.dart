@@ -5,6 +5,8 @@ import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/searchView/searchResultView.dart';
 
+List<String> searchHistoryList = [];
+
 class SearchView extends StatefulWidget {
   @override
   State<SearchView> createState() => _SearchView();
@@ -13,8 +15,8 @@ class _SearchView extends State<SearchView> {
   TextEditingController controller = TextEditingController();
   FocusNode focusNode = FocusNode();
 
-  List<String> searchHistoryList = [];
-  String _type = '노래';
+  var onFilterSelected = 0;
+  var filterTitleList = ['전체', '곡 제목', '가수', '큐레이션'];
 
   @override
   void initState() {
@@ -39,12 +41,13 @@ class _SearchView extends State<SearchView> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 21),
+            margin: EdgeInsets.symmetric(horizontal: 16),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
                 searchTextField(),
                 searchFilterContainer(),
+                lineDivider(context: context),
                 recentSearchContainer(),
               ]
             )
@@ -56,45 +59,48 @@ class _SearchView extends State<SearchView> {
 
   searchTextField() {
     return Container(
-      margin: EdgeInsets.only(top: 18),
+      margin: EdgeInsets.only(top: 21),
+      height: 38,
       child: Container(
-        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(19)),
+          color: Color(0xffcecece),
+        ),
         child: TextField(
           controller: controller,
           focusNode: focusNode,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
-            fillColor: Color(0xfff5f5f5),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: Color(0xfff5f5f5)),
+              borderRadius: BorderRadius.all(Radius.circular(19)),
+              borderSide: BorderSide(color: Color(0xffcecece)),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: Color(0xfff5f5f5)),
+              borderRadius: BorderRadius.all(Radius.circular(19)),
+              borderSide: BorderSide(color: Color(0xffcecece)),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: Color(0xfff5f5f5)),
+              borderRadius: BorderRadius.all(Radius.circular(19)),
+              borderSide: BorderSide(color: Color(0xffcecece)),
             ),
             contentPadding: EdgeInsets.symmetric(horizontal: 0),
             hintText: '검색어를 입력하세요',
             hintStyle: textStyle(color: Color(0xff8a8a8a), weight: 400, size: 12.0),
             prefixIcon: Padding(
-              padding: EdgeInsets.only(left: 10, right: 15),
-              child: Icon(Icons.search, size: 20, color: Colors.grey),
+              padding: EdgeInsets.only(left: 13, right: 18),
+              child: Icon(Icons.search, size: 14, color: Color(0xff7c7c7c)),
             ),
             prefixIconConstraints: BoxConstraints(maxWidth: 45, maxHeight: 40),
             suffixIcon: controller.text != '' ? Padding(
               padding: EdgeInsets.only(left: 10, right: 15),
               child: IconButton(
                 onPressed: () => {setState(() {textFieldClear(controller);})},
-                icon: Icon(Icons.cancel, size: 20, color: Colors.grey)
+                icon: Icon(Icons.cancel, size: 14, color: Color(0xff7c7c7c))
               )
             ) : null,
             suffixIconConstraints: BoxConstraints(maxWidth: 45, maxHeight: 40),
           ),
-          style: textStyle(weight: 600, size: 12.0),
+          style: textStyle(color: Color(0xff463f56), weight: 600, size: 12.0),
           onChanged: (value) => {setState(() {})},
           onSubmitted: (value) => {setState(() {searchAction(value);})},
         )
@@ -104,14 +110,47 @@ class _SearchView extends State<SearchView> {
 
   searchFilterContainer() {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 11),
+      child: Row(
+        children: [
+          searchFilterItem(1),
+          SizedBox(width: 11),
+          searchFilterItem(2),
+          SizedBox(width: 11),
+          searchFilterItem(3)
+        ]
+      )
+    );
+  }
 
+  searchFilterItem(int index) {
+    bool _selected = onFilterSelected == index;
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          setState(() {
+            if(_selected) onFilterSelected = 0;
+            else onFilterSelected = index;
+          });
+        },
+        child: Container(
+          height: 25,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(13)),
+            border: Border.all(color: Color(0xffe5e5e5), width: 1),
+            color: _selected ? Color(0xff5642a0) : Color(0x005642a0),
+          ),
+          child: Center(child: Text(filterTitleList[index], style: textStyle(color: _selected ? Colors.white : Color(0xff7b7b7b), weight: 500, size: 12.0)))
+        )
+      )
     );
   }
 
   recentSearchContainer() {
     return searchHistoryList.length == 0 ? Container() : Container(
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(vertical: 38),
+      margin: EdgeInsets.symmetric(vertical: 19),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -125,10 +164,10 @@ class _SearchView extends State<SearchView> {
               )
             ]
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 14),
           Wrap(
             direction: Axis.horizontal,
-            spacing: 8, runSpacing: 8,
+            spacing: 9, runSpacing: 9,
             children: searchHistoryList.map((e) => _recentItem(word: e)).toList(),
           )
         ]
@@ -143,7 +182,7 @@ class _SearchView extends State<SearchView> {
       searchHistoryList.insert(0, input);
       pref.setStringList('searchHistory', searchHistoryList);
 
-      navigatorPush(context: context, widget: SearchResultView(input: input, type: _type));
+      navigatorPush(context: context, widget: SearchResultView(input: input, index: onFilterSelected));
     }
   }
 
@@ -165,22 +204,22 @@ class _SearchView extends State<SearchView> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
-          border: Border.all(color: Color(0xffd3d7df), width: 1),
+          border: Border.all(color: Color(0xff707070), width: 1),
           color: Colors.white
         ),
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 7.5, horizontal: 12),
+          margin: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(child: Text(word,
-                style: textStyle(weight: 600, size: 14.0),
+                style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0),
                 overflow: TextOverflow.ellipsis,
               )),
-              SizedBox(width: 4,),
+              SizedBox(width: 8,),
               GestureDetector(
                 onTap: () => {setState(() {removeRecent(target: word);})},
-                child: Icon(Icons.clear, size: 16,)
+                child: Icon(Icons.clear, size: 13, color: Color(0xff7c7c7c))
               ),
             ],
           )

@@ -7,11 +7,14 @@ import 'package:vocalist/mainNavView/searchView/searchView.dart';
 import 'package:vocalist/mainNavView/settingView/settingView.dart';
 
 class MainNavView extends StatefulWidget {
+  final int selectedIndex;
+  MainNavView({this.selectedIndex=0});
   @override
-  State<MainNavView> createState() => _MainNavView();
+  State<MainNavView> createState() => _MainNavView(selectedIndex);
 }
 class _MainNavView extends State<MainNavView> {
   int _selectedIndex = 0;
+  _MainNavView(this._selectedIndex);
 
   List<Widget> _navItemList = <Widget>[
     HomeView(),

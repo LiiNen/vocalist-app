@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/mainNavView/mainNavView.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   MainAppBar({this.title}) : preferredSize = Size.fromHeight(44.0);
@@ -30,7 +32,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Size preferredSize;
   final String title;
   final bool back;
-  DefaultAppBar({required this.title, this.back=false}) : preferredSize = Size.fromHeight(44.0);
+  final bool search;
+  DefaultAppBar({required this.title, this.back=false, this.search=false}) : preferredSize = Size.fromHeight(44.0);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            backButton(context),
+            search ? searchBackButton(context) : backButton(context),
             Text(title, style: textStyle(color: Colors.black, weight: 700, size: 15.0),),
             SizedBox(width: 32)
           ]
@@ -57,6 +60,23 @@ backButton(BuildContext context) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {Navigator.pop(context);},
+    child: Container(
+      width: 32,
+      height: 32,
+      child: Center(
+        child: Icon(Icons.arrow_back, color: Colors.black)
+      )
+    )
+  );
+}
+
+searchBackButton(BuildContext context) {
+  return GestureDetector(
+    behavior: HitTestBehavior.translucent,
+    onTap: () {
+      // navigatorPush(context: context, widget: MainNavView(selectedIndex: 3), replacement: true, all: true);
+      Navigator.popAndPushNamed(context, '/search');
+    },
     child: Container(
       width: 32,
       height: 32,
