@@ -8,23 +8,62 @@ import '../main.dart';
 
 class MusicListContainer extends StatefulWidget {
   final musicList;
+  final String highlight;
+  final int index;
   final bool isScrap;
-  MusicListContainer({required this.musicList, this.isScrap=false});
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index);
 }
 class _MusicListContainer extends State<MusicListContainer> {
-  var musicList;
+  List<dynamic> musicList;
+  String highlight;
+  int searchIndex;
   bool isScrap;
-  _MusicListContainer(this.musicList, this.isScrap);
+  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex);
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> musicItemContainerList = List.generate(musicList.length, (index) {
+      return musicItemContainer(index);
+    });
     return Column(
-      children: List.generate(musicList.length, (index) {
-        return musicItemContainer(index);
-      })
+      children: <Widget>[titleBox()] + (
+        musicItemContainerList.length != 0 ?
+          musicItemContainerList :
+          [Text('검색 결과를 찾을 수 없습니다.', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 13.0))]
+      )
+    );
+  }
+
+  titleBox() {
+    var _title = '';
+    if(searchIndex == 0) return Container();
+    else {
+      if(searchIndex == 1) _title = '곡 제목';
+      else if(searchIndex == 2) _title = '가수';
+      else if(searchIndex == 3) _title = '큐레이션';
+    }
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(_title, style: textStyle(weight: 700, size: 19.0)),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {},
+                child: Text('더 보기', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0))
+              )
+            ]
+          ),
+          SizedBox(height: 14),
+          lineDivider(context: context, color: Color(0xffa89bda))
+        ]
+      )
     );
   }
 
@@ -65,13 +104,34 @@ class _MusicListContainer extends State<MusicListContainer> {
   }
 
   musicInfo(String _title, String _artist) {
+    List<TextSpan> textSpanList = [];
+    if(searchIndex == 1) {
+      var _titleSplit = _title.split(highlight);
+      textSpanList = List.generate(_titleSplit.length * 2 - 1, (index) {
+        if(index%2 == 0) return TextSpan(text: _titleSplit[(index/2).floor()], style: textStyle(weight: 700, size: 13.0));
+        return TextSpan(text: highlight, style: textStyle(color: Color(0xffee806a), weight: 700, size: 13.0));
+      }) + [TextSpan(text: '\n$_artist', style: textStyle(weight: 500, size: 10.0))];
+    }
+    else if(searchIndex == 2) {
+      var _artistSplit = _artist.split(highlight);
+      textSpanList = [TextSpan(text: '$_title\n', style: textStyle(weight: 700, size: 13.0))] + List.generate(_artistSplit.length * 2 - 1, (index) {
+        if(index%2 == 0) return TextSpan(text: _artistSplit[(index/2).floor()], style: textStyle(color: Color(0xff747474), weight: 500, size: 10.0));
+        return TextSpan(text: highlight, style: textStyle(color: Color(0xffee806a), weight: 500, size: 10.0));
+      });
+    }
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(_title, style: textStyle(weight: 700, size: 13.0)),
-          Text(_artist, style: textStyle(weight: 500, size: 10.0)),
+          RichText(
+            text: TextSpan(
+              children: textSpanList.length != 0 ? textSpanList : [
+                TextSpan(text: _title, style: textStyle(weight: 700, size: 13.0)),
+                TextSpan(text: '\n$_artist', style: textStyle(color: Color(0xff747474), weight: 500, size: 10.0)),
+              ]
+            )
+          ),
         ]
       )
     );
@@ -288,4 +348,34 @@ class _MusicListContainer extends State<MusicListContainer> {
   _addPlaylist(index) {
 
   }
+
+  Future<bool> confirmDialog({required String musicTitle, required String playlistTitle, required firstAction, required secondAction}) async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(text: musicTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+              TextSpan(text: playlistTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' 플레이리스트에 추가하겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+            ]
+          )
+        ),
+        actions: [
+          TextButton(
+            onPressed: firstAction,
+            child: Text('예', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0)),
+          ),
+          TextButton(
+            onPressed: secondAction,
+            child: Text('아니요', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
+
+
 }

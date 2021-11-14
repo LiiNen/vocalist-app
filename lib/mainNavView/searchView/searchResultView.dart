@@ -6,6 +6,7 @@ import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/searchView/searchView.dart';
 import 'package:vocalist/music/musicListContainer.dart';
 import 'package:vocalist/restApi/curationItemApi.dart';
+import 'package:vocalist/restApi/searchApi.dart';
 
 import '../../main.dart';
 
@@ -26,6 +27,7 @@ class _SearchResultView extends State<SearchResultView> {
   FocusNode focusNode = FocusNode();
 
   var musicList = [];
+  bool isLoaded = false;
 
   var onFilterSelected = 0;
   var filterTitleList = ['전체', '곡 제목', '가수', '큐레이션'];
@@ -38,11 +40,15 @@ class _SearchResultView extends State<SearchResultView> {
     _getResult();
   }
 
-  void _getResult() async {
-    //todo: change to search result api
-    var _temp = await getCurationItem(curationId: 52, userId: userInfo.id, type: 'part');
+  _getResult() async {
+    var _temp = await searchTitle(userId: userInfo.id, input: input);
+    musicList.add(_temp);
+    _temp = await searchArtist(userId: userInfo.id, input: input);
+    musicList.add(_temp);
+    _temp = await searchCuration(userId: userInfo.id, input: input);
+    musicList.add(_temp);
     setState(() {
-      musicList = _temp;
+      isLoaded = true;
     });
   }
 
@@ -61,12 +67,41 @@ class _SearchResultView extends State<SearchResultView> {
                 searchTextField(),
                 searchFilterContainer(),
                 lineDivider(context: context),
-                musicList.length != 0 ? MusicListContainer(musicList: musicList) : FlutterLogo(size: 30),
+                /// title search
+                isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 1?
+                  MusicListContainer(musicList: musicList[0], highlight: input, index: 1) :
+                  Container(),
+                /// artist search
+                isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 2 ?
+                  MusicListContainer(musicList: musicList[1], highlight: input, index: 2) :
+                  Container(),
+                /// todo : curation search
+                
+                /// for total search
+                isLoaded && onFilterSelected == 0 && musicList[0] != null ?
+                  MusicListContainer(musicList: musicList[0].take(5).toList(), highlight: input, index: 1) :
+                  Container(),
+                isLoaded && onFilterSelected == 0 && musicList[1] != null ?
+                  MusicListContainer(musicList: musicList[1].take(5).toList(), highlight: input, index: 2) :
+                  Container(),
               ]
             )
           )
         )
       )
+    );
+  }
+
+  searchResultContainer() {
+    return Column(
+      children: [
+        onFilterSelected == 0 && musicList[0] != null ?
+          MusicListContainer(musicList: musicList[0].take(5).toList(), highlight: input, index: 1) :
+          FlutterLogo(size: 30),
+        musicList[1] != null ?
+          MusicListContainer(musicList: musicList[1].take(5).toList(), highlight: input, index: 2) :
+          FlutterLogo(size: 30),
+      ]
     );
   }
 
@@ -134,16 +169,16 @@ class _SearchResultView extends State<SearchResultView> {
 
   searchFilterContainer() {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 11),
-        child: Row(
-            children: [
-              searchFilterItem(1),
-              SizedBox(width: 11),
-              searchFilterItem(2),
-              SizedBox(width: 11),
-              searchFilterItem(3)
-            ]
-        )
+      margin: EdgeInsets.symmetric(vertical: 11),
+      child: Row(
+        children: [
+          searchFilterItem(1),
+          SizedBox(width: 11),
+          searchFilterItem(2),
+          SizedBox(width: 11),
+          searchFilterItem(3)
+        ]
+      )
     );
   }
 
