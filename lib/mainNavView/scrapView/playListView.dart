@@ -91,7 +91,7 @@ class _PlayListView extends State<PlayListView> {
       margin: EdgeInsets.only(bottom: 30),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id']));},
+        onTap: () {navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id'], emoji: playlistItem['emoji']));},
         child: Container(
           width: MediaQuery.of(context).size.width,
           child: Row(

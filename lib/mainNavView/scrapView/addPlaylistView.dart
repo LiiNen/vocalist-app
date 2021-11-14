@@ -166,13 +166,13 @@ class _AddPlaylistView extends State<AddPlaylistView> {
   }
 
   _confirmAction() async {
-    if(_controller.text != '') {
+    if(_controller.text != '' || _emojiController.text != '') {
       var response = await postPlaylist(userId: userInfo.id, title: _controller.text, emoji: emojiToUnicode(_emojiController.text));
       if(response == true) Navigator.pushNamedAndRemoveUntil(context, '/playList', ModalRoute.withName('/mainNav'));
       else showToast('error');
     }
     else {
-      showToast('플레이리스트 제목을 입력해주세요');
+      showToast('플레이리스트 제목과 아이콘 모두를 입력해주세요');
     }
   }
 
