@@ -44,8 +44,8 @@ class _LoginView extends State<LoginView> {
   }
 
   void googleLogin() async {
-    _loginPref();
-    navigatorPush(context: context, widget: MainNavView(), replacement: true, all: true);
+    var state = await _loginPref();
+    if(state) navigatorPush(context: context, widget: MainNavView(), replacement: true, all: true);
   }
 
   void appleLogin() async {
@@ -105,12 +105,19 @@ class _LoginView extends State<LoginView> {
     }
   }
 
-  void _loginPref() async {
-    final pref = await SharedPreferences.getInstance();
-    pref.setBool('isLogin', true);
-    setUserInfo(id: 1, name: '김정훈', email: 'test@vloom.co.kr', type: 'google');
-    userInfo = await getUserInfo();
-    print(userInfo.id);
-    print(userInfo.name);
+  _loginPref() async {
+    var response = await loginApi(email: 'test@vloom.co.kr', type: 'google');
+    print(response);
+    if(response != null) {
+      final pref = await SharedPreferences.getInstance();
+      pref.setBool('isLogin', true);
+      await setUserInfo(id: response['data']['id'], name: response['data']['name'], email: response['data']['email'], type: response['data']['type'], emoji: response['data']['emoji']);
+      userInfo = await getUserInfo();
+      print(userInfo.id);
+      print(userInfo.name);
+      print(userInfo.emoji);
+      return true;
+    }
+    return false;
   }
 }

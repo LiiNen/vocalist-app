@@ -43,7 +43,7 @@ class _PlayListMusicView extends State<PlayListMusicView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: DefaultAppBar(title: '플레이리스트 상세', back: true),
-      body: isLoaded ? Container(
+      body: isLoaded ? SingleChildScrollView(
         child: Column(
           children: [
             Text(unicodeToEmoji(emoji), style: textStyle(size: 110.0)),

@@ -24,10 +24,10 @@ postPlaylistItem({required int playlistId, required int musicId}) async {
   var response = await http.post(Uri.parse('$baseUrl$pathPlaylistItem'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    if(requestBody['status'] == true) return responseBody['body'];
-    return null;
+    if(responseBody['status'] == true) return true;
+    return false;
   }
-  return null;
+  return false;
 }
 
 deletePlaylistItem({required int playlistId, required int musicId}) async {

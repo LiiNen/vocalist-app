@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 import 'package:vocalist/mainNavView/searchView/searchResultAllView.dart';
 import 'package:vocalist/music/musicInfoView.dart';
 import 'package:vocalist/restApi/loveApi.dart';
@@ -314,7 +315,7 @@ class _MusicListContainer extends State<MusicListContainer> {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Center(
-          child: Icon(isLike==1 ? Icons.favorite : Icons.favorite_border)
+          child: Icon(isLike==1 ? Icons.favorite : Icons.favorite_border, color: Color(0xffe4e4e4))
         )
       )
     );
@@ -426,34 +427,9 @@ class _MusicListContainer extends State<MusicListContainer> {
   }
 
   _addPlaylist(index) {
-
-  }
-
-  Future<bool> confirmDialog({required String musicTitle, required String playlistTitle, required firstAction, required secondAction}) async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(text: musicTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
-              TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
-              TextSpan(text: playlistTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
-              TextSpan(text: ' 플레이리스트에 추가하겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
-            ]
-          )
-        ),
-        actions: [
-          TextButton(
-            onPressed: firstAction,
-            child: Text('예', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0)),
-          ),
-          TextButton(
-            onPressed: secondAction,
-            child: Text('아니요', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
-          ),
-        ],
-      ),
-    )) ?? false;
+    var musicObject = Map();
+    musicObject['id'] = musicList[index]['id'];
+    musicObject['title'] = musicList[index]['title'];
+    navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject));
   }
 }

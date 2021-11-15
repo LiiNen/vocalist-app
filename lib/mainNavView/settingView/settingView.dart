@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/collections/userInfo.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
 import 'package:vocalist/restApi/userApi.dart';
 
@@ -23,7 +24,19 @@ class _SettingView extends State<SettingView> {
   @override
   void initState() {
     super.initState();
+    _getUserInfo();
     _getKaraoke();
+  }
+
+  void _getUserInfo() async {
+    var _temp = await getUser(id: userInfo.id);
+    if(_temp != null) {
+      await setUserInfo(id: _temp['id'], name: _temp['name'], email: _temp['email'], type: _temp['type'], emoji: _temp['emoji']);
+      userInfo = await getUserInfo();
+      setState(() {
+
+      });
+    }
   }
 
   void _getKaraoke() async {
@@ -38,18 +51,19 @@ class _SettingView extends State<SettingView> {
     pref.setString('karaoke', _type);
   }
 
-
   TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: MainAppBar(title: '더보기'),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 21, vertical: 32),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              userInfo.emoji != '' ? Text(unicodeToEmoji(userInfo.emoji), style: textStyle(size: 110.0)) : Container(),
               Text(userInfo.name),
               SizedBox(height: 20),
               buttonContainer(context: context, callback: _karaokeChange, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke)),

@@ -9,12 +9,20 @@ import 'package:vocalist/mainNavView/scrapView/addPlaylistView.dart';
 import 'package:vocalist/mainNavView/scrapView/playListMusicView.dart';
 import 'package:vocalist/mainNavView/searchView/searchResultView.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
+import 'package:vocalist/restApi/playlistItemApi.dart';
 
 class PlayListView extends StatefulWidget {
+  final bool isAdding;
+  final dynamic object;
+  PlayListView({this.isAdding=false, this.object});
   @override
-  State<PlayListView> createState() => _PlayListView();
+  State<PlayListView> createState() => _PlayListView(isAdding, object);
 }
 class _PlayListView extends State<PlayListView> {
+  bool isAdding;
+  dynamic object;
+  _PlayListView(this.isAdding, this.object);
+
   var _playlist = [];
 
   @override
@@ -91,7 +99,14 @@ class _PlayListView extends State<PlayListView> {
       margin: EdgeInsets.only(bottom: 30),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id'], emoji: playlistItem['emoji']));},
+        onTap: () {
+          if(isAdding) {
+            addMusicDialog(musicTitle: object!['title'], playlistTitle: playlistItem['title'], firstAction: () {_addMusicToPlaylist(object['id'], playlistItem['id']);}, secondAction: () {_cancel(context);});
+          }
+          if(!isAdding) {
+            navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id'], emoji: playlistItem['emoji']));
+          }
+        },
         child: Container(
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -128,5 +143,48 @@ class _PlayListView extends State<PlayListView> {
         )
       )
     );
+  }
+
+  Future<bool> addMusicDialog({required String musicTitle, required String playlistTitle, required firstAction, required secondAction}) async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(text: musicTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+              TextSpan(text: playlistTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' 플레이리스트에 추가하겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+            ]
+          )
+        ),
+        actions: [
+          TextButton(
+            onPressed: firstAction,
+            child: Text('예', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0)),
+          ),
+          TextButton(
+            onPressed: secondAction,
+            child: Text('아니요', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
+
+  _addMusicToPlaylist(musicId, playlistId) async {
+    var response = await postPlaylistItem(playlistId: playlistId, musicId: musicId);
+    if(response) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+    else {
+      showToast('error');
+    }
+  }
+
+  _cancel(context) {
+    Navigator.pop(context);
   }
 }
