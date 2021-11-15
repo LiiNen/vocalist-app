@@ -23,6 +23,8 @@ class _MusicListContainer extends State<MusicListContainer> {
   bool isScrap;
   _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex);
 
+  int pitchValue = 0;
+
   @override
   Widget build(BuildContext context) {
     List<Widget> musicItemContainerList = List.generate(musicList.length, (index) {
@@ -152,109 +154,126 @@ class _MusicListContainer extends State<MusicListContainer> {
   }
 
   _pitchModal(int index) {
+    pitchValue = musicList[index]['pitch'];
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          height: 272,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: Color(0xfff0f0f0),
-                padding: EdgeInsets.symmetric(horizontal: 18),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              height: 272,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    color: Color(0xfff0f0f0),
+                    padding: EdgeInsets.symmetric(horizontal: 18),
+                    child: Column(
                       children: [
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {Navigator.pop(context);},
-                          child: Icon(Icons.keyboard_arrow_down_rounded, color: Color(0xff7c7c7c), size: 24),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 16),
-                          child: Text('음정메모', style: textStyle(color: Color(0xff7156d2), weight: 700, size: 18.0), textAlign: TextAlign.center,),
-                        ),
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {Navigator.pop(context);},
-                          child: Container(
-                            width: 24,
-                            child: Text('완료', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0), textAlign: TextAlign.center,),
-                          )
-                        ),
-                      ]
-                    ),
-                    Text('이 노래를 부를 때, ${userInfo.name}님이 부르기 편한\n음정(key)을 메모해보세요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,),
-                    SizedBox(height: 20),
-                  ]
-                )
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 18),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('00000', style: textStyle(weight: 700, size: 21.0),),
-                          SizedBox(width: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(musicList[index]['title'], style: textStyle(weight: 700, size: 13.0)),
-                              Text(musicList[index]['artist'], style: textStyle(weight: 500, size: 10.0))
-                            ]
-                          )
-                        ]
-                      ),
-                      SizedBox(height: 21),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 47),
-                        child: Stack(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                              width: MediaQuery.of(context).size.width, height: 3,
-                              decoration: BoxDecoration(color: Color(0xffee806a),),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {Navigator.pop(context);},
+                              child: Container(
+                                width: 40,
+                                child: Center(
+                                  child: Icon(Icons.keyboard_arrow_down_rounded, color: Color(0xff7c7c7c), size: 24)
+                                ),
+                              )
                             ),
-                            Row(
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 16),
+                              child: Text('음정메모', style: textStyle(color: Color(0xff7156d2), weight: 700, size: 18.0), textAlign: TextAlign.center,),
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                patchPitch(userId: userInfo.id, musicId: musicList[index]['id'], pitch: pitchValue);
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                width: 40, padding:EdgeInsets.symmetric(vertical: 16),
+                                child: Text('완료', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0), textAlign: TextAlign.center,),
+                              )
+                            ),
+                          ]
+                        ),
+                        Text('이 노래를 부를 때, ${userInfo.name}님이 부르기 편한\n음정(key)을 메모해보세요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,),
+                        SizedBox(height: 20),
+                      ]
+                    )
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('00000', style: textStyle(weight: 700, size: 21.0),),
+                              SizedBox(width: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(musicList[index]['title'], style: textStyle(weight: 700, size: 13.0)),
+                                  Text(musicList[index]['artist'], style: textStyle(weight: 500, size: 10.0))
+                                ]
+                              )
+                            ]
+                          ),
+                          SizedBox(height: 21),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 47),
+                            child: Stack(
                               children: [
-                                pitchCircle(-2, index),
-                                Expanded(child: Container()),
-                                pitchCircle(-1, index),
-                                Expanded(child: Container()),
-                                pitchCircle(0, index),
-                                Expanded(child: Container()),
-                                pitchCircle(1, index),
-                                Expanded(child: Container()),
-                                pitchCircle(2, index),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                  width: MediaQuery.of(context).size.width, height: 3,
+                                  decoration: BoxDecoration(color: Color(0xffee806a),),
+                                ),
+                                Row(
+                                  children: [
+                                    pitchCircle(-2, index, setState),
+                                    Expanded(child: Container()),
+                                    pitchCircle(-1, index, setState),
+                                    Expanded(child: Container()),
+                                    pitchCircle(0, index, setState),
+                                    Expanded(child: Container()),
+                                    pitchCircle(1, index, setState),
+                                    Expanded(child: Container()),
+                                    pitchCircle(2, index, setState),
+                                  ]
+                                )
                               ]
                             )
-                          ]
-                        )
+                          )
+                        ]
                       )
-                    ]
+                    )
                   )
-                )
+                ]
               )
-            ]
-          )
+            );
+          }
         );
       }
     );
   }
 
-  pitchCircle(int pitch, int index) {
+  pitchCircle(int pitch, int index, StateSetter setState) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        
+        setState(() {
+          pitchValue = pitch;
+          musicList[index]['pitch'] = pitch;
+          print('click');
+        });
       },
       child: Container(
         width: 25,
@@ -267,7 +286,7 @@ class _MusicListContainer extends State<MusicListContainer> {
           ),
           color: Color(0xfff5f5f5)
         ),
-        child: pitch == musicList[index]['pitch'] ? Center(
+        child: pitchValue == pitch ? Center(
           child: Container(
             width: 19,
             height: 19,
