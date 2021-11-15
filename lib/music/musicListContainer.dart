@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/mainNavView/searchView/searchResultAllView.dart';
 import 'package:vocalist/music/musicInfoView.dart';
 import 'package:vocalist/restApi/loveApi.dart';
 
@@ -11,17 +12,19 @@ class MusicListContainer extends StatefulWidget {
   final String highlight;
   final int index;
   final bool isScrap;
-  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0});
+  final bool isSearchAll;
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll);
 }
 class _MusicListContainer extends State<MusicListContainer> {
   List<dynamic> musicList;
   String highlight;
   int searchIndex;
   bool isScrap;
-  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex);
+  bool isSearchAll;
+  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll);
 
   int pitchValue = 0;
 
@@ -55,11 +58,13 @@ class _MusicListContainer extends State<MusicListContainer> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(_title, style: textStyle(weight: 700, size: 19.0)),
-              GestureDetector(
+              !isSearchAll ? GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () {},
+                onTap: () {
+                  navigatorPush(context: context, widget: SearchResultAllView(searchIndex: searchIndex, input: highlight));
+                },
                 child: Text('더 보기', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0))
-              )
+              ) : Container()
             ]
           ),
           SizedBox(height: 14),

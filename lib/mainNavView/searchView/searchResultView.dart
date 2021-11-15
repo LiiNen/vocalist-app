@@ -69,11 +69,11 @@ class _SearchResultView extends State<SearchResultView> {
                 lineDivider(context: context),
                 /// title search
                 isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 1?
-                  MusicListContainer(musicList: musicList[0], highlight: input, index: 1) :
+                  MusicListContainer(musicList: musicList[0].take(20).toList(), highlight: input, index: 1) :
                   Container(),
                 /// artist search
                 isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 2 ?
-                  MusicListContainer(musicList: musicList[1], highlight: input, index: 2) :
+                  MusicListContainer(musicList: musicList[1].take(20).toList(), highlight: input, index: 2) :
                   Container(),
                 /// todo : curation search
                 
