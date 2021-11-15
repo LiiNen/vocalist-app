@@ -32,6 +32,23 @@ getLoveList({required int userId}) async {
   return null;
 }
 
+patchPitch({required int userId, required int musicId, required int pitch}) async {
+  var requestBody = Map();
+  requestBody['music_id'] = musicId.toString();
+  requestBody['user_id'] = userId.toString();
+  requestBody['pitch'] = pitch.toString();
+
+  var response = await http.patch(Uri.parse('$baseUrl$pathLovePitch'), body: requestBody);
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) {
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
+
 postLove({required int musicId, required int userId}) async {
   var requestBody = Map();
   requestBody['music_id'] = musicId.toString();

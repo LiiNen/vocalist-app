@@ -210,9 +210,34 @@ class _MusicListContainer extends State<MusicListContainer> {
                               Text(musicList[index]['title'], style: textStyle(weight: 700, size: 13.0)),
                               Text(musicList[index]['artist'], style: textStyle(weight: 500, size: 10.0))
                             ]
-                          ),
-                          SizedBox(height: 12),
+                          )
                         ]
+                      ),
+                      SizedBox(height: 21),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 47),
+                        child: Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                              width: MediaQuery.of(context).size.width, height: 3,
+                              decoration: BoxDecoration(color: Color(0xffee806a),),
+                            ),
+                            Row(
+                              children: [
+                                pitchCircle(-2, index),
+                                Expanded(child: Container()),
+                                pitchCircle(-1, index),
+                                Expanded(child: Container()),
+                                pitchCircle(0, index),
+                                Expanded(child: Container()),
+                                pitchCircle(1, index),
+                                Expanded(child: Container()),
+                                pitchCircle(2, index),
+                              ]
+                            )
+                          ]
+                        )
                       )
                     ]
                   )
@@ -222,6 +247,37 @@ class _MusicListContainer extends State<MusicListContainer> {
           )
         );
       }
+    );
+  }
+
+  pitchCircle(int pitch, int index) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        
+      },
+      child: Container(
+        width: 25,
+        height: 25,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.5),
+          border: Border.all(
+            color: Color(0xffd10000),
+            width: 1
+          ),
+          color: Color(0xfff5f5f5)
+        ),
+        child: pitch == musicList[index]['pitch'] ? Center(
+          child: Container(
+            width: 19,
+            height: 19,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(9.5),
+              color: Color(0xffee806a)
+            ),
+          )
+        ) : Container()
+      )
     );
   }
 
@@ -376,6 +432,4 @@ class _MusicListContainer extends State<MusicListContainer> {
       ),
     )) ?? false;
   }
-
-
 }
