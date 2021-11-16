@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:emoji_picker/emoji_picker.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/collections/userInfo.dart';
+import 'package:vocalist/loginView/loginView.dart';
 import 'package:vocalist/mainNavView/settingView/nameModifyView.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
+import 'package:vocalist/mainNavView/settingView/withdrawalView.dart';
 import 'package:vocalist/restApi/userApi.dart';
 
 import '../../main.dart';
-import 'infoView.dart';
 
 class SettingView extends StatefulWidget {
   @override
@@ -77,15 +77,18 @@ class _SettingView extends State<SettingView> {
               SizedBox(height: 15.5),
               lineDivider(context: context),
               _titleBox('계정 / 정보 관리'),
-              buttonContainer(context: context, callback: _karaokeChange, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
-              buttonContainer(context: context, callback: _pushNavigatorInfo, title: '계정 관리'),
-              buttonContainer(context: context, callback: _pushReport, title: '버그리포트'),
-              buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
-              buttonContainer(context: context, callback: null, title: '이용 약관'),
-              buttonContainer(context: context, callback: null, title: '개인정보 취급 방침'),
+              buttonContainer(context: context, callback: null, title: '연결된 계정', rightItem: Text(userInfo.email, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
+              buttonContainer(context: context, callback: _karaokeChange, title: '주이용 노래방', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
+              buttonContainer(context: context, callback: null, title: '검색 기록 저장', rightItem: Text('ON', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
+              // buttonContainer(context: context, callback: null, title: '이용 약관'),
+              // buttonContainer(context: context, callback: null, title: '개인정보 취급 방침'),
               SizedBox(height: 3.5),
               lineDivider(context: context),
               _titleBox('기타'),
+              buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
+              buttonContainer(context: context, callback: _pushNavigatorReport, title: '버그리포트'),
+              buttonContainer(context: context, callback: _signOutAction, title: '로그아웃'),
+              buttonContainer(context: context, callback: _pushNavigatorWithdrawal, title: '탈퇴하기'),
             ]
           )
         )
@@ -212,11 +215,20 @@ class _SettingView extends State<SettingView> {
     );
   }
 
-  _pushNavigatorInfo() {
-    navigatorPush(context: context, widget: InfoView());
+  _signOutAction() async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setBool('isLogin', false);
+    pref.remove('userId');
+    pref.remove('userName');
+    pref.remove('userEmail');
+    pref.remove('userType');
+    navigatorPush(context: context, widget: LoginView(), replacement: true, all: true);
   }
-  _pushReport() {
+  _pushNavigatorReport() {
     navigatorPush(context: context, widget: ReportView());
+  }
+  _pushNavigatorWithdrawal() {
+    navigatorPush(context: context, widget: WithdrawalView());
   }
 }
 
