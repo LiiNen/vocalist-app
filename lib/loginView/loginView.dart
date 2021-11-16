@@ -107,7 +107,6 @@ class _LoginView extends State<LoginView> {
 
   _loginPref() async {
     var response = await loginApi(email: 'test@vloom.co.kr', type: 'google');
-    print(response);
     if(response != null) {
       final pref = await SharedPreferences.getInstance();
       pref.setBool('isLogin', true);

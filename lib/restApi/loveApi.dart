@@ -5,9 +5,7 @@ import 'restApi.dart';
 
 getLoveCount({required int userId}) async {
   var query = '/count?user_id=$userId';
-  print(query);
   var response = await http.get(Uri.parse('$baseUrl$pathLove$query'));
-  print(response.statusCode);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) {
@@ -73,7 +71,6 @@ deleteLove({required int musicId, required int userId}) async {
   var response = await http.delete(Uri.parse('$baseUrl$pathLove'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    print(responseBody);
     if(responseBody['status'] == true) {
       return true;
     }

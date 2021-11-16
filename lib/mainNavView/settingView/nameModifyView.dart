@@ -148,7 +148,6 @@ class _NameModifyView extends State<NameModifyView> {
     }
     else {
       showToast('이모지나 이름 둘중 하나는 바꿔주세요.');
-      print('dd');
     }
   }
 }

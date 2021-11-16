@@ -35,7 +35,6 @@ class _PlayListView extends State<PlayListView> {
     var _temp = await getPlaylist(userId: userInfo.id);
     setState(() {
       _playlist = _temp;
-      print(_playlist);
     });
   }
 

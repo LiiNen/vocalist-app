@@ -27,7 +27,6 @@ class _MusicInfoView extends State<MusicInfoView> {
     var _temp = await getMusic(id: musicId, userId: userInfo.id);
     setState(() {
       _musicInfo = _temp;
-      print(_musicInfo);
     });
   }
 

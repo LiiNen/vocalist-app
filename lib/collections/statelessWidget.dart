@@ -106,7 +106,6 @@ confirmButton({required confirmAction}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
-      print('hel');
       confirmAction();
     },
     child: Container(

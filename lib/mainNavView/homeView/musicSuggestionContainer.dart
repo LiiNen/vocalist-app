@@ -62,7 +62,9 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {print('lldld');},
+        onTap: () {
+
+        },
         child: Container(
           height: 49,
           padding: EdgeInsets.symmetric(horizontal: 9),

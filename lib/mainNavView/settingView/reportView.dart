@@ -101,8 +101,6 @@ class _ReportView extends State<ReportView> {
   }
 
   _sendReport() async {
-    print(_titleController.text);
-    print(_contentController.text);
     var _email = _emailController.text == '' ? userInfo.email : _emailController.text;
     var result = await postBugReport(userId: userInfo.id, title: _titleController.text, content: _contentController.text, email: _email);
     if(result == null) {

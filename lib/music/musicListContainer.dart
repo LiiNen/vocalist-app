@@ -99,49 +99,56 @@ class _MusicListContainer extends State<MusicListContainer> {
   
   indexBox(index) {
     return Container(
-      width: 20,
+      width: 24,
       child: Text((index+1).toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 17.0, spacing: -1), textAlign: TextAlign.center)
     );
   }
   
   karaokeNumber() {
     return Container(
-      margin: EdgeInsets.only(left: 21, right: 15),
-      child: Center(child: Text('00000', style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0, spacing: -1)))
+      margin: EdgeInsets.only(left: 14, right: 15),
+      child: Center(child: Text('00000', style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0, spacing: -2)))
     );
   }
 
   musicInfo(String _title, String _artist) {
     List<TextSpan> textSpanList = [];
+    List<Widget> children = [];
     if(searchIndex == 1) {
       var _titleSplit = _title.split(highlight);
       textSpanList = List.generate(_titleSplit.length * 2 - 1, (index) {
         if(index%2 == 0) return TextSpan(text: _titleSplit[(index/2).floor()], style: textStyle(weight: 700, size: 13.0));
         return TextSpan(text: highlight, style: textStyle(color: Color(0xffee806a), weight: 700, size: 13.0));
-      }) + [TextSpan(text: '\n$_artist', style: textStyle(weight: 500, size: 10.0))];
+      });
+
+      children = [
+        RichText(text: TextSpan(children: textSpanList), overflow: TextOverflow.ellipsis),
+        Text('$_artist', style: textStyle(weight: 500, size: 10.0), overflow: TextOverflow.ellipsis)
+      ];
     }
     else if(searchIndex == 2) {
       var _artistSplit = _artist.split(highlight);
-      textSpanList = [TextSpan(text: '$_title\n', style: textStyle(weight: 700, size: 13.0))] + List.generate(_artistSplit.length * 2 - 1, (index) {
+      textSpanList = List.generate(_artistSplit.length * 2 - 1, (index) {
         if(index%2 == 0) return TextSpan(text: _artistSplit[(index/2).floor()], style: textStyle(color: Color(0xff747474), weight: 500, size: 10.0));
         return TextSpan(text: highlight, style: textStyle(color: Color(0xffee806a), weight: 500, size: 10.0));
       });
+
+      children = [
+        Text('$_title', style: textStyle(weight: 700, size: 13.0), overflow: TextOverflow.ellipsis),
+        RichText(text: TextSpan(children: textSpanList), overflow: TextOverflow.ellipsis)
+      ];
+    }
+    else {
+      children = [
+        Text('$_title', style: textStyle(weight: 700, size: 13.0), overflow: TextOverflow.ellipsis),
+        Text('$_artist', style: textStyle(weight: 500, size: 10.0), overflow: TextOverflow.ellipsis)
+      ];
     }
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RichText(
-            text: TextSpan(
-              children: textSpanList.length != 0 ? textSpanList : [
-                TextSpan(text: _title, style: textStyle(weight: 700, size: 13.0), ),
-                TextSpan(text: '$_artist', style: textStyle(color: Color(0xff747474), weight: 500, size: 10.0)),
-              ],
-            ),
-            overflow: TextOverflow.ellipsis
-          ),
-        ]
+        children: children
       )
     );
   }
@@ -289,7 +296,6 @@ class _MusicListContainer extends State<MusicListContainer> {
         setState(() {
           pitchValue = pitch;
           musicList[index]['pitch'] = pitch;
-          print('click');
         });
       },
       child: Column(
