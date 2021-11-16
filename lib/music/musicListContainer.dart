@@ -273,6 +273,16 @@ class _MusicListContainer extends State<MusicListContainer> {
   }
 
   pitchCircle(int pitch, int index, StateSetter setState) {
+    String pitchString;
+    if(pitch == 0) {
+      pitchString = '\u00b10';
+    }
+    else if(pitch > 0) {
+      pitchString = '+$pitch';
+    }
+    else {
+      pitchString = '$pitch';
+    }
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -282,27 +292,56 @@ class _MusicListContainer extends State<MusicListContainer> {
           print('click');
         });
       },
-      child: Container(
-        width: 25,
-        height: 25,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.5),
-          border: Border.all(
-            color: Color(0xffd10000),
-            width: 1
-          ),
-          color: Color(0xfff5f5f5)
-        ),
-        child: pitchValue == pitch ? Center(
-          child: Container(
-            width: 19,
-            height: 19,
+      child: Column(
+        children: [
+          Container(
+            width: 25,
+            height: 25,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(9.5),
-              color: Color(0xffee806a)
+              borderRadius: BorderRadius.circular(12.5),
+              border: Border.all(
+                color: Color(0xffd10000),
+                width: 1
+              ),
+              color: Color(0xfff5f5f5)
             ),
+            child: pitchValue == pitch ? Center(
+              child: Container(
+                width: 19,
+                height: 19,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9.5),
+                  color: Color(0xffee806a)
+                ),
+              )
+            ) : Container()
+          ),
+          SizedBox(height: 3),
+          Container(
+            height: 17,
+            alignment: Alignment.bottomCenter,
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: pitchString,
+                    style: textStyle(weight: 500, size: 12.0)
+                  ),
+                  WidgetSpan(
+                    child: Transform.translate(
+                      offset: const Offset(0, -6),
+                      child: Text(
+                        'key',
+                        textScaleFactor: 0.8,
+                        style: textStyle(weight: 500, size: 10.0)
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
           )
-        ) : Container()
+        ]
       )
     );
   }

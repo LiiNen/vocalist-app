@@ -50,7 +50,7 @@ class _PlayListMusicView extends State<PlayListMusicView> {
             Text(title, style: textStyle(weight: 700, size: 24.0)),
             SizedBox(height: 31),
             Container(margin: EdgeInsets.symmetric(horizontal: 23), child: lineDivider(context: context)),
-            MusicListContainer(musicList: _musicList, isScrap: true),
+            MusicListContainer(musicList: _musicList),
           ]
         )
       ) : Container()
