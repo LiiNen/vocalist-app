@@ -101,3 +101,23 @@ additionalButton({required String title, dynamic callback}) {
     )
   );
 }
+
+confirmButton({required confirmAction}) {
+  return GestureDetector(
+    behavior: HitTestBehavior.translucent,
+    onTap: () {
+      print('hel');
+      confirmAction();
+    },
+    child: Container(
+      width: 62, height: 29,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(26)),
+        color: Color(0xff8b63ff),
+      ),
+      child: Center(
+          child: Text('완료', style: textStyle(color: Colors.white, weight: 500, size: 12.0))
+      )
+    )
+  );
+}

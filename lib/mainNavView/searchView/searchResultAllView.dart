@@ -43,10 +43,9 @@ class _SearchResultAllView extends State<SearchResultAllView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: DefaultAppBar(title: '검색 결과 더보기', back: true, search: true),
+      appBar: DefaultAppBar(title: '검색 결과 더보기', back: true, search: false),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16),
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [

@@ -47,7 +47,7 @@ class _AddPlaylistView extends State<AddPlaylistView> {
                   SizedBox(height: 16),
                   addMusicButton(),
                   SizedBox(height: 46),
-                  confirmButton(),
+                  confirmButton(confirmAction: _confirmAction),
                   Expanded(
                     child: Container()
                   ),
@@ -142,25 +142,6 @@ class _AddPlaylistView extends State<AddPlaylistView> {
         behavior: HitTestBehavior.translucent,
         onTap: () {},
         child: Text('+ 곡 추가하기', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0))
-      )
-    );
-  }
-
-  confirmButton() {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        _confirmAction();
-      },
-      child: Container(
-        width: 62, height: 29,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(26)),
-          color: Color(0xfff6c873),
-        ),
-        child: Center(
-          child: Text('완료', style: textStyle(weight: 500, size: 12.0))
-        )
       )
     );
   }

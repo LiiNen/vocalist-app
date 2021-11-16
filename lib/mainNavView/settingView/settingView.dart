@@ -6,6 +6,7 @@ import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/collections/userInfo.dart';
+import 'package:vocalist/mainNavView/settingView/nameModifyView.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
 import 'package:vocalist/restApi/userApi.dart';
 
@@ -18,6 +19,7 @@ class SettingView extends StatefulWidget {
 }
 class _SettingView extends State<SettingView> {
 
+  TextEditingController _emojiController = TextEditingController();
   String _karaoke = '';
   var _karaokeList = ['TJ', '금영'];
 
@@ -26,6 +28,7 @@ class _SettingView extends State<SettingView> {
     super.initState();
     _getUserInfo();
     _getKaraoke();
+    _setEmoji();
   }
 
   void _getUserInfo() async {
@@ -51,6 +54,10 @@ class _SettingView extends State<SettingView> {
     pref.setString('karaoke', _type);
   }
 
+  void _setEmoji() {
+    _emojiController.text = userInfo.emoji != '' ? unicodeToEmoji(userInfo.emoji) : '';
+  }
+
   TextEditingController controller = TextEditingController();
 
   @override
@@ -59,23 +66,86 @@ class _SettingView extends State<SettingView> {
       backgroundColor: Colors.white,
       appBar: MainAppBar(title: '더보기'),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 21, vertical: 32),
+        margin: EdgeInsets.symmetric(horizontal: 30),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              userInfo.emoji != '' ? Text(unicodeToEmoji(userInfo.emoji), style: textStyle(size: 110.0)) : Container(),
-              Text(userInfo.name),
-              SizedBox(height: 20),
-              buttonContainer(context: context, callback: _karaokeChange, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke)),
+              SizedBox(height: 39),
+              setEmojiContainer(),
+              SizedBox(height: 12),
+              Text(userInfo.name, style: textStyle(color: Color(0xff7c7c7c), weight: 700, size: 24.0)),
+              SizedBox(height: 15.5),
+              lineDivider(context: context),
+              _titleBox('계정 / 정보 관리'),
+              buttonContainer(context: context, callback: _karaokeChange, title: 'TJ/금영 설정 변경', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: _pushNavigatorInfo, title: '계정 관리'),
               buttonContainer(context: context, callback: _pushReport, title: '버그리포트'),
               buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
               buttonContainer(context: context, callback: null, title: '이용 약관'),
               buttonContainer(context: context, callback: null, title: '개인정보 취급 방침'),
+              SizedBox(height: 3.5),
+              lineDivider(context: context),
+              _titleBox('기타'),
             ]
           )
         )
       )
+    );
+  }
+
+  setEmojiContainer() {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        navigatorPush(context: context, widget: NameModifyView());
+      },
+      child: Container(
+        width: 170, height: 170,
+        child: Stack(
+          children: [
+            Container(
+              width: 170, height: 170,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(85)),
+                border: Border.all(color: Color(0xfff0f0f0), width: 1),
+              ),
+              alignment: Alignment.center,
+              child: TextField(
+                controller: _emojiController,
+                enabled: false,
+                style: textStyle(size: 100.0),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(0),
+                )
+              )
+            ),
+            Positioned(
+              bottom: 0, right: 0,
+              child: Container(
+                width: 38, height: 38,
+                decoration: BoxDecoration(
+                  color: Color(0xff4a4a4a),
+                  borderRadius: BorderRadius.all(Radius.circular(19)),
+                ),
+                child: Center(
+                  child: Icon(Icons.create_outlined, size: 25, color: Colors.white),
+                )
+              )
+            )
+          ]
+        )
+      )
+    );
+  }
+
+  _titleBox(String title) {
+    return Container(
+      margin: EdgeInsets.only(top: 19.5, bottom: 16),
+      width: MediaQuery.of(context).size.width,
+      child: Text(title, style: textStyle(weight: 700, size: 16.0)),
     );
   }
 
@@ -155,16 +225,11 @@ buttonContainer({required context, required callback, required title, rightItem}
     behavior: HitTestBehavior.translucent,
     onTap: () {if(callback != null) callback();},
     child: Container(
-      height: 40,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey)
-        )
-      ),
+      margin: EdgeInsets.symmetric(vertical: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title),
+          Text(title, style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 13.0)),
           rightItem != null ? rightItem : Container()
         ]
       )

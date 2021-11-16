@@ -52,7 +52,7 @@ class _MusicListContainer extends State<MusicListContainer> {
       else if(searchIndex == 3) _title = '큐레이션';
     }
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: EdgeInsets.only(top: 20, left: 16, right: 16),
       child: Column(
         children: [
           Row(
@@ -99,15 +99,15 @@ class _MusicListContainer extends State<MusicListContainer> {
   
   indexBox(index) {
     return Container(
-      width: 16,
-      child: Text((index+1).toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 17.0), textAlign: TextAlign.center)
+      width: 20,
+      child: Text((index+1).toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 17.0, spacing: -1), textAlign: TextAlign.center)
     );
   }
   
   karaokeNumber() {
     return Container(
       margin: EdgeInsets.only(left: 21, right: 15),
-      child: Center(child: Text('00000', style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0)))
+      child: Center(child: Text('00000', style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0, spacing: -1)))
     );
   }
 
@@ -135,10 +135,11 @@ class _MusicListContainer extends State<MusicListContainer> {
           RichText(
             text: TextSpan(
               children: textSpanList.length != 0 ? textSpanList : [
-                TextSpan(text: _title, style: textStyle(weight: 700, size: 13.0)),
-                TextSpan(text: '\n$_artist', style: textStyle(color: Color(0xff747474), weight: 500, size: 10.0)),
-              ]
-            )
+                TextSpan(text: _title, style: textStyle(weight: 700, size: 13.0), ),
+                TextSpan(text: '$_artist', style: textStyle(color: Color(0xff747474), weight: 500, size: 10.0)),
+              ],
+            ),
+            overflow: TextOverflow.ellipsis
           ),
         ]
       )
@@ -315,7 +316,7 @@ class _MusicListContainer extends State<MusicListContainer> {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Center(
-          child: Icon(isLike==1 ? Icons.favorite : Icons.favorite_border, color: Color(0xffe4e4e4))
+          child: Icon(isLike==1 ? Icons.favorite : Icons.favorite_border, color: isLike==1 ? Color(0xffab9adf) : Color(0xffd4d4d4))
         )
       )
     );
@@ -344,7 +345,7 @@ class _MusicListContainer extends State<MusicListContainer> {
       },
       child: Container(
         child: Center(
-          child: Icon(isScrap ? Icons.more_vert_outlined : Icons.playlist_add_rounded, color: Color(0xffe4e4e4), size: 32.4)
+          child: Icon(isScrap ? Icons.more_vert_outlined : Icons.playlist_add_rounded, color: Color(0xffd4d4d4), size: 32.4)
         )
       )
     );

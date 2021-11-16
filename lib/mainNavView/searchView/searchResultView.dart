@@ -57,16 +57,15 @@ class _SearchResultView extends State<SearchResultView> {
     return GestureDetector(
       onTap: () {FocusManager.instance.primaryFocus?.unfocus();},
       child: Scaffold(
-        appBar: DefaultAppBar(title: '검색 결과', back: true, search: true),
+        appBar: DefaultAppBar(title: '검색 결과', back: true, search: false),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
                 searchTextField(),
                 searchFilterContainer(),
-                lineDivider(context: context),
+                lineDivider(context: context, margin: 16),
                 /// title search
                 isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 1?
                   MusicListContainer(musicList: musicList[0].take(20).toList(), highlight: input, index: 1) :
@@ -107,7 +106,7 @@ class _SearchResultView extends State<SearchResultView> {
 
   searchTextField() {
     return Container(
-      margin: EdgeInsets.only(top: 21),
+      margin: EdgeInsets.only(top: 21, left: 16, right: 16),
       height: 38,
       child: Container(
         decoration: BoxDecoration(
@@ -169,7 +168,7 @@ class _SearchResultView extends State<SearchResultView> {
 
   searchFilterContainer() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 11),
+      margin: EdgeInsets.symmetric(vertical: 11, horizontal: 16),
       child: Row(
         children: [
           searchFilterItem(1),

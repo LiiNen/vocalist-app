@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-TextStyle textStyle({color: const Color(0xff3c354d), weight: int, size: 14.0}) {
+TextStyle textStyle({color: const Color(0xff3c354d), weight: int, double size: 14.0, double spacing: 0}) {
   FontWeight fontWeight = FontWeight.normal;
   switch(weight) {
     case 400:
@@ -21,13 +21,15 @@ TextStyle textStyle({color: const Color(0xff3c354d), weight: int, size: 14.0}) {
     fontWeight: fontWeight,
     fontFamily: "NotoSansCJKKR",
     fontStyle: FontStyle.normal,
+    letterSpacing: spacing,
     fontSize: size
   );
 }
 
-Container lineDivider({required context, color=const Color(0xffe3e3e3)}) {
+Container lineDivider({required context, color=const Color(0xffe3e3e3), double margin=0}) {
   return Container(
     width: MediaQuery.of(context).size.width, height: 1,
+    margin: EdgeInsets.symmetric(horizontal: margin),
     decoration: BoxDecoration(
       border: Border.all(
         color: color,

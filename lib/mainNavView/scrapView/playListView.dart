@@ -124,11 +124,10 @@ class _PlayListView extends State<PlayListView> {
               SizedBox(width: 25),
               Expanded(
                 child: Container(
-                  child: Text(playlistItem['title'], style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 20.0))
+                  child: Text(playlistItem['title'], style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 20.0), overflow: TextOverflow.ellipsis,)
                 )
               ),
               Container(
-                width: 44,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
