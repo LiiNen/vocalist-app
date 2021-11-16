@@ -9,8 +9,10 @@ postBugReport({required int userId, required String title, required String conte
   requestBody['title'] = title;
   requestBody['content'] = content;
   requestBody['email'] = email;
+  print(requestBody);
 
   var response = await http.post(Uri.parse('$baseUrl$pathBugReport'), body: requestBody);
+  print(response.statusCode);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) return responseBody['body'];

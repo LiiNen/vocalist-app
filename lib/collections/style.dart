@@ -38,3 +38,39 @@ Container lineDivider({required context, color=const Color(0xffe3e3e3), double m
     )
   );
 }
+
+textField({required controller, required focusNode, required hint, allowEnter=false, FocusNode? nextFocusNode}) {
+  return TextField(
+    controller: controller,
+    autofocus: false,
+    focusNode: focusNode,
+    decoration: InputDecoration(
+      contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10,),
+      enabledBorder: enabledBorderDefault(),
+      focusedBorder: focusedBorderDefault(),
+      hintText: hint,
+      hintStyle: textStyle(color: Color(0xffd1d5d9), weight: 400, size: 12.0),
+    ),
+    style: textStyle(weight: 600, size: 12.0),
+    keyboardType: allowEnter ? TextInputType.multiline : TextInputType.text,
+    textInputAction: allowEnter ? TextInputAction.newline : TextInputAction.done,
+    maxLines: allowEnter ? 10 : 1,
+    onSubmitted: (value) {
+      if(allowEnter == false && nextFocusNode != null) nextFocusNode.requestFocus();
+    },
+  );
+}
+
+enabledBorderDefault() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(color: Color(0xfff0f0f0), width: 1),
+  );
+}
+
+focusedBorderDefault() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(2),
+    borderSide: BorderSide(color: Color(0xff0958c5), width: 1),
+  );
+}

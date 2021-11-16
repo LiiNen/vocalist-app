@@ -116,7 +116,31 @@ confirmButton({required confirmAction}) {
         color: Color(0xff8b63ff),
       ),
       child: Center(
-          child: Text('완료', style: textStyle(color: Colors.white, weight: 500, size: 12.0))
+        child: Text('완료', style: textStyle(color: Colors.white, weight: 500, size: 12.0))
+      )
+    )
+  );
+}
+
+bottomAlignButton({required String title, required dynamic callback}) {
+  return Expanded(
+    child: Align(
+      alignment: Alignment.bottomCenter,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          callback();
+        },
+        child: Container(
+          height: 53,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(32)),
+            color: Color(0xff8b63ff)
+          ),
+          child: Center(
+              child: Text(title, style: textStyle(color: Colors.white, weight: 500, size: 15.0))
+          )
+        )
       )
     )
   );
