@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
         '/mainNav': (context) => MainNavView(),
         '/search': (context) => MainNavView(selectedIndex: 3),
         '/likeList': (context) => LikeListView(),
-        '/playList': (context) => PlayListView()
+        '/playList': (context) => PlayListView(),
+        '/setting': (context) => MainNavView(selectedIndex: 4),
       },
       home: SplashView(),
     );

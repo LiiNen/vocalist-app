@@ -145,6 +145,7 @@ class _NameModifyView extends State<NameModifyView> {
   _confirmAction() async {
     if(_nameController.text != '' || _emojiController.text != '') {
 
+      Navigator.pushNamedAndRemoveUntil(context, '/setting', ModalRoute.withName('/'));
     }
     else {
       showToast('이모지나 이름 둘중 하나는 바꿔주세요.');

@@ -87,7 +87,7 @@ class _MusicListContainer extends State<MusicListContainer> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             indexBox(index),
-            karaokeNumber(),
+            karaokeNumber(_music['number']),
             musicInfo(_music['title'], _music['artist']),
             isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
             playlistBox(index),
@@ -104,10 +104,12 @@ class _MusicListContainer extends State<MusicListContainer> {
     );
   }
   
-  karaokeNumber() {
+  karaokeNumber(number) {
     return Container(
       margin: EdgeInsets.only(left: 14, right: 15),
-      child: Center(child: Text('00000', style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0, spacing: -2)))
+      child: Center(child: Text(
+        number == null ? '00000' : number.toString(),
+        style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0, spacing: -2)))
     );
   }
 

@@ -57,6 +57,7 @@ class _SearchResultView extends State<SearchResultView> {
     return GestureDetector(
       onTap: () {FocusManager.instance.primaryFocus?.unfocus();},
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: DefaultAppBar(title: '검색 결과', back: true, search: false),
         body: SingleChildScrollView(
           child: Container(
