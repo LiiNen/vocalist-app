@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/main.dart';
+import 'package:vocalist/restApi/musicApi.dart';
 
 class MusicSuggestionContainer extends StatefulWidget {
   @override
@@ -8,18 +10,30 @@ class MusicSuggestionContainer extends StatefulWidget {
 }
 class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
 
+  var recList = [];
+  bool isLoaded = false;
+
   @override
   void initState() {
     super.initState();
+    _getMusicSuggestion();
   }
 
   _getMusicSuggestion() async {
-
+    var temp;
+    temp = await getRecMusic(userId: userInfo.id);
+    if(temp != null) {
+      setState(() {
+        temp.shuffle();
+        recList = temp.take(6).toList();
+        isLoaded = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return isLoaded ? Container(
       margin: EdgeInsets.symmetric(horizontal: 14),
       padding: EdgeInsets.only(top: 29),
       width: MediaQuery.of(context).size.width,
@@ -42,7 +56,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
           lineDivider(context: context),
         ],
       )
-    );
+    ) : Container();
   }
 
   suggestionLine(int lineIndex) {
@@ -74,16 +88,16 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
           ),
           child: Row(
             children: [
-              Text('00000', style: textStyle(color: Color(0xff4f3497), weight:500, size: 14.0)),
+              Text(recList[itemIndex]['number'].toString(), style: textStyle(color: Color(0xff4f3497), weight:500, size: 14.0, spacing: -1)),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('skskskskkskskskkskskskkskskksksk', style: textStyle(weight: 500, size: 11.0), overflow: TextOverflow.ellipsis,),
+                    Text(recList[itemIndex]['title'], style: textStyle(weight: 500, size: 11.0), overflow: TextOverflow.ellipsis,),
                     SizedBox(height: 3),
-                    Text('ssksksk', style: textStyle(color: Color(0xff747474), weight: 400, size: 10.0), overflow: TextOverflow.ellipsis,)
+                    Text(recList[itemIndex]['artist'], style: textStyle(color: Color(0xff747474), weight: 400, size: 10.0), overflow: TextOverflow.ellipsis,)
                   ]
                 )
               )

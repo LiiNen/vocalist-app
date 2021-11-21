@@ -106,7 +106,8 @@ class _MusicListContainer extends State<MusicListContainer> {
   
   karaokeNumber(number) {
     return Container(
-      margin: EdgeInsets.only(left: 14, right: 15),
+      width: 70,
+      margin: EdgeInsets.only(left: 12, right: 12),
       child: Center(child: Text(
         number == null ? '00000' : number.toString(),
         style: textStyle(color: Color(0xff3c354d), weight: 700, size: 21.0, spacing: -2)))
@@ -231,7 +232,7 @@ class _MusicListContainer extends State<MusicListContainer> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('00000', style: textStyle(weight: 700, size: 21.0),),
+                              Text(musicList[index]['number'] != null ? musicList[index]['number'].toString() : '00000', style: textStyle(weight: 700, size: 21.0),),
                               SizedBox(width: 15),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,7 +421,7 @@ class _MusicListContainer extends State<MusicListContainer> {
                     child: Icon(Icons.keyboard_arrow_down_rounded, size: 24),
                   ),
                   SizedBox(width: 15),
-                  Text('00000', style: textStyle(weight: 700, size: 21.0)),
+                  Text(musicList[index]['number'] != null ? musicList[index]['number'].toString() : '00000', style: textStyle(weight: 700, size: 21.0)),
                   SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -434,8 +435,8 @@ class _MusicListContainer extends State<MusicListContainer> {
               SizedBox(height: 21),
               lineDivider(context: context),
               SizedBox(height: 12),
-              modalBox(0),
-              modalBox(1),
+              modalBox(0, index),
+              modalBox(1, index),
             ]
           )
         );
@@ -443,17 +444,17 @@ class _MusicListContainer extends State<MusicListContainer> {
     );
   }
 
-  modalBox(int index) {
+  modalBox(int index, int musicIndex) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
         Navigator.pop(context);
         setState(() {
           if(index == 0) {
-            _reloadList(index);
+            _reloadList(musicIndex);
           }
           else {
-            _addPlaylist(index);
+            _addPlaylist(musicIndex);
           }
         });
       },
