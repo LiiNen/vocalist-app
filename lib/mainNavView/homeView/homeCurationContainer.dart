@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/mainNavView/homeView/recResultView.dart';
+import 'package:vocalist/restApi/curationApi.dart';
 
 class HomeCurationContainer extends StatefulWidget {
-  final int typeIndex;
-  HomeCurationContainer(this.typeIndex);
+  final ctype;
+  HomeCurationContainer(this.ctype);
   @override
-  State<HomeCurationContainer> createState() => _HomeCurationContainer(typeIndex);
+  State<HomeCurationContainer> createState() => _HomeCurationContainer(ctype);
 }
 class _HomeCurationContainer extends State<HomeCurationContainer> {
-  int typeIndex;
-  _HomeCurationContainer(this.typeIndex);
+  var ctype;
+  _HomeCurationContainer(this.ctype);
 
-  var suggestionCurationList = ['', '', '', '', ''];
+  var suggestionCurationList = [];
+  bool _isLoaded = false;
 
   @override
   void initState() {
@@ -20,7 +24,13 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
   }
 
   _getCurationSuggestion() async {
-
+    var temp = await getCurationWithCtype(ctype_id: ctype['id']);
+    if(temp != null) {
+      setState(() {
+        suggestionCurationList = temp;
+        _isLoaded = true;
+      });
+    }
   }
 
   @override
@@ -33,11 +43,11 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
             children: [
               Container(
                 margin: EdgeInsets.only(left: 22, bottom: 10),
-                child: Text('${curationType[typeIndex]}큐레이션', style: textStyle(color: Color(0xff7c7c7c), weight: 700, size: 14.0)),
+                child: Text('${ctype['title']}', style: textStyle(color: Color(0xff7c7c7c), weight: 700, size: 14.0)),
               ),
             ]
           ),
-          curationScrollView(),
+          _isLoaded ? curationScrollView() : Container(),
           Container(
             margin: EdgeInsets.only(top: 40, left: 14, right: 14),
             child: lineDivider(context: context)
@@ -65,7 +75,9 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
   curationContainer(int index) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {},
+      onTap: () {
+        navigatorPush(context: context, widget: RecResultView(title: '${suggestionCurationList[index]['title']}', curationId: suggestionCurationList[index]['id']));
+      },
       child: Container(
         width: 117, height: 117,
         decoration: BoxDecoration(
@@ -81,8 +93,11 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 13),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
+              Text(suggestionCurationList[index]['title']),
+              SizedBox(height: 10),
+              Text(suggestionCurationList[index]['content'])
             ]
           )
         )
@@ -90,5 +105,3 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
     );
   }
 }
-
-var curationType = ['장르별', '상황별', '무드별'];

@@ -14,3 +14,15 @@ getCuration({int id=0}) async {
   }
   return null;
 }
+
+getCurationWithCtype({required int ctype_id}) async {
+  var query = '/ctype?ctype_id=${ctype_id.toString()}';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathCuration$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return responseBody['body'];
+    return null;
+  }
+  return null;
+}
