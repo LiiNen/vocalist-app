@@ -44,12 +44,105 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Container(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             search ? searchBackButton(context) : backButton(context),
-            Text(title, style: textStyle(color: Colors.black, weight: 700, size: 15.0),),
+            Expanded(child: Text(title, style: textStyle(color: Colors.black, weight: 700, size: 15.0), overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,)),
             SizedBox(width: 32)
           ]
+        )
+      )
+    );
+  }
+}
+
+class ConfirmDialog extends StatefulWidget {
+  final String title;
+  final dynamic positiveAction;
+  final dynamic negativeAction;
+  final dynamic confirmAction;
+  final String? positiveWord;
+  final String? negativeWord;
+  ConfirmDialog({required this.title, required this.positiveAction, required this.negativeAction, required this.confirmAction, required this.positiveWord, required this.negativeWord});
+
+  @override
+  State<ConfirmDialog> createState() => _ConfirmDialog(title: title, positiveAction: positiveAction, negativeAction: negativeAction, confirmAction: confirmAction, positiveWord: positiveWord, negativeWord: negativeWord);
+}
+
+class _ConfirmDialog extends State<ConfirmDialog> {
+  String title;
+  dynamic positiveAction;
+  dynamic negativeAction;
+  dynamic confirmAction;
+  String? positiveWord;
+  String? negativeWord;
+  _ConfirmDialog({required this.title, required this.positiveAction, required this.negativeAction, required this.confirmAction, required this.positiveWord, required this.negativeWord});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.white,
+      child: dialogBox()
+    );
+  }
+
+  dialogBox() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          dialogTitle(),
+          dialogSelection(),
+        ]
+      )
+    );
+  }
+
+  dialogTitle() {
+    return Container(
+      height: 112,
+      child: Center(
+          child: Text(title, style: textStyle(weight: 400, size: 16.0))
+      )
+    );
+  }
+
+  dialogSelection() {
+    return Container(
+      height: 52,
+      child: Row(
+        children: confirmAction == null ? [
+        selectionBox(positiveWord == null ? '네' : positiveWord!, positiveAction),
+          selectionBox(negativeWord == null ? '아니요' : negativeWord!, negativeAction),
+        ] : [
+        selectionBox('확인', confirmAction),
+      ],
+    )
+    );
+  }
+
+  selectionBox(String title, dynamic action) {
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          action();
+          Navigator.pop(context);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Color(0xffebebeb), width: 1),
+            color: Color(0xfffbfbfb),
+          ),
+          child: Center(
+            child: Text(title, style: textStyle(color: Color(0xff0958c5), weight: 600, size: 14.0))
+          )
         )
       )
     );
