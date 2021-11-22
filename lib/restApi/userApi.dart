@@ -13,12 +13,13 @@ getUser({required int id}) async {
   return null;
 }
 
-patchUser({required int id, required String name, String emoji = ''}) async {
+patchUser({required int id, required String name, required String emoji}) async {
   var requestBody = Map();
   requestBody['id'] = id.toString();
   requestBody['name'] = name;
   requestBody['emoji'] = emoji;
-  
+  print(requestBody);
+
   var response = await http.patch(Uri.parse('$baseUrl$pathUser'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);

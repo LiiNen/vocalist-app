@@ -3,6 +3,7 @@ import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
+import 'package:vocalist/restApi/userApi.dart';
 
 import '../../emojiPickerWidget.dart';
 
@@ -143,12 +144,7 @@ class _NameModifyView extends State<NameModifyView> {
   }
 
   _confirmAction() async {
-    if(_nameController.text != '' || _emojiController.text != '') {
-
-      Navigator.pushNamedAndRemoveUntil(context, '/setting', ModalRoute.withName('/'));
-    }
-    else {
-      showToast('이모지나 이름 둘중 하나는 바꿔주세요.');
-    }
+    await patchUser(id: userInfo.id, name: _nameController.text != '' ? _nameController.text : userInfo.name, emoji: emojiToUnicode(_emojiController.text));
+    Navigator.pushNamedAndRemoveUntil(context, '/setting', ModalRoute.withName('/'));
   }
 }

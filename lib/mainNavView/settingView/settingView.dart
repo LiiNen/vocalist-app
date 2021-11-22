@@ -22,13 +22,13 @@ class _SettingView extends State<SettingView> {
   TextEditingController _emojiController = TextEditingController();
   String _karaoke = '';
   var _karaokeList = ['TJ', '금영'];
+  bool _isLoaded = false;
 
   @override
   void initState() {
     super.initState();
     _getUserInfo();
     _getKaraoke();
-    _setEmoji();
   }
 
   void _getUserInfo() async {
@@ -36,9 +36,8 @@ class _SettingView extends State<SettingView> {
     if(_temp != null) {
       await setUserInfo(id: _temp['id'], name: _temp['name'], email: _temp['email'], type: _temp['type'], emoji: _temp['emoji']);
       userInfo = await getUserInfo();
-      setState(() {
-
-      });
+      _setEmoji();
+      setState(() {});
     }
   }
 
