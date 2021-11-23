@@ -106,9 +106,10 @@ class _ConfirmDialog extends State<ConfirmDialog> {
 
   dialogTitle() {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 12),
       height: 112,
       child: Center(
-          child: Text(title, style: textStyle(weight: 400, size: 16.0))
+        child: Text(title, style: textStyle(weight: 400, size: 16.0))
       )
     );
   }
@@ -118,12 +119,12 @@ class _ConfirmDialog extends State<ConfirmDialog> {
       height: 52,
       child: Row(
         children: confirmAction == null ? [
-        selectionBox(positiveWord == null ? '네' : positiveWord!, positiveAction),
+          selectionBox(positiveWord == null ? '네' : positiveWord!, positiveAction),
           selectionBox(negativeWord == null ? '아니요' : negativeWord!, negativeAction),
         ] : [
-        selectionBox('확인', confirmAction),
-      ],
-    )
+          selectionBox('확인', confirmAction),
+        ],
+      )
     );
   }
 
@@ -141,7 +142,7 @@ class _ConfirmDialog extends State<ConfirmDialog> {
             color: Color(0xfffbfbfb),
           ),
           child: Center(
-            child: Text(title, style: textStyle(weight: 600, size: 14.0))
+            child: Text(title, style: textStyle(color: Color(0xff0958c5), weight: 600, size: 14.0))
           )
         )
       )

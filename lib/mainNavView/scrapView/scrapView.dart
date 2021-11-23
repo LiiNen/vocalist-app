@@ -27,6 +27,7 @@ class _ScrapView extends State<ScrapView> {
   ];
   var _friendList = [];
   var _friendWaitingList = [];
+  TextEditingController _friendEmailController = TextEditingController();
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _ScrapView extends State<ScrapView> {
     _friendWaitingList = [];
     var _temp = await getFriend(userId: userInfo.id);
     for(var _friend in _temp) {
-      if(_friend['accept'] == 0) {
+      if(_friend['accept'] == 0 && _friend['applier'] == 0) {
         _friendWaitingList.add(_friend);
       }
       else if(_friend['accept'] == 1) {
@@ -129,7 +130,11 @@ class _ScrapView extends State<ScrapView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('친구 애창곡 보기', style: textStyle(color: Color(0xff5642a0), weight: 700, size: 14.0)),
-              Icon(Icons.person_add_outlined, size: 22, color: Color(0xff7c7c7c))
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _showFriendDialog,
+                child: Icon(Icons.person_add_outlined, size: 22, color: Color(0xff7c7c7c))
+              )
             ]
           ),
           SizedBox(height: 16),
@@ -176,7 +181,7 @@ class _ScrapView extends State<ScrapView> {
           if(index%2 == 0) return GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
-              _friendDialog(name:_friendWaitingList[(index/2).floor()]['name'], id: _friendWaitingList[(index/2).floor()]['id']);
+              _friendAcceptDialog(name:_friendWaitingList[(index/2).floor()]['name'], id: _friendWaitingList[(index/2).floor()]['id']);
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -194,7 +199,82 @@ class _ScrapView extends State<ScrapView> {
     ) : Container();
   }
 
-  _friendDialog({required String name, required int id}) {
+  _showFriendDialog() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => _addFriendDialog()
+    )) ?? false;
+  }
+
+  _addFriendDialog() {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.white,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 112,
+              margin: EdgeInsets.symmetric(horizontal: 12),
+              child: Center(
+                child: TextField(
+                  controller: _friendEmailController,
+                  decoration: InputDecoration(
+                    hintText: '친구의 이메일을 입력해주세요'
+                  ),
+                  onChanged: (value) {setState(() {});},
+                  onSubmitted: (value) {
+                    _addFriendAction();
+                    Navigator.pop(context);
+                  }
+                )
+              )
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 52,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        _addFriendAction();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xffebebeb), width: 1),
+                          color: Color(0xfffbfbfb),
+                        ),
+                        child: Center(
+                          child: Text('친구 요청', style: textStyle(color: Color(0xff0958c5), weight: 600, size: 14.0))
+                        )
+                      )
+                    )
+                  )
+                )
+              ]
+            )
+          ]
+        )
+      )
+    );
+  }
+
+  _addFriendAction() async {
+    var response = await postFriend(userId: userInfo.id, email: _friendEmailController.text);
+    if(response == true) {
+      _getFriend();
+      showToast('친구 요청 완료!');
+    }
+  }
+
+  _friendAcceptDialog({required String name, required int id}) {
     showConfirmDialog(context, ConfirmDialog(
       title: '$name님의 친구요청을 수락하시겠습니까?',
       positiveAction: () {_friendAction(true, id);},

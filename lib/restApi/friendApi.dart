@@ -23,10 +23,10 @@ postFriend({required int userId, required String email}) async {
   var response = await http.post(Uri.parse('$baseUrl$pathFriend'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    if(responseBody['status'] == true) return;
-    return null;
+    if(responseBody['status'] == true) return true;
+    return false;
   }
-  return null;
+  return false;
 }
 
 deleteFriend({required int id}) async {
