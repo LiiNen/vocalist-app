@@ -249,6 +249,7 @@ class _ScrapView extends State<ScrapView> {
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Color(0xffebebeb), width: 1),
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4)),
                           color: Color(0xfffbfbfb),
                         ),
                         child: Center(

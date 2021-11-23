@@ -73,8 +73,9 @@ class _NameModifyView extends State<NameModifyView> {
             Container(
               width: 170, height: 170,
               decoration: BoxDecoration(
-                color: Color(0xfff0f0f0),
+                color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(85)),
+                border: Border.all(color: Color(0xfff0f0f0), width: 1),
               ),
               alignment: Alignment.center,
               child: TextField(

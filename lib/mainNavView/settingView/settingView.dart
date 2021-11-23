@@ -84,7 +84,7 @@ class _SettingView extends State<SettingView> {
               SizedBox(height: 3.5),
               lineDivider(context: context),
               _titleBox('기타'),
-              buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
+              buttonContainer(context: context, callback: _versionDialog, title: '버전 정보 조회'),
               buttonContainer(context: context, callback: _pushNavigatorReport, title: '버그리포트'),
               buttonContainer(context: context, callback: _signOutDialog, title: '로그아웃'),
               buttonContainer(context: context, callback: _pushNavigatorWithdrawal, title: '탈퇴하기'),
@@ -214,9 +214,21 @@ class _SettingView extends State<SettingView> {
     );
   }
 
+  /// todo: version server and build
+  _versionDialog() {
+    showConfirmDialog(context, ConfirmDialog(
+      title: '현재 버전 1.0.2\n최신 버전 1.0.2',
+      positiveAction: null,
+      negativeAction: null,
+      confirmAction: () {},
+      positiveWord: '',
+      negativeWord: '',
+    ));
+  }
+
   _signOutDialog() {
     showConfirmDialog(context, ConfirmDialog(
-      title: '로그아웃 하시겠습니까??',
+      title: '로그아웃 하시겠습니까?',
       positiveAction: _signOutAction,
       negativeAction: () {},
       confirmAction: null,

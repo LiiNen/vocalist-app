@@ -76,11 +76,15 @@ class _PlayListView extends State<PlayListView> {
             Container(
               width: 40, height: 40,
               decoration: BoxDecoration(
-                color: Color(0xfff6c873),
+                color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(13)),
+                border: Border.all(
+                  color: Color(0xffd4d4d4),
+                  width: 1
+                ),
               ),
               child: Center(
-                child: Icon(Icons.playlist_add_rounded, color: Color(0xff3c354d), size: 24)
+                child: Icon(Icons.playlist_add_rounded, color: Color(0xff7c7c7c), size: 24)
               )
             ),
             SizedBox(width: 25),
@@ -128,11 +132,12 @@ class _PlayListView extends State<PlayListView> {
               ),
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(playlistItem['count'].toString(), style: textStyle(color: Color(0xffcecece), weight: 500, size: 20.0)),
-                    Icon(Icons.arrow_forward_ios_outlined, color: Color(0xffcecece))
+                    SizedBox(width: 8),
+                    Icon(Icons.arrow_forward_ios_outlined, color: Color(0xffcecece), size: 16)
                   ]
                 )
               )

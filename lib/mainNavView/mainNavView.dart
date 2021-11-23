@@ -38,6 +38,9 @@ class _MainNavView extends State<MainNavView> {
           backgroundColor: Colors.white,
           unselectedItemColor: Color(0xffd4d4d4),
           selectedItemColor: Color(0xff3c354d),
+          iconSize: 28,
+          unselectedFontSize: 12,
+          selectedFontSize: 12,
           currentIndex: _selectedIndex,
           onTap: (int index) {
             setState(() {
