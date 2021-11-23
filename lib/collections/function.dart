@@ -40,25 +40,13 @@ showToast(String message) {
   );
 }
 
-Future<bool> confirmDialog({required BuildContext context, required String title, required String content, required String firstMessage, required dynamic firstAction, required String secondMessage, required secondAction}) async {
+showConfirmDialog(BuildContext context, Widget dialog) async {
   return (await showDialog(
     context: context,
-    builder: (context) => AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: [
-        TextButton(
-          onPressed: firstAction,
-          child: Text(firstMessage),
-        ),
-        TextButton(
-          onPressed: secondAction,
-          child: Text(secondMessage),
-        ),
-      ],
-    ),
+    builder: (context) => dialog
   )) ?? false;
 }
+
 
 emojiToUnicode(String emoji) {
   return '0x${int.parse(emoji.runes.toString().replaceAll('(', '').replaceAll(')', '')).toRadixString(16).toString()}';

@@ -141,7 +141,7 @@ class _ConfirmDialog extends State<ConfirmDialog> {
             color: Color(0xfffbfbfb),
           ),
           child: Center(
-            child: Text(title, style: textStyle(color: Color(0xff0958c5), weight: 600, size: 14.0))
+            child: Text(title, style: textStyle(weight: 600, size: 14.0))
           )
         )
       )

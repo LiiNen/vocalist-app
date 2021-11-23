@@ -36,10 +36,10 @@ deleteFriend({required int id}) async {
   var response = await http.delete(Uri.parse('$baseUrl$pathFriend'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    if(responseBody['status'] == true) return responseBody['body'];
-    return null;
+    if(responseBody['status'] == true) return true;
+    return false;
   }
-  return null;
+  return false;
 }
 
 patchFriend({required int id}) async {
@@ -49,8 +49,8 @@ patchFriend({required int id}) async {
   var response = await http.patch(Uri.parse('$baseUrl$pathFriend'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    if(responseBody['status'] == true) return responseBody['body'];
-    return null;
+    if(responseBody['status'] == true) return true;
+    return false;
   }
-  return null;
+  return false;
 }

@@ -82,12 +82,14 @@ class _WithdrawalView extends State<WithdrawalView> {
   }
 
   withdrawalDialog() {
-    confirmDialog(context: context,
-      title: '정말로 탈퇴하시겠습니까?',
-      content: '사용자의 모든 정보가 삭제됩니다.\n계속하시겠습니까?',
-      firstMessage: '계속', firstAction: withdrawalAction,
-      secondMessage: '취소', secondAction: () {Navigator.pop(context);}
-    );
+    showConfirmDialog(context, ConfirmDialog(
+      title: '정말로 탈퇴하시겠습니까?\n사용자의 모든 정보가 삭제됩니다.\n계속하시겠습니까?',
+      positiveAction: withdrawalAction,
+      negativeAction: () {},
+      confirmAction: null,
+      positiveWord: '계속',
+      negativeWord: '취소'
+    ));
   }
 
   withdrawalAction() {
@@ -107,7 +109,6 @@ class _WithdrawalView extends State<WithdrawalView> {
     }
     else {
       showToast('네트워크 상태를 확인해주세요');
-      Navigator.pop(context);
     }
   }
 }

@@ -26,6 +26,7 @@ class _ScrapView extends State<ScrapView> {
     }
   ];
   var _friendList = [];
+  var _friendWaitingList = [];
 
   @override
   void initState() {
@@ -44,10 +45,18 @@ class _ScrapView extends State<ScrapView> {
   }
   
   _getFriend() async {
+    _friendList = [];
+    _friendWaitingList = [];
     var _temp = await getFriend(userId: userInfo.id);
-    setState(() {
-      _friendList = _temp;
-    });
+    for(var _friend in _temp) {
+      if(_friend['accept'] == 0) {
+        _friendWaitingList.add(_friend);
+      }
+      else if(_friend['accept'] == 1) {
+        _friendList.add(_friend);
+      }
+    }
+    setState(() {});
   }
 
   @override
@@ -64,6 +73,7 @@ class _ScrapView extends State<ScrapView> {
               menuButton(0),
               menuButton(1),
               friendContainer(),
+              friendWaitingContainer(),
             ]
           )
         )
@@ -143,4 +153,70 @@ class _ScrapView extends State<ScrapView> {
     );
   }
 
+  friendWaitingContainer() {
+    return _friendWaitingList.length != 0 ? Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(top: 16),
+      padding: EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: Border.all(color: Color(0xffdddddd), width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('대기 중인 친구 목록', style: textStyle(color: Color(0xff5642a0), weight: 700, size: 14.0)),
+            ]
+          ),
+          SizedBox(height: 16),
+        ] + List.generate(_friendWaitingList.length * 2, (index) {
+          if(index%2 == 0) return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              _friendDialog(name:_friendWaitingList[(index/2).floor()]['name'], id: _friendWaitingList[(index/2).floor()]['id']);
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(_friendWaitingList[(index/2).floor()]['name'], style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0)),
+                ]
+              )
+            )
+          );
+          else return SizedBox(height: 16);
+        })
+      )
+    ) : Container();
+  }
+
+  _friendDialog({required String name, required int id}) {
+    showConfirmDialog(context, ConfirmDialog(
+      title: '$name님의 친구요청을 수락하시겠습니까?',
+      positiveAction: () {_friendAction(true, id);},
+      negativeAction: () {_friendAction(false, id);},
+      confirmAction: null,
+      positiveWord: '수락',
+      negativeWord: '거절'
+    ));
+  }
+  _friendAction(bool state, int id) {
+    state ? _friendAcceptAsync(id) : _friendDenyAsync(id);
+  }
+  _friendAcceptAsync(int id) async {
+    var response = await patchFriend(id: id);
+    if(response) {
+      _getFriend();
+    }
+  }
+  _friendDenyAsync(int id) async {
+    var response = await deleteFriend(id: id);
+    if(response) {
+      _getFriend();
+    }
+  }
 }

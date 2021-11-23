@@ -55,7 +55,7 @@ class _PlayListView extends State<PlayListView> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 21, vertical: 5),
+          margin: EdgeInsets.symmetric(horizontal: 29, vertical: 5),
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: _scrollableList

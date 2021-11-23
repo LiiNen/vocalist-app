@@ -86,7 +86,7 @@ class _SettingView extends State<SettingView> {
               _titleBox('기타'),
               buttonContainer(context: context, callback: null, title: '버전 정보 조회'),
               buttonContainer(context: context, callback: _pushNavigatorReport, title: '버그리포트'),
-              buttonContainer(context: context, callback: _signOutAction, title: '로그아웃'),
+              buttonContainer(context: context, callback: _signOutDialog, title: '로그아웃'),
               buttonContainer(context: context, callback: _pushNavigatorWithdrawal, title: '탈퇴하기'),
             ]
           )
@@ -212,6 +212,17 @@ class _SettingView extends State<SettingView> {
         );
       }
     );
+  }
+
+  _signOutDialog() {
+    showConfirmDialog(context, ConfirmDialog(
+      title: '로그아웃 하시겠습니까??',
+      positiveAction: _signOutAction,
+      negativeAction: () {},
+      confirmAction: null,
+      positiveWord: '계속',
+      negativeWord: '취소'
+    ));
   }
 
   _signOutAction() async {
