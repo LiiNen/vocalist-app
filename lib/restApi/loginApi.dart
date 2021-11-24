@@ -23,7 +23,9 @@ signupAction({required String email, required String name, required String type}
   var response = await http.post(Uri.parse('$baseUrl$pathLogin'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    if(responseBody['status'] == true) return responseBody['body'];
+    if(responseBody['status'] == true) {
+      return responseBody['body'];
+    }
     return null;
   }
   return null;

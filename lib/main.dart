@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/collections/userInfo.dart';
 
@@ -54,6 +55,7 @@ class _SplashView extends State<SplashView> {
   }
 
   void _checkLogin() async {
+    await Firebase.initializeApp();
     final pref = await SharedPreferences.getInstance();
     _isLogin = pref.getBool('isLogin') ?? false;
     if(_isLogin == true) {

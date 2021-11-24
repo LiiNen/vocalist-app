@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/userInfo.dart';
+import 'package:vocalist/loginView/googleLoginView.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/restApi/loginApi.dart';
@@ -33,7 +34,8 @@ class _LoginView extends State<LoginView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SignInButton(Buttons.Google, onPressed: googleLogin),
+              GoogleLoginView(),
+              // SignInButton(Buttons.Google, onPressed: googleLogin),
               // SignInButton(Buttons.Apple, onPressed: appleLogin)
             ]
           )
@@ -42,7 +44,7 @@ class _LoginView extends State<LoginView> {
     );
   }
 
-  void googleLogin() async {
+  void testerLogin() async {
     var state = await _loginPref();
     if(state) navigatorPush(context: context, widget: MainNavView(), replacement: true, all: true);
   }

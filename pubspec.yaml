@@ -37,6 +37,7 @@ dependencies:
   fluttertoast: ^8.0.8
   flutter_svg: ^0.23.0+1
   emoji_picker: ^0.0.2
+  google_sign_in: ^5.2.1
 
 dev_dependencies:
   flutter_test:

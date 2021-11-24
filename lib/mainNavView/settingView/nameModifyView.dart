@@ -19,7 +19,7 @@ class _NameModifyView extends State<NameModifyView> {
   @override
   void initState() {
     super.initState();
-    _emojiController.text = unicodeToEmoji(userInfo.emoji);
+    if(userInfo.emoji != '') _emojiController.text = unicodeToEmoji(userInfo.emoji);
   }
 
   @override
