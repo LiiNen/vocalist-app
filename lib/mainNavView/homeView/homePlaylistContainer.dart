@@ -33,7 +33,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
       var tempIndex = 0;
       while(true) {
         if(_likeList.length == 0) break;
-        if(!_usedClusterList.contains(_likeList[tempIndex]['cluster'])) {
+        if(_likeList[tempIndex]['cluster'] != null && !_usedClusterList.contains(_likeList[tempIndex]['cluster'])) {
           _usedClusterList.add(_likeList[tempIndex]['cluster']);
           _usedIndexList.add(tempIndex);
         }
@@ -48,7 +48,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoaded && _likeList.length != 0 ? Container(
+    return isLoaded && _usedIndexList.length != 0 ? Container(
       padding: EdgeInsets.only(top: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

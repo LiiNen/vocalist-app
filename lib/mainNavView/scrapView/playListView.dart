@@ -104,7 +104,7 @@ class _PlayListView extends State<PlayListView> {
         behavior: HitTestBehavior.translucent,
         onTap: () {
           if(isAdding) {
-            addMusicDialog(musicTitle: object!['title'], playlistTitle: playlistItem['title'], firstAction: () {_addMusicToPlaylist(object['id'], playlistItem['id']);}, secondAction: () {_cancel(context);});
+            addMusicDialog(musicTitle: object!['title'], playlistTitle: playlistItem['title'], playlistEmoji: playlistItem['emoji'], firstAction: () {_addMusicToPlaylist(object['id'], playlistItem['id']);}, secondAction: () {_cancel(context);});
           }
           if(!isAdding) {
             navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id'], emoji: playlistItem['emoji']));
@@ -148,30 +148,26 @@ class _PlayListView extends State<PlayListView> {
     );
   }
 
-  Future<bool> addMusicDialog({required String musicTitle, required String playlistTitle, required firstAction, required secondAction}) async {
+  Future<bool> addMusicDialog({required String musicTitle, required String playlistTitle, required String playlistEmoji, required firstAction, required secondAction}) async {
     return (await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: RichText(
+      builder: (context) => ConfirmDialog(
+        title: '',
+        positiveAction: () {firstAction();},
+        negativeAction: () {secondAction();},
+        positiveWord: '확인',
+        negativeWord: '취소',
+        spanTitle: RichText(
           text: TextSpan(
             children: [
               TextSpan(text: musicTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+              TextSpan(text: unicodeToEmoji(playlistEmoji), style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: playlistTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' 플레이리스트에 추가하겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
             ]
           )
         ),
-        actions: [
-          TextButton(
-            onPressed: firstAction,
-            child: Text('예', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0)),
-          ),
-          TextButton(
-            onPressed: secondAction,
-            child: Text('아니요', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
-          ),
-        ],
       ),
     )) ?? false;
   }

@@ -140,7 +140,7 @@ class _NameModifyView extends State<NameModifyView> {
         setState(() {});
       },
       onSubmitted: (value) {_confirmAction();},
-      style: textStyle(weight: 500, size: 12.0)
+      style: textStyle(weight: 500, size: 24.0)
     );
   }
 

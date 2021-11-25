@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:vocalist/collections/statelessWidget.dart';
 
 navigatorPush({required context, required widget, replacement=false, all=false}) {
   replacement
@@ -13,19 +14,12 @@ navigatorPush({required context, required widget, replacement=false, all=false})
 Future<bool> onWillPop(BuildContext context) async {
   return (await showDialog(
     context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Vloom 종료'),
-      content: Text('Vloom을 종료하시겠습니까?'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text('No'),
-        ),
-        TextButton(
-          onPressed: () => SystemNavigator.pop(),
-          child: Text('Yes'),
-        ),
-      ],
+    builder: (context) => ConfirmDialog(
+      title: 'vloom을 종료하시겠습니까?',
+      positiveAction: () {SystemNavigator.pop();},
+      negativeAction: () {Navigator.of(context).pop(false);},
+      positiveWord: '종료',
+      negativeWord: '취소'
     ),
   )) ?? false;
 }
@@ -46,7 +40,6 @@ showConfirmDialog(BuildContext context, Widget dialog) async {
     builder: (context) => dialog
   )) ?? false;
 }
-
 
 emojiToUnicode(String emoji) {
   return '0x${int.parse(emoji.runes.toString().replaceAll('(', '').replaceAll(')', '')).toRadixString(16).toString()}';

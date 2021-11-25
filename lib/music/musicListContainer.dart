@@ -40,7 +40,10 @@ class _MusicListContainer extends State<MusicListContainer> {
       children: <Widget>[titleBox()] + (
         musicItemContainerList.length != 0 ?
           musicItemContainerList :
-          [Text('검색 결과를 찾을 수 없습니다.', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 13.0))]
+          [
+            SizedBox(height: 20),
+            Text('노래가 없습니다.', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 13.0))
+          ]
       )
     );
   }

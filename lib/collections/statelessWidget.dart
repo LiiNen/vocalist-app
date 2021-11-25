@@ -63,10 +63,11 @@ class ConfirmDialog extends StatefulWidget {
   final dynamic confirmAction;
   final String? positiveWord;
   final String? negativeWord;
-  ConfirmDialog({required this.title, required this.positiveAction, required this.negativeAction, required this.confirmAction, required this.positiveWord, required this.negativeWord});
+  final RichText? spanTitle;
+  ConfirmDialog({required this.title, required this.positiveAction, required this.negativeAction, this.confirmAction, this.positiveWord, this.negativeWord, this.spanTitle});
 
   @override
-  State<ConfirmDialog> createState() => _ConfirmDialog(title: title, positiveAction: positiveAction, negativeAction: negativeAction, confirmAction: confirmAction, positiveWord: positiveWord, negativeWord: negativeWord);
+  State<ConfirmDialog> createState() => _ConfirmDialog(title: title, positiveAction: positiveAction, negativeAction: negativeAction, confirmAction: confirmAction, positiveWord: positiveWord, negativeWord: negativeWord, spanTitle: spanTitle);
 }
 
 class _ConfirmDialog extends State<ConfirmDialog> {
@@ -76,7 +77,8 @@ class _ConfirmDialog extends State<ConfirmDialog> {
   dynamic confirmAction;
   String? positiveWord;
   String? negativeWord;
-  _ConfirmDialog({required this.title, required this.positiveAction, required this.negativeAction, required this.confirmAction, required this.positiveWord, required this.negativeWord});
+  RichText? spanTitle;
+  _ConfirmDialog({required this.title, required this.positiveAction, required this.negativeAction, this.confirmAction, this.positiveWord, required this.negativeWord, required this.spanTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,7 @@ class _ConfirmDialog extends State<ConfirmDialog> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 12),
       height: 112,
-      child: Center(
+      child: spanTitle != null ? spanTitle : Center(
         child: Text(title, style: textStyle(weight: 400, size: 16.0))
       )
     );
@@ -119,16 +121,16 @@ class _ConfirmDialog extends State<ConfirmDialog> {
       height: 52,
       child: Row(
         children: confirmAction == null ? [
-          selectionBox(positiveWord == null ? '네' : positiveWord!, positiveAction),
-          selectionBox(negativeWord == null ? '아니요' : negativeWord!, negativeAction),
+          selectionBox(positiveWord == null ? '네' : positiveWord!, positiveAction, true),
+          selectionBox(negativeWord == null ? '아니요' : negativeWord!, negativeAction, false),
         ] : [
-          selectionBox('확인', confirmAction),
+          selectionBox('확인', confirmAction, true),
         ],
       )
     );
   }
 
-  selectionBox(String title, dynamic action) {
+  selectionBox(String title, dynamic action, bool isPositive) {
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -143,7 +145,7 @@ class _ConfirmDialog extends State<ConfirmDialog> {
             color: Color(0xfffbfbfb),
           ),
           child: Center(
-            child: Text(title, style: textStyle(color: Color(0xff0958c5), weight: 600, size: 14.0))
+            child: Text(title, style: textStyle(color: isPositive ? Color(0xff7156d2) : Color(0xff707070), weight: 600, size: 14.0))
           )
         )
       )
