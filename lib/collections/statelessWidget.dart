@@ -108,9 +108,12 @@ class _ConfirmDialog extends State<ConfirmDialog> {
 
   dialogTitle() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12),
+      margin: EdgeInsets.symmetric(horizontal: 22),
       height: 112,
-      child: spanTitle != null ? spanTitle : Center(
+      child: spanTitle != null ? Align(
+        alignment: Alignment.centerLeft,
+        child: spanTitle,
+      ) : Center(
         child: Text(title, style: textStyle(weight: 400, size: 16.0))
       )
     );

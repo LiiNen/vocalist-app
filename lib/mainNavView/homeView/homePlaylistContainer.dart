@@ -56,16 +56,13 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 22, bottom: 14),
+                margin: EdgeInsets.only(left: 22),
                 child: Text('나만을 위한 AI 플레이리스트', style: textStyle(weight: 700, size: 14.0)),
               ),
             ]
           ),
           playlistScrollView(),
-          Container(
-            margin: EdgeInsets.only(top: 40, left: 14, right: 14),
-            child: lineDivider(context: context)
-          )
+          lineDivider(context: context, margin: 14)
         ],
       )
     ) : Container();
@@ -73,7 +70,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
 
   playlistScrollView() {
     return Container(
-      height: 226,
+      height: 269,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _usedIndexList.length*2+1,
@@ -93,6 +90,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
         navigatorPush(context: context, widget: RecResultView(title: '${_likeList[_usedIndexList[index]]['title']} 연관 음악', cluster: _usedClusterList[index]));
       },
       child: Container(
+        margin: EdgeInsets.only(top: 14, bottom: 40),
         width: 219, height: 215,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(23)),

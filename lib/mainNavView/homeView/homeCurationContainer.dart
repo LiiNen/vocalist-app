@@ -42,16 +42,13 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 22, bottom: 10),
+                margin: EdgeInsets.only(left: 22),
                 child: Text('${ctype['title']}', style: textStyle(color: Color(0xff7c7c7c), weight: 700, size: 14.0)),
               ),
             ]
           ),
           _isLoaded ? curationScrollView() : Container(),
-          Container(
-            margin: EdgeInsets.only(top: 40, left: 14, right: 14),
-            child: lineDivider(context: context)
-          )
+          lineDivider(context: context, margin: 14)
         ],
       )
     );
@@ -59,14 +56,14 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
 
   curationScrollView() {
     return Container(
-      height: 128,
+      height: 167,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: suggestionCurationList.length*2+1,
         itemBuilder: (BuildContext context, int index) {
           if(index==0) return SizedBox(width: 12);
           else if(index%2 == 1) return curationContainer(((index-1)/2).floor());
-          else return SizedBox(width: 22);
+          else return Container(width: 22);
         }
       )
     );
@@ -79,6 +76,7 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
         navigatorPush(context: context, widget: RecResultView(title: '${suggestionCurationList[index]['title']}', curationId: suggestionCurationList[index]['id']));
       },
       child: Container(
+        margin: EdgeInsets.only(top: 10, bottom: 40),
         width: 117, height: 117,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(23)),
@@ -97,7 +95,7 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
             children: [
               Text(suggestionCurationList[index]['title']),
               SizedBox(height: 10),
-              Text(suggestionCurationList[index]['content'])
+              Text(suggestionCurationList[index]['content'], style: textStyle(size: 12))
             ]
           )
         )
