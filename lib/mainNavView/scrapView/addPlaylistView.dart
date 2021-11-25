@@ -6,6 +6,7 @@ import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/emojiPickerWidget.dart';
 import 'package:vocalist/main.dart';
+import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
 
 class AddPlaylistView extends StatefulWidget {
@@ -146,10 +147,12 @@ class _AddPlaylistView extends State<AddPlaylistView> {
     );
   }
 
+
+  //todo: fixing
   _confirmAction() async {
-    if(_controller.text != '' || _emojiController.text != '') {
+    if(_controller.text != '' && _emojiController.text != '') {
       var response = await postPlaylist(userId: userInfo.id, title: _controller.text, emoji: emojiToUnicode(_emojiController.text));
-      if(response == true) Navigator.pushNamedAndRemoveUntil(context, '/playList', ModalRoute.withName('/mainNav'));
+      if(response == true) navigatorPush(context: context, widget: MainNavView(selectedIndex: 2,), replacement: true, all: true);
       else showToast('error');
     }
     else {

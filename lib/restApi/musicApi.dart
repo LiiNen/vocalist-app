@@ -38,3 +38,15 @@ getRecMusicCluster({required int userId, required int cluster}) async {
   }
   return null;
 }
+
+getChart({required int userId}) async {
+  String query = '/chart?user_id=${userId.toString()}';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathMusic$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return responseBody['body'];
+    return null;
+  }
+  return null;
+}
