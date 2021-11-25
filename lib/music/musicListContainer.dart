@@ -14,10 +14,11 @@ class MusicListContainer extends StatefulWidget {
   final int index;
   final bool isScrap;
   final bool isSearchAll;
-  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false});
+  final bool isFriend;
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend);
 }
 class _MusicListContainer extends State<MusicListContainer> {
   List<dynamic> musicList;
@@ -25,7 +26,8 @@ class _MusicListContainer extends State<MusicListContainer> {
   int searchIndex;
   bool isScrap;
   bool isSearchAll;
-  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll);
+  bool isFriend;
+  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend);
 
   int pitchValue = 0;
 
@@ -208,17 +210,21 @@ class _MusicListContainer extends State<MusicListContainer> {
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                patchPitch(userId: userInfo.id, musicId: musicList[index]['id'], pitch: pitchValue);
-                                Navigator.pop(context);
+                                if (isFriend==false) {
+                                  patchPitch(userId: userInfo.id, musicId: musicList[index]['id'], pitch: pitchValue);
+                                  Navigator.pop(context);
+                                }
                               },
                               child: Container(
                                 width: 40, padding:EdgeInsets.symmetric(vertical: 16),
-                                child: Text('완료', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0), textAlign: TextAlign.center,),
+                                child: isFriend ? Container() : Text('완료', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0), textAlign: TextAlign.center,),
                               )
                             ),
                           ]
                         ),
-                        Text('이 노래를 부를 때, ${userInfo.name}님이 부르기 편한\n음정(key)을 메모해보세요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,),
+                        isFriend ?
+                          Text('친구가 메모해놓은 음정(key)을 보고\n같이 노래방에 갈 때 참고해봐요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,) :
+                          Text('이 노래를 부를 때, ${userInfo.name}님이 부르기 편한\n음정(key)을 메모해보세요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,),
                         SizedBox(height: 20),
                       ]
                     )
@@ -296,10 +302,12 @@ class _MusicListContainer extends State<MusicListContainer> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        setState(() {
-          pitchValue = pitch;
-          musicList[index]['pitch'] = pitch;
-        });
+        if(isFriend == false) {
+          setState(() {
+            pitchValue = pitch;
+            musicList[index]['pitch'] = pitch;
+          });
+        }
       },
       child: Column(
         children: [
@@ -435,7 +443,7 @@ class _MusicListContainer extends State<MusicListContainer> {
               SizedBox(height: 21),
               lineDivider(context: context),
               SizedBox(height: 12),
-              modalBox(0, index),
+              isFriend ? Container() : modalBox(0, index),
               modalBox(1, index),
             ]
           )

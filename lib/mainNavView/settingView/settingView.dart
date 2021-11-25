@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
@@ -216,14 +217,18 @@ class _SettingView extends State<SettingView> {
 
   /// todo: version server and build
   _versionDialog() {
-    showConfirmDialog(context, ConfirmDialog(
-      title: '현재 버전 1.0.2\n최신 버전 1.0.2',
-      positiveAction: null,
-      negativeAction: null,
-      confirmAction: () {},
-      positiveWord: '',
-      negativeWord: '',
-    ));
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      String version = packageInfo.version;
+      String buildNumber = packageInfo.buildNumber;
+      showConfirmDialog(context, ConfirmDialog(
+        title: '현재 버전 $version',
+        positiveAction: null,
+        negativeAction: null,
+        confirmAction: () {},
+        positiveWord: '',
+        negativeWord: '',
+      ));
+    });
   }
 
   _signOutDialog() {
