@@ -73,7 +73,7 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        navigatorPush(context: context, widget: RecResultView(title: '${suggestionCurationList[index]['title']}', curationId: suggestionCurationList[index]['id']));
+        navigatorPush(context: context, widget: RecResultView(title: '${suggestionCurationList[index]['title']}', curationId: suggestionCurationList[index]['id'], curationContent: suggestionCurationList[index]['content']));
       },
       child: Container(
         margin: EdgeInsets.only(top: 10, bottom: 40),

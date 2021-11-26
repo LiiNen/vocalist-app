@@ -195,9 +195,9 @@ additionalButton({required String title, dynamic callback}) {
       width: 48, height: 21,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(11)),
-        color: Color(0xfff6c873),
+        color: Color(0xff8b63ff),
       ),
-      child: Center(child: Text(title, style: textStyle(weight: 500, size: 10.0)))
+      child: Center(child: Text(title, style: textStyle(color: Colors.white, weight: 500, size: 10.0), textAlign: TextAlign.center))
     )
   );
 }

@@ -78,7 +78,7 @@ class _SettingView extends State<SettingView> {
               lineDivider(context: context),
               _titleBox('계정 / 정보 관리'),
               buttonContainer(context: context, callback: null, title: '연결된 계정', rightItem: Text(userInfo.email, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
-              buttonContainer(context: context, callback: _karaokeChange, title: '주이용 노래방', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
+              buttonContainer(context: context, callback: _karaokeChangeFalse, title: '주이용 노래방', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: null, title: '검색 기록 저장', rightItem: Text('ON', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               // buttonContainer(context: context, callback: null, title: '이용 약관'),
               // buttonContainer(context: context, callback: null, title: '개인정보 취급 방침'),
@@ -150,6 +150,14 @@ class _SettingView extends State<SettingView> {
       width: MediaQuery.of(context).size.width,
       child: Text(title, style: textStyle(weight: 700, size: 16.0)),
     );
+  }
+
+  _karaokeChangeFalse() {
+    showConfirmDialog(context, ConfirmDialog(
+      title: '준비 중인 기능입니다.',
+      positiveAction: null, negativeAction: null,
+      confirmAction: () {},
+    ));
   }
 
   _karaokeChange() {
