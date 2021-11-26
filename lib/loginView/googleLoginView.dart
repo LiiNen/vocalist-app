@@ -4,6 +4,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
+import 'package:vocalist/loginView/signUpConfirmView.dart';
 import 'package:vocalist/loginView/vloomLogin.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/restApi/loginApi.dart';
@@ -46,16 +47,21 @@ class _GoogleLoginView extends State<GoogleLoginView> {
       }
     }
     else {
-      // 약관 표시
-      var signUpResponse = await signupAction(email: firebaseUser.email!, name: firebaseUser.displayName!, type: 'google');
-      if(signUpResponse == null) {
+      var _confirm = await showSignUpConfirmDialog(context);
+      if(_confirm) {
+        var signUpResponse = await signupAction(email: firebaseUser.email!, name: firebaseUser.displayName!, type: 'google');
+        if(signUpResponse == null) {
 
+        }
+        else {
+          if (signUpResponse['id'] == 0) {
+            showToast('이미 가입된 아이디입니다.');
+          }
+          showToast('회원가입이 완료되었습니다!');
+        }
       }
       else {
-        if(signUpResponse['id'] == 0) {
-          showToast('이미 가입된 아이디입니다.');
-        }
-        googleLogin();
+        showToast('회원가입니 취소되었습니다.');
       }
     }
 
