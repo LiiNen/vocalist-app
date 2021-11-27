@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/collections/userInfo.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
@@ -17,9 +18,18 @@ class LoginView extends StatefulWidget {
 }
 class _LoginView extends State<LoginView> {
 
+  bool _visible = false;
+
   @override
   void initState() {
     super.initState();
+    new Future.delayed(new Duration(seconds: 1), _setVisible);
+  }
+
+  void _setVisible() {
+    setState(() {
+      _visible = true;
+    });
   }
 
   @override
@@ -27,17 +37,64 @@ class _LoginView extends State<LoginView> {
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
-        appBar: MainAppBar(title: 'login'),
+        backgroundColor: Colors.white,
         body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 21),
+          margin: EdgeInsets.symmetric(horizontal: 21, vertical: MediaQuery.of(context).size.height * 0.15),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              GoogleLoginView(),
-              AppleLoginView(),
+              vloomLogo(),
+              AnimatedOpacity(
+                opacity: _visible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
+                child: socialLogin()
+              )
             ]
           )
         )
+      )
+    );
+  }
+
+  vloomLogo() {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2, bottom: 10),
+          child: Image.asset('asset/image/logo_50.png', height: 60)
+        ),
+        Text('음역대 분석 노래방 서비스', style: textStyle(weight: 600, size: 18.0))
+      ]
+    );
+  }
+
+  socialLogin() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 35),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05),
+      child: Column(
+        children: [
+          Container(
+            height: 18,
+            margin: EdgeInsets.only(bottom: 16),
+            child: Stack(
+              children: [
+                Center(child: lineDivider(context: context, color: Color(0xffbebebe))),
+                Center(
+                  child: Container(
+                    width: 76,
+                    color: Colors.white,
+                    child: Text('소셜 로그인', style: textStyle(color: Color(0xffbebebe)), textAlign: TextAlign.center,),
+                  ),
+                )
+              ]
+            )
+          ),
+          GoogleLoginView(),
+          SizedBox(height: 20),
+          AppleLoginView(),
+        ]
       )
     );
   }

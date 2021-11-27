@@ -16,7 +16,19 @@ class GoogleLoginView extends StatefulWidget {
 class _GoogleLoginView extends State<GoogleLoginView> {
   @override
   Widget build(BuildContext context) {
-    return SignInButton(Buttons.Google, onPressed: googleLogin);
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: googleLogin,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 20,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          border: Border.all(width: 1, color: Colors.white)
+        ),
+      )
+    );
   }
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

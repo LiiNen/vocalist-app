@@ -66,29 +66,41 @@ class _SplashView extends State<SplashView> {
         print(userInfo.email);
         print(userInfo.type);
       });
-      Navigator.pushReplacementNamed(context, '/mainNav');
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => MainNavView(),
+          transitionDuration: Duration.zero,
+        ),
+      );
     }
     else {
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => LoginView(),
+          transitionDuration: Duration.zero,
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final Shader linearGradientShader = ui.Gradient.linear(Offset(0, 20), Offset(270, 0), [Colors.purple.shade600, Colors.red.shade200]);
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
         body: Container(
           width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.15),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('asset/image/splashImage.png', width: 88),
-              SizedBox(height: 25),
-              Text('BLOOMING\nYOUR VOICE', style: TextStyle(foreground: Paint()..shader = linearGradientShader, fontSize: 22, fontWeight: FontWeight.w700,), textAlign: TextAlign.center),
-              SizedBox(height: 120)
+              Container(
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2, bottom: 10),
+                child: Image.asset('asset/image/logo_50.png', height: 60)
+              ),
+              Text('음역대 분석 노래방 서비스', style: textStyle(weight: 600, size: 18.0)),
             ]
           )
         )

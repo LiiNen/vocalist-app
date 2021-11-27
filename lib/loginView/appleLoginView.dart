@@ -16,7 +16,19 @@ class AppleLoginView extends StatefulWidget {
 class _AppleLoginView extends State<AppleLoginView> {
   @override
   Widget build(BuildContext context) {
-    return SignInButton(Buttons.Apple, onPressed: appleLogin);
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: appleLogin,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 20,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          border: Border.all(width: 1, color: Colors.white)
+        ),
+      )
+    );
   }
 
   void appleLogin() async {
