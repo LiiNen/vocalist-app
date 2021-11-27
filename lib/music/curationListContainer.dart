@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/homeView/recResultView.dart';
+import 'package:vocalist/restApi/restApi.dart';
 
 class CurationListContainer extends StatefulWidget {
   final curationList;
@@ -64,26 +65,19 @@ class _CurationListContainer extends State<CurationListContainer> {
         margin: EdgeInsets.only(top: 22),
         width: 117, height: 117,
         decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('$curationImageUrlStart${curationList[index]['id']}$curationImageUrlEnd'),
+            fit: BoxFit.fill
+          ),
           borderRadius: BorderRadius.all(Radius.circular(23)),
           boxShadow: [BoxShadow(
-              color: Color(0x29000000),
-              offset: Offset(3, 3),
-              blurRadius: 10,
-              spreadRadius: 0
+            color: Color(0x29000000),
+            offset: Offset(3, 3),
+            blurRadius: 10,
+            spreadRadius: 0
           )],
           color: Color(0xffe9e2f5)
         ),
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(curationList[index]['title']),
-              SizedBox(height: 10),
-              Text(curationList[index]['content'], style: textStyle(size: 12))
-            ]
-          )
-        )
       )
     );
   }

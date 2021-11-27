@@ -77,7 +77,8 @@ class _SettingView extends State<SettingView> {
               SizedBox(height: 15.5),
               lineDivider(context: context),
               _titleBox('계정 / 정보 관리'),
-              buttonContainer(context: context, callback: null, title: '연결된 계정', rightItem: Text(userInfo.email, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
+              buttonContainer(context: context, callback: _emailCheck, title: '연결된 계정', rightItem: Text(userInfo.email, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
+              buttonContainer(context: context, callback: null, title: '소셜로그인', rightItem: Text(userInfo.type=='google' ? '구글' : '애플', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: _karaokeChangeFalse, title: '주이용 노래방', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: null, title: '검색 기록 저장', rightItem: Text('ON', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               // buttonContainer(context: context, callback: null, title: '이용 약관'),
@@ -150,6 +151,14 @@ class _SettingView extends State<SettingView> {
       width: MediaQuery.of(context).size.width,
       child: Text(title, style: textStyle(weight: 700, size: 16.0)),
     );
+  }
+
+  _emailCheck() {
+    showConfirmDialog(context, ConfirmDialog(
+      title: userInfo.email,
+      positiveAction: null, negativeAction: null,
+      confirmAction: () {},
+    ));
   }
 
   _karaokeChangeFalse() {

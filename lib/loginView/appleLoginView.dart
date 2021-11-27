@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,12 +20,7 @@ class _AppleLoginView extends State<AppleLoginView> {
       onTap: appleLogin,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 20,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(width: 1, color: Colors.white)
-        ),
+        child: Image.asset('asset/image/signInApple.png')
       )
     );
   }

@@ -50,7 +50,6 @@ class _SearchResultView extends State<SearchResultView> {
     musicList.add(_temp);
     setState(() {
       isLoaded = true;
-      print(musicList);
     });
   }
 

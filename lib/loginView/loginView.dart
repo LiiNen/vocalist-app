@@ -72,8 +72,8 @@ class _LoginView extends State<LoginView> {
   socialLogin() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 35),
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 18,
@@ -85,7 +85,7 @@ class _LoginView extends State<LoginView> {
                   child: Container(
                     width: 76,
                     color: Colors.white,
-                    child: Text('소셜 로그인', style: textStyle(color: Color(0xffbebebe)), textAlign: TextAlign.center,),
+                    child: Text('소셜로그인', style: textStyle(color: Color(0xffbebebe), size: 12.0), textAlign: TextAlign.center,),
                   ),
                 )
               ]
@@ -94,6 +94,8 @@ class _LoginView extends State<LoginView> {
           GoogleLoginView(),
           SizedBox(height: 20),
           AppleLoginView(),
+          SizedBox(height: 6),
+          Text('Apple 로그인의 경우 이메일 공유를 하지 않을 경우 원활한 서비스 이용이 불가할 수 있습니다.', style: textStyle(color: Color(0xffbebebe), size: 12.0))
         ]
       )
     );
