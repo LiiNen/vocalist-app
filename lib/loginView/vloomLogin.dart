@@ -21,6 +21,7 @@ vloomLogin(String email, String type) async {
       }
       else {
         loginPref(loginResponse['data']);
+        showToast('안녕하세요, ${loginResponse['data']['name']}님!');
         return true;
       }
     }

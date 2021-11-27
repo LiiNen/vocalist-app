@@ -4,6 +4,7 @@ import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/searchView/searchView.dart';
+import 'package:vocalist/music/curationListContainer.dart';
 import 'package:vocalist/music/musicListContainer.dart';
 import 'package:vocalist/restApi/curationItemApi.dart';
 import 'package:vocalist/restApi/searchApi.dart';
@@ -49,6 +50,7 @@ class _SearchResultView extends State<SearchResultView> {
     musicList.add(_temp);
     setState(() {
       isLoaded = true;
+      print(musicList);
     });
   }
 
@@ -76,8 +78,8 @@ class _SearchResultView extends State<SearchResultView> {
                   MusicListContainer(musicList: musicList[1].take(20).toList(), highlight: input, index: 2) :
                   Container(),
                 /// todo : curation search
-                isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 2 ?
-                  Container() :
+                isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 3 ?
+                  CurationListContainer(curationList: musicList[2].take(6).toList(),) :
                   Container(),
                 /// for total search
                 isLoaded && onFilterSelected == 0 && musicList[0] != null ?
@@ -86,24 +88,14 @@ class _SearchResultView extends State<SearchResultView> {
                 isLoaded && onFilterSelected == 0 && musicList[1] != null ?
                   MusicListContainer(musicList: musicList[1].take(5).toList(), highlight: input, index: 2) :
                   Container(),
+                isLoaded && onFilterSelected == 0 && musicList[2] != null ?
+                CurationListContainer(curationList: musicList[2].take(6).toList(),) :
+                  Container(),
               ]
             )
           )
         )
       )
-    );
-  }
-
-  searchResultContainer() {
-    return Column(
-      children: [
-        onFilterSelected == 0 && musicList[0] != null ?
-          MusicListContainer(musicList: musicList[0].take(5).toList(), highlight: input, index: 1) :
-          FlutterLogo(size: 30),
-        musicList[1] != null ?
-          MusicListContainer(musicList: musicList[1].take(5).toList(), highlight: input, index: 2) :
-          FlutterLogo(size: 30),
-      ]
     );
   }
 
