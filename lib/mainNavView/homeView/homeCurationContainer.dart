@@ -3,6 +3,7 @@ import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/homeView/recResultView.dart';
 import 'package:vocalist/restApi/curationApi.dart';
+import 'package:vocalist/restApi/restApi.dart';
 
 class HomeCurationContainer extends StatefulWidget {
   final ctype;
@@ -61,7 +62,7 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
         scrollDirection: Axis.horizontal,
         itemCount: suggestionCurationList.length*2+1,
         itemBuilder: (BuildContext context, int index) {
-          if(index==0) return SizedBox(width: 12);
+          if(index==0) return SizedBox(width: 16);
           else if(index%2 == 1) return curationContainer(((index-1)/2).floor());
           else return Container(width: 22);
         }
@@ -79,6 +80,10 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
         margin: EdgeInsets.only(top: 10, bottom: 40),
         width: 117, height: 117,
         decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('$curationImageUrlStart${suggestionCurationList[index]['id']}$curationImageUrlEnd'),
+            fit: BoxFit.fill
+          ),
           borderRadius: BorderRadius.all(Radius.circular(23)),
           boxShadow: [BoxShadow(
             color: Color(0x29000000),
@@ -88,17 +93,6 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
           )],
           color: Color(0xffe9e2f5)
         ),
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(suggestionCurationList[index]['title']),
-              SizedBox(height: 10),
-              Text(suggestionCurationList[index]['content'], style: textStyle(size: 12))
-            ]
-          )
-        )
       )
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/loginView/policyView.dart';
 
 List<bool> checkList = [false, false, false];
 
@@ -106,7 +107,9 @@ class _SignUpConfirmDialog extends State<SignUpConfirmDialog> {
             ),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: () => {print('hello')},
+              onTap: () {
+                navigatorPush(context: context, widget: PolicyView(index));
+              },
               child: Container(
                 width: 24, height: 24,
                 child: detailBool ? Icon(Icons.arrow_forward_ios, color: Color(0xff707070), size: 16) : Container()
