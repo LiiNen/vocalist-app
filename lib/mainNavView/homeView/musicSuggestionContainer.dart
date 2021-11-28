@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
+import 'package:vocalist/music/musicInfoView.dart';
 import 'package:vocalist/restApi/musicApi.dart';
 
 class MusicSuggestionContainer extends StatefulWidget {
@@ -77,7 +79,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-
+          navigatorPush(context: context, widget: MusicInfoView(musicId: recList[itemIndex]['id'], title: recList[itemIndex]['title'], artist: recList[itemIndex]['artist']));
         },
         child: Container(
           height: 49,

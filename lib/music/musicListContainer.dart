@@ -84,7 +84,7 @@ class _MusicListContainer extends State<MusicListContainer> {
     var _music = musicList[index];
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {navigatorPush(context: context, widget: MusicInfoView(musicId: _music['id'],));},
+      onTap: () {navigatorPush(context: context, widget: MusicInfoView(musicId: _music['id'], title: _music['title'], artist: _music['artist']));},
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16),
         width: MediaQuery.of(context).size.width, height: 68,
