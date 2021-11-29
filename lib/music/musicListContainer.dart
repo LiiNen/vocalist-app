@@ -15,10 +15,11 @@ class MusicListContainer extends StatefulWidget {
   final bool isScrap;
   final bool isSearchAll;
   final bool isFriend;
-  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false});
+  final bool isEditing;
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend, isEditing);
 }
 class _MusicListContainer extends State<MusicListContainer> {
   List<dynamic> musicList;
@@ -27,19 +28,20 @@ class _MusicListContainer extends State<MusicListContainer> {
   bool isScrap;
   bool isSearchAll;
   bool isFriend;
-  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend);
+  bool isEditing;
+  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend, this.isEditing);
 
   int pitchValue = 0;
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> musicItemContainerList = List.generate(musicList.length, (index) {
-      return musicItemContainer(index);
-    });
+    print('musicList : $isEditing');
     return Column(
       children: <Widget>[titleBox()] + (
-        musicItemContainerList.length != 0 ?
-          musicItemContainerList :
+        musicList.length != 0 ?
+          List.generate(musicList.length, (index) {
+            return musicItemContainer(index);
+          }) :
           [
             SizedBox(height: 20),
             Text('노래가 없습니다.', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 13.0))
@@ -90,13 +92,14 @@ class _MusicListContainer extends State<MusicListContainer> {
         width: MediaQuery.of(context).size.width, height: 68,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             indexBox(index),
             karaokeNumber(_music['number']),
             musicInfo(_music['title'], _music['artist']),
+          ] + (isEditing ? [likeBox(index, _music['islike'])] : [
             isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
             playlistBox(index),
-          ]
+          ])
         )
       )
     );

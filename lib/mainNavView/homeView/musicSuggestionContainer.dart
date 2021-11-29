@@ -3,6 +3,7 @@ import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
+import 'package:vocalist/mainNavView/homeView/musicSuggestionView.dart';
 import 'package:vocalist/music/musicInfoView.dart';
 import 'package:vocalist/restApi/musicApi.dart';
 
@@ -27,7 +28,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
     if(temp != null) {
       setState(() {
         temp.shuffle();
-        recList = temp.take(6).toList();
+        recList = temp.take(30).toList();
         isLoaded = true;
       });
     }
@@ -48,7 +49,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
                 margin: EdgeInsets.only(left: 8),
                 child: Text('이런 노래는 어떠세요?', style: textStyle(weight: 700, size: 14.0)),
               ),
-              additionalButton(title: '더보기+')
+              additionalButton(title: '더보기+', callback: _pushSuggestionView)
             ]
           ),
           suggestionLine(0),
@@ -59,6 +60,10 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
         ],
       )
     ) : Container();
+  }
+
+  _pushSuggestionView() {
+    navigatorPush(context: context, widget: MusicSuggestionView(recList));
   }
 
   suggestionLine(int lineIndex) {

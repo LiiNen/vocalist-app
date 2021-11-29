@@ -137,14 +137,15 @@ class _AddPlaylistView extends State<AddPlaylistView> {
   }
 
   addMusicButton() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {},
-        child: Text('+ 곡 추가하기', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0))
-      )
-    );
+    return SizedBox(height: 20);
+    // return Align(
+    //   alignment: Alignment.centerRight,
+    //   child: GestureDetector(
+    //     behavior: HitTestBehavior.translucent,
+    //     onTap: () {},
+    //     child: Text('+ 곡 추가하기', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0))
+    //   )
+    // );
   }
 
 
