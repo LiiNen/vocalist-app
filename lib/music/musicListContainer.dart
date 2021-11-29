@@ -19,7 +19,7 @@ class MusicListContainer extends StatefulWidget {
   MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend, isEditing);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend);
 }
 class _MusicListContainer extends State<MusicListContainer> {
   List<dynamic> musicList;
@@ -28,14 +28,12 @@ class _MusicListContainer extends State<MusicListContainer> {
   bool isScrap;
   bool isSearchAll;
   bool isFriend;
-  bool isEditing;
-  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend, this.isEditing);
+  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend);
 
   int pitchValue = 0;
 
   @override
   Widget build(BuildContext context) {
-    print('musicList : $isEditing');
     return Column(
       children: <Widget>[titleBox()] + (
         musicList.length != 0 ?
@@ -96,7 +94,7 @@ class _MusicListContainer extends State<MusicListContainer> {
             indexBox(index),
             karaokeNumber(_music['number']),
             musicInfo(_music['title'], _music['artist']),
-          ] + (isEditing ? [likeBox(index, _music['islike'])] : [
+          ] + (widget.isEditing ? [likeBox(index, _music['islike'])] : [
             isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
             playlistBox(index),
           ])

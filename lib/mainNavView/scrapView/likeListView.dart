@@ -34,6 +34,7 @@ class _LikeListView extends State<LikeListView> {
       var temp = await getLoveList(userId: userInfo.id);
       if(temp != null) {
         setState(() {
+          _isLoaded = false;
           _likeList = temp;
           _isLoaded = true;
         });
@@ -52,11 +53,10 @@ class _LikeListView extends State<LikeListView> {
 
   @override
   Widget build(BuildContext context) {
-    print('likeListView : $_isEditing');
     return Scaffold(
       appBar: DefaultAppBar(title: friendName!='' ? '$friendName님의 애창곡' : '좋아요한 노래 목록', back: true),
       backgroundColor: Colors.white,
-      body: _isLoaded && _likeList.length == 0 ?
+      body: _isLoaded ? _likeList.length == 0 ?
         Column(
           children: [
             descriptionBox(),
@@ -80,7 +80,7 @@ class _LikeListView extends State<LikeListView> {
               _likeList.length == 0 ? Container() : MusicListContainer(musicList: _likeList, isScrap: true, isFriend: friendId != -1, isEditing: _isEditing)
             ]
           )
-        )
+        ) : Container()
     );
   }
 
@@ -98,7 +98,7 @@ class _LikeListView extends State<LikeListView> {
                   : '친구의 좋아요 목록을 확인하고\n같이 노래방에 가서 불러봐요!',
                 style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 10.0)
               ),
-              additionalButton(title: friendId == -1 ? !_isEditing ? '편집' : '완료' : '공유', callback: friendId == -1 ? setEditing : null),
+              additionalButton(title: friendId == -1 ? !_isEditing ? '편집' : '완료' : '공유', callback: friendId == -1 ? setEditing : null, isOpposite: friendId == -1 ? !_isEditing : false),
             ]
           ),
           SizedBox(height: 15),
@@ -111,6 +111,10 @@ class _LikeListView extends State<LikeListView> {
   setEditing() {
     setState(() {
       _isEditing = !_isEditing;
+      if(_isEditing == false) {
+        _isLoaded = false;
+      }
+      _getLikeList();
     });
   }
 }

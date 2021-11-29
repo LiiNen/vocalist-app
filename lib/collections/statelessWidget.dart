@@ -187,7 +187,7 @@ searchBackButton(BuildContext context) {
   );
 }
 
-additionalButton({required String title, dynamic callback}) {
+additionalButton({required String title, dynamic callback, bool isOpposite=false}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {if(callback != null) callback();},
@@ -195,9 +195,10 @@ additionalButton({required String title, dynamic callback}) {
       width: 48, height: 21,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(11)),
-        color: Color(0xff8b63ff),
+        border: Border.all(color: Color(0xff8b63ff), width: 1),
+        color: !isOpposite ? Color(0xff8b63ff) : Colors.white,
       ),
-      child: Center(child: Text(title, style: textStyle(color: Colors.white, weight: 500, size: 10.0), textAlign: TextAlign.center))
+      child: Center(child: Text(title, style: textStyle(color: !isOpposite ? Colors.white : Color(0xff8b63ff), weight: 500, size: 10.0), textAlign: TextAlign.center))
     )
   );
 }
