@@ -179,6 +179,7 @@ class _PlayListView extends State<PlayListView> {
     if(response) {
       Navigator.pop(context);
       if(!fromFront) Navigator.pop(context);
+      showToast('플레이리스트 추가 완료!');
     }
     else {
       showToast('error');

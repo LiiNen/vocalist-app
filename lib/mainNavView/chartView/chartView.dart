@@ -38,7 +38,7 @@ class _ChartView extends State<ChartView> {
       body: _isLoaded ? SingleChildScrollView(
         child: Column(
           children: [
-            MusicListContainer(musicList: _chartList)
+            MusicListContainer(musicList: _chartList, fromFront: true)
           ]
         )
       ) : Container()

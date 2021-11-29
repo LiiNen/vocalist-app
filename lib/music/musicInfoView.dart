@@ -29,7 +29,8 @@ class _MusicInfoView extends State<MusicInfoView> {
   dynamic _musicInfo;
   String _youtubeId = '';
   dynamic _clusterMusicList;
-  YoutubePlayerController? _controller;
+
+  YoutubePlayerController? youtubeController;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _MusicInfoView extends State<MusicInfoView> {
     _loadMusicInfo();
     _getYoutubeData();
   }
+
 
   void _loadMusicInfo() async {
     var _temp = await getMusic(id: musicId, userId: userInfo.id);
@@ -64,7 +66,7 @@ class _MusicInfoView extends State<MusicInfoView> {
     if(_temp != null) {
       setState(() {
         _youtubeId = _temp;
-        _controller = YoutubePlayerController(
+        youtubeController = YoutubePlayerController(
           initialVideoId: _youtubeId,
           flags: YoutubePlayerFlags(
             autoPlay: false,
@@ -79,14 +81,18 @@ class _MusicInfoView extends State<MusicInfoView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: DefaultAppBar(title: '상세 결과', back: true,),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _youtubeId != '' ? youtubeEmbeddedPlayer() : Container(),
-            _musicInfo != null ? musicInfoContainer() : Container(),
-            _clusterMusicList != null ? relatedMusicContainer() : Container(),
-          ]
-        )
+      body: Column(
+        children: [
+          _youtubeId != '' ? youtubeEmbeddedPlayer() : Container(),
+          Expanded(child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _musicInfo != null ? musicInfoContainer() : Container(),
+                _clusterMusicList != null ? relatedMusicContainer() : Container(),
+              ]
+            )
+          ))
+        ]
       )
     );
   }
@@ -95,7 +101,21 @@ class _MusicInfoView extends State<MusicInfoView> {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: YoutubePlayer(
-        controller: _controller!,
+        controller: youtubeController!,
+        bottomActions: [
+          SizedBox(width: 14.0),
+          CurrentPosition(),
+          SizedBox(width: 8.0),
+          ProgressBar(
+            isExpanded: true,
+            colors: ProgressBarColors(
+              playedColor: Color(0xffab9adf),
+              handleColor: Color(0xff8b63ff),
+            ),
+          ),
+          RemainingDuration(),
+          SizedBox(width: 14.0),
+        ],
       )
     );
   }

@@ -16,10 +16,11 @@ class MusicListContainer extends StatefulWidget {
   final bool isSearchAll;
   final bool isFriend;
   final bool isEditing;
-  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false});
+  final bool fromFront;
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.fromFront=false});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend, fromFront);
 }
 class _MusicListContainer extends State<MusicListContainer> {
   List<dynamic> musicList;
@@ -28,7 +29,8 @@ class _MusicListContainer extends State<MusicListContainer> {
   bool isScrap;
   bool isSearchAll;
   bool isFriend;
-  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend);
+  bool fromFront;
+  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend, this.fromFront);
 
   int pitchValue = 0;
 
@@ -491,6 +493,6 @@ class _MusicListContainer extends State<MusicListContainer> {
     var musicObject = Map();
     musicObject['id'] = musicList[index]['id'];
     musicObject['title'] = musicList[index]['title'];
-    navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject));
+    navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject, fromFront: fromFront,));
   }
 }
