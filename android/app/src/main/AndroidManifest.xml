@@ -2,7 +2,7 @@
     package="kr.co.vloom.app.vocalist">
    <application
         android:label="vloom"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/vloom_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

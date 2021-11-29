@@ -14,14 +14,16 @@ import 'package:vocalist/restApi/playlistItemApi.dart';
 class PlayListView extends StatefulWidget {
   final bool isAdding;
   final dynamic object;
-  PlayListView({this.isAdding=false, this.object});
+  final bool fromFront;
+  PlayListView({this.isAdding=false, this.object, this.fromFront=false});
   @override
-  State<PlayListView> createState() => _PlayListView(isAdding, object);
+  State<PlayListView> createState() => _PlayListView(isAdding, object, fromFront);
 }
 class _PlayListView extends State<PlayListView> {
   bool isAdding;
   dynamic object;
-  _PlayListView(this.isAdding, this.object);
+  bool fromFront;
+  _PlayListView(this.isAdding, this.object, this.fromFront);
 
   var _playlist = [];
 
@@ -176,7 +178,7 @@ class _PlayListView extends State<PlayListView> {
     var response = await postPlaylistItem(playlistId: playlistId, musicId: musicId);
     if(response) {
       Navigator.pop(context);
-      Navigator.pop(context);
+      if(!fromFront) Navigator.pop(context);
     }
     else {
       showToast('error');
