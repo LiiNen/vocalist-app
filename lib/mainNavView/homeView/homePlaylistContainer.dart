@@ -3,6 +3,7 @@ import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/homeView/recResultView.dart';
 import 'package:vocalist/restApi/loveApi.dart';
+import 'package:vocalist/restApi/restApi.dart';
 
 import '../../main.dart';
 
@@ -93,6 +94,10 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
         margin: EdgeInsets.only(top: 14, bottom: 40),
         width: 219, height: 215,
         decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('$mixImageUrlStart${index+1}$mixImageUrlEnd'),
+            fit: BoxFit.fill
+          ),
           borderRadius: BorderRadius.all(Radius.circular(23)),
           boxShadow: [BoxShadow(
             color: Color(0x29000000),
@@ -119,12 +124,12 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
   }
 
   subTitleBox(String title) {
-    return Text(title, style: textStyle(color: Color(0xff000000), weight: 500, size: 20.0));
+    return Text(title, style: textStyle(color: Colors.white, weight: 500, size: 20.0));
   }
   mainTitleBox(String title) {
-    return Text(title, style: textStyle(color: Color(0xff000000), weight: 700, size: 25.0));
+    return Text(title, style: textStyle(color: Colors.white, weight: 700, size: 25.0));
   }
   contentBox(String content) {
-    return Text(content, style: textStyle(color: Color(0xff000000), weight: 500, size: 12.0));
+    return Text(content, style: textStyle(color: Colors.white, weight: 500, size: 12.0));
   }
 }
