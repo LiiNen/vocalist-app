@@ -7,7 +7,6 @@ import 'package:vocalist/restApi/loveApi.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/restApi/musicApi.dart';
-import 'package:vocalist/restApi/youtubeApi.dart';
 
 import '../main.dart';
 
@@ -27,7 +26,6 @@ class _MusicInfoView extends State<MusicInfoView> {
   _MusicInfoView(this.musicId, this.title, this.artist);
 
   dynamic _musicInfo;
-  String _youtubeId = '';
   dynamic _clusterMusicList;
 
   YoutubePlayerController? youtubeController;
@@ -36,9 +34,7 @@ class _MusicInfoView extends State<MusicInfoView> {
   void initState() {
     super.initState();
     _loadMusicInfo();
-    _getYoutubeData();
   }
-
 
   void _loadMusicInfo() async {
     var _temp = await getMusic(id: musicId, userId: userInfo.id);
@@ -48,6 +44,12 @@ class _MusicInfoView extends State<MusicInfoView> {
       }
       setState(() {
         _musicInfo = _temp;
+        youtubeController = YoutubePlayerController(
+          initialVideoId: _musicInfo['youtube'],
+          flags: YoutubePlayerFlags(
+            autoPlay: false,
+          )
+        );
       });
     }
   }
@@ -61,29 +63,14 @@ class _MusicInfoView extends State<MusicInfoView> {
     }
   }
 
-  void _getYoutubeData() async {
-    var _temp = await getYoutubeData(artist: artist, title: title);
-    if(_temp != null) {
-      setState(() {
-        _youtubeId = _temp;
-        youtubeController = YoutubePlayerController(
-          initialVideoId: _youtubeId,
-          flags: YoutubePlayerFlags(
-            autoPlay: false,
-          )
-        );
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: DefaultAppBar(title: '상세 결과', back: true,),
+      appBar: DefaultAppBar(title: '노래 정보', back: true,),
       body: Column(
         children: [
-          _youtubeId != '' ? youtubeEmbeddedPlayer() : Container(),
+          youtubeController != null ? youtubeEmbeddedPlayer() : Container(),
           Expanded(child: SingleChildScrollView(
             child: Column(
               children: [
@@ -144,6 +131,8 @@ class _MusicInfoView extends State<MusicInfoView> {
               )
             ]
           ),
+          _musicInfo['number'] == null ? SizedBox(height: 12) : Container(),
+          _musicInfo['number'] == null ? Text('아직 노래방 번호 데이터가 없는 노래입니다.', style: textStyle(color: Color(0xffd4d4d4), weight: 500, size: 14.0)) : Container(),
           SizedBox(height: 22),
           Row(
             children: [

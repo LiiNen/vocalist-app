@@ -8,13 +8,11 @@ import '../main.dart';
 vloomLogin(String email, String type) async {
   var loginResponse = await loginApi(email: email, type: type);
   if(loginResponse == null) {
-    showToast('error');
+    showToast('네트워크를 확인해주세요');
   }
   else {
-    print(loginResponse);
     if(loginResponse['exist'] == true) {
       if(loginResponse['data']['type'] != type) {
-        print('이미 다른 소셜 로그인 가입이 되어있는 이메일입니다.');
         showToast('이미 다른 소셜 로그인 가입이 되어있는 이메일입니다.');
         return true;
       }

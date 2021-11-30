@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
-import 'package:vocalist/collections/userInfo.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/music/musicListContainer.dart';
 import 'package:vocalist/restApi/loveApi.dart';
-import 'package:vocalist/restApi/userApi.dart';
 
 class LikeListView extends StatefulWidget {
   final int friendId;
@@ -98,7 +96,7 @@ class _LikeListView extends State<LikeListView> {
                   : '친구의 좋아요 목록을 확인하고\n같이 노래방에 가서 불러봐요!',
                 style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 10.0)
               ),
-              additionalButton(title: friendId == -1 ? !_isEditing ? '편집' : '완료' : '공유', callback: friendId == -1 ? setEditing : null, isOpposite: friendId == -1 ? !_isEditing : false),
+              friendId == -1 ? additionalButton(title: friendId == -1 ? !_isEditing ? '편집' : '완료' : '공유', callback: friendId == -1 ? setEditing : null, isOpposite: friendId == -1 ? !_isEditing : false) : Container(),
             ]
           ),
           SizedBox(height: 15),

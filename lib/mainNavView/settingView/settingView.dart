@@ -11,6 +11,7 @@ import 'package:vocalist/mainNavView/settingView/nameModifyView.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
 import 'package:vocalist/mainNavView/settingView/withdrawalView.dart';
 import 'package:vocalist/restApi/userApi.dart';
+import 'package:vocalist/restApi/versionApi.dart';
 
 import '../../main.dart';
 
@@ -22,14 +23,15 @@ class _SettingView extends State<SettingView> {
 
   TextEditingController _emojiController = TextEditingController();
   String _karaoke = '';
-  var _karaokeList = ['TJ', '금영'];
-  bool _isLoaded = false;
+  // var _karaokeList = ['TJ', '금영'];
+  String newVersion = '';
 
   @override
   void initState() {
     super.initState();
     _getUserInfo();
     _getKaraoke();
+    _getVersion();
   }
 
   void _getUserInfo() async {
@@ -49,10 +51,19 @@ class _SettingView extends State<SettingView> {
     });
   }
 
-  void _setKaraoke(String _type) async {
-    final pref = await SharedPreferences.getInstance();
-    pref.setString('karaoke', _type);
+  void _getVersion() async {
+    var _temp = await getVersion();
+    if(_temp != null) {
+      setState(() {
+        newVersion = _temp;
+      });
+    }
   }
+
+  // void _setKaraoke(String _type) async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   pref.setString('karaoke', _type);
+  // }
 
   void _setEmoji() {
     _emojiController.text = userInfo.emoji != '' ? unicodeToEmoji(userInfo.emoji) : '';
@@ -80,7 +91,7 @@ class _SettingView extends State<SettingView> {
               buttonContainer(context: context, callback: _emailCheck, title: '연결된 계정', rightItem: Text(userInfo.email, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: null, title: '소셜로그인', rightItem: Text(userInfo.type=='google' ? '구글' : '애플', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: _karaokeChangeFalse, title: '주이용 노래방', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
-              buttonContainer(context: context, callback: null, title: '검색 기록 저장', rightItem: Text('ON', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
+              // buttonContainer(context: context, callback: null, title: '검색 기록 저장', rightItem: Text('ON', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               // buttonContainer(context: context, callback: null, title: '이용 약관'),
               // buttonContainer(context: context, callback: null, title: '개인정보 취급 방침'),
               SizedBox(height: 3.5),
@@ -169,76 +180,74 @@ class _SettingView extends State<SettingView> {
     ));
   }
 
-  _karaokeChange() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            color: Colors.white,
-          ),
-          padding: EdgeInsets.only(left: 28),
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            margin: EdgeInsets.only(top: 20),
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: List<Widget>.generate(_karaokeList.length, (index) {
-                var _selected = (_karaoke == _karaokeList[index]);
-                return GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: ((){
-                    Navigator.pop(context);
-                    _setKaraoke(_karaokeList[index]);
-                    setState(() {
-                      _karaoke = _karaokeList[index];
-                    });
-                  }),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Text(
-                            _karaokeList[index],
-                            style: _selected
-                              ? textStyle(color: Color(0xff0958c5), weight: 700, size: 18.0)
-                              : textStyle(color: Colors.black, weight: 600, size: 18.0)
-                          ),
-                        ),
-                        Container(
-                          child: _selected ? Container(
-                            width: 24, height: 24,
-                            margin: EdgeInsets.only(right: 31),
-                            child: Icon(Icons.check)
-                          ) : Container()
-                        )
-                      ]
-                    )
-                  ),
-                );
-              }),
-            ),
-          )
-        );
-      }
-    );
-  }
+  // _karaokeChange() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return Container(
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(10),
+  //             topRight: Radius.circular(10),
+  //           ),
+  //           color: Colors.white,
+  //         ),
+  //         padding: EdgeInsets.only(left: 28),
+  //         width: MediaQuery.of(context).size.width,
+  //         child: Container(
+  //           margin: EdgeInsets.only(top: 20),
+  //           child: ListView(
+  //             scrollDirection: Axis.vertical,
+  //             shrinkWrap: true,
+  //             children: List<Widget>.generate(_karaokeList.length, (index) {
+  //               var _selected = (_karaoke == _karaokeList[index]);
+  //               return GestureDetector(
+  //                 behavior: HitTestBehavior.translucent,
+  //                 onTap: ((){
+  //                   Navigator.pop(context);
+  //                   _setKaraoke(_karaokeList[index]);
+  //                   setState(() {
+  //                     _karaoke = _karaokeList[index];
+  //                   });
+  //                 }),
+  //                 child: Container(
+  //                   width: MediaQuery.of(context).size.width,
+  //                   padding: EdgeInsets.symmetric(vertical: 16),
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       Container(
+  //                         child: Text(
+  //                           _karaokeList[index],
+  //                           style: _selected
+  //                             ? textStyle(color: Color(0xff0958c5), weight: 700, size: 18.0)
+  //                             : textStyle(color: Colors.black, weight: 600, size: 18.0)
+  //                         ),
+  //                       ),
+  //                       Container(
+  //                         child: _selected ? Container(
+  //                           width: 24, height: 24,
+  //                           margin: EdgeInsets.only(right: 31),
+  //                           child: Icon(Icons.check)
+  //                         ) : Container()
+  //                       )
+  //                     ]
+  //                   )
+  //                 ),
+  //               );
+  //             }),
+  //           ),
+  //         )
+  //       );
+  //     }
+  //   );
+  // }
 
-  /// todo: version server and build
   _versionDialog() {
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       String version = packageInfo.version;
-      String buildNumber = packageInfo.buildNumber;
       showConfirmDialog(context, ConfirmDialog(
-        title: '현재 버전 $version',
+        title: '현재 버전 $version\n최신 버전 $newVersion',
         positiveAction: null,
         negativeAction: null,
         confirmAction: () {},

@@ -18,7 +18,7 @@ Future<bool> onWillPop(BuildContext context) async {
     builder: (context) => ConfirmDialog(
       title: 'vloom을 종료하시겠습니까?',
       positiveAction: () {SystemNavigator.pop();},
-      negativeAction: () {Navigator.of(context).pop(false);},
+      negativeAction: () {},
       positiveWord: '종료',
       negativeWord: '취소'
     ),

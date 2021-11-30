@@ -18,6 +18,18 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
   var _usedClusterList = [];
   bool isLoaded = false;
 
+  var suggestionSentence = [
+    '좋아하시는구나?',
+    '좋아하는 당신을 위해!',
+    '그리고 vloom의 선택',
+    '그렇다면 이건 어때요?',
+    '관련 음악 둘러보기'
+  ];
+
+  var imageList = List.generate(10, (index) {
+    return '$mixImageUrlStart${index+1}$mixImageUrlEnd';
+  });
+
   @override
   void initState() {
     super.initState();
@@ -29,8 +41,9 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
     temp = await getLoveList(userId: userInfo.id);
     if(temp != null) {
       temp.shuffle();
+      suggestionSentence.shuffle();
+      imageList.shuffle();
       _likeList = temp.toList();
-      print(_likeList.length);
       var tempIndex = 0;
       while(true) {
         if(_likeList.length == 0) break;
@@ -95,7 +108,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
         width: 219, height: 215,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage('$mixImageUrlStart${index+1}$mixImageUrlEnd'),
+            image: NetworkImage(imageList[index]),
             fit: BoxFit.fill
           ),
           borderRadius: BorderRadius.all(Radius.circular(23)),
@@ -115,7 +128,8 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
               subTitleBox('나만의 애창곡'),
               mainTitleBox('MIX ${index+1}'),
               SizedBox(height: 18),
-              contentBox('${_likeList[_usedIndexList[index]]['artist']}의 ${_likeList[_usedIndexList[index]]['title']}\n좋아하시는구나?'),
+              contentBox('${_likeList[_usedIndexList[index]]['artist']}의 ${_likeList[_usedIndexList[index]]['title']}'),
+              suggestionBox('${suggestionSentence[index%5]}'),
             ]
           )
         )
@@ -130,6 +144,9 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
     return Text(title, style: textStyle(color: Colors.white, weight: 700, size: 25.0));
   }
   contentBox(String content) {
-    return Text(content, style: textStyle(color: Colors.white, weight: 500, size: 12.0));
+    return Text(content, style: textStyle(color: Colors.white, weight: 500, size: 12.0), overflow: TextOverflow.ellipsis,);
+  }
+  suggestionBox(String suggestion) {
+    return Text(suggestion, style: textStyle(color: Colors.white, weight: 500, size: 12.0));
   }
 }

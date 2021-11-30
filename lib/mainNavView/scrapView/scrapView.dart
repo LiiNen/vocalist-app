@@ -253,7 +253,7 @@ class _ScrapView extends State<ScrapView> {
                           color: Color(0xfffbfbfb),
                         ),
                         child: Center(
-                          child: Text('친구 요청', style: textStyle(color: Color(0xff0958c5), weight: 600, size: 14.0))
+                          child: Text('친구 요청', style: textStyle(color: Color(0xff7156d2), weight: 600, size: 14.0))
                         )
                       )
                     )

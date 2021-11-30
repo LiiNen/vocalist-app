@@ -76,7 +76,7 @@ class _SearchResultView extends State<SearchResultView> {
                 isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 2 ?
                   MusicListContainer(musicList: musicList[1].take(20).toList(), highlight: input, index: 2) :
                   Container(),
-                /// todo : curation search
+                /// curation search
                 isLoaded && onFilterSelected != 0 && musicList[onFilterSelected-1] != null && onFilterSelected == 3 ?
                   CurationListContainer(curationList: musicList[2].take(6).toList(),) :
                   Container(),
