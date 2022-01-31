@@ -12,3 +12,13 @@ getVersion() async {
   }
   return null;
 }
+
+getVersionChart() async {
+  var response = await http.get(Uri.parse('$baseUrl$pathVersionChart'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return responseBody['body']['build'];
+    return null;
+  }
+  return null;
+}
