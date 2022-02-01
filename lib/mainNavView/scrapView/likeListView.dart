@@ -32,7 +32,6 @@ class _LikeListView extends State<LikeListView> {
       var temp = await getLoveList(userId: userInfo.id);
       if(temp != null) {
         setState(() {
-          _isLoaded = false;
           _likeList = temp;
           _isLoaded = true;
         });

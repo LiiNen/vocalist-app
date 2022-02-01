@@ -27,6 +27,18 @@ getRecMusic({required int userId}) async {
   return null;
 }
 
+getRecMusicArtist({required int userId, required String artist, contain=0}) async {
+  String query = '?user_id=$userId&artist=$artist&contain=$contain';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathMusicRecArtist$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return responseBody['body'];
+    return null;
+  }
+  return null;
+}
+
 getRecMusicCluster({required int userId, required int cluster}) async {
   String query = '/rec/cluster?user_id=${userId.toString()}&cluster=${cluster.toString()}';
 

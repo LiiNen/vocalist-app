@@ -26,7 +26,8 @@ class _MusicInfoView extends State<MusicInfoView> {
   _MusicInfoView(this.musicId, this.title, this.artist);
 
   dynamic _musicInfo;
-  dynamic _clusterMusicList;
+  dynamic _artistMusicList;
+  dynamic _artistContainMusicList;
 
   YoutubePlayerController? youtubeController;
 
@@ -39,8 +40,9 @@ class _MusicInfoView extends State<MusicInfoView> {
   void _loadMusicInfo() async {
     var _temp = await getMusic(id: musicId, userId: userInfo.id);
     if(_temp != null) {
-      if(_temp['cluster'] != null) {
-        _getClusterMusic(_temp['cluster']);
+      if(_temp['artist'] != null) {
+        _getRecMusicArtist(_temp['artist'], 0);
+        _getRecMusicArtist(_temp['artist'], 1);
       }
       setState(() {
         _musicInfo = _temp;
@@ -54,11 +56,16 @@ class _MusicInfoView extends State<MusicInfoView> {
     }
   }
 
-  void _getClusterMusic(cluster) async {
-    var temp = await getRecMusicCluster(userId: userInfo.id, cluster: cluster);
+  void _getRecMusicArtist(artist, contain) async {
+    var temp = await getRecMusicArtist(userId: userInfo.id, artist: artist, contain: contain);
     if(temp != null) {
       setState(() {
-        _clusterMusicList = temp;
+        if(contain == 0) {
+          _artistMusicList = temp;
+        }
+        else if(contain == 1) {
+          _artistContainMusicList = temp;
+        }
       });
     }
   }
@@ -75,7 +82,8 @@ class _MusicInfoView extends State<MusicInfoView> {
             child: Column(
               children: [
                 _musicInfo != null ? musicInfoContainer() : Container(),
-                _clusterMusicList != null ? relatedMusicContainer() : Container(),
+                _artistMusicList != null ? sameArtistMusicContainer() : Container(),
+                _artistContainMusicList != null ? containArtistMusicContainer() : Container(),
               ]
             )
           ))
@@ -204,8 +212,8 @@ class _MusicInfoView extends State<MusicInfoView> {
     navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject));
   }
 
-  relatedMusicContainer() {
-    return Container(
+  sameArtistMusicContainer() {
+    return _artistMusicList.length != 0 ? Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -213,11 +221,28 @@ class _MusicInfoView extends State<MusicInfoView> {
           SizedBox(height: 22),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
-            child: Text('vloom이 추천하는 유사한 음악', style: textStyle(weight: 700, size: 16.0))
+            child: Text('$artist이(가) 부른 노래', style: textStyle(weight: 700, size: 16.0))
           ),
-          MusicListContainer(musicList: _clusterMusicList)
+          MusicListContainer(musicList: _artistMusicList)
         ]
       )
-    );
+    ) : Container();
+  }
+
+  containArtistMusicContainer() {
+    return _artistContainMusicList.length != 0 ? Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          lineDivider(context: context, margin: 16),
+          SizedBox(height: 22),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            child: Text('$artist이(가) 참여한 노래', style: textStyle(weight: 700, size: 16.0))
+          ),
+          MusicListContainer(musicList: _artistContainMusicList)
+        ]
+      )
+    ) : Container();
   }
 }

@@ -95,7 +95,7 @@ class _MusicListContainer extends State<MusicListContainer> {
           children: <Widget>[
             indexBox(index),
             karaokeNumber(_music['number']),
-            musicInfo(_music['title'], _music['artist']),
+            musicInfo(_music['title'], _music['artist'], _music['isLIVE'], _music['isMR']),
           ] + (widget.isEditing ? [likeBox(index, _music['islike'])] : [
             isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
             playlistBox(index),
@@ -122,7 +122,7 @@ class _MusicListContainer extends State<MusicListContainer> {
     );
   }
 
-  musicInfo(String _title, String _artist) {
+  musicInfo(String _title, String _artist, var _isLIVE, var _isMR) {
     List<TextSpan> textSpanList = [];
     List<Widget> children = [];
     if(searchIndex == 1) {
@@ -156,10 +156,18 @@ class _MusicListContainer extends State<MusicListContainer> {
       ];
     }
     return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children
+            ),
+          ),
+          _isMR==1 ? Text('MR', style: textStyle(weight: 700, size: 12.0)) : Container(),
+          _isLIVE==1 ? Text('LIVE', style: textStyle(weight: 700, size: 12.0)) : Container()
+        ]
       )
     );
   }
