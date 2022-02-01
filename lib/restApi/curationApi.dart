@@ -15,8 +15,8 @@ getCuration({int id=0}) async {
   return null;
 }
 
-getCurationWithCtype({required int ctype_id}) async {
-  var query = '/ctype?ctype_id=${ctype_id.toString()}';
+getCurationWithCtype({required int ctypeId}) async {
+  var query = '/ctype?ctype_id=${ctypeId.toString()}';
 
   var response = await http.get(Uri.parse('$baseUrl$pathCuration$query'));
   if(response.statusCode == 200) {

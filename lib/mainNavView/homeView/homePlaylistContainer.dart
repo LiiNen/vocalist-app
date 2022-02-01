@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/homeView/recResultView.dart';
-import 'package:vocalist/restApi/loveApi.dart';
+import 'package:vocalist/restApi/musicApi.dart';
 import 'package:vocalist/restApi/restApi.dart';
 
 import '../../main.dart';
@@ -13,9 +15,8 @@ class HomePlaylistContainer extends StatefulWidget {
 }
 class _HomePlaylistContainer extends State<HomePlaylistContainer> {
 
-  var _likeList = [];
-  var _usedIndexList = [];
-  var _usedClusterList = [];
+  var _likeArtistList = [];
+  var _recNumber;
   bool isLoaded = false;
 
   var suggestionSentence = [
@@ -37,23 +38,13 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
   }
 
   _getSuggestionPlaylist() async {
-    var temp;
-    temp = await getLoveList(userId: userInfo.id);
+    var temp = await getRecArtist(userId: userInfo.id);
     if(temp != null) {
       temp.shuffle();
       suggestionSentence.shuffle();
       imageList.shuffle();
-      _likeList = temp.toList();
-      var tempIndex = 0;
-      while(true) {
-        if(_likeList.length == 0) break;
-        if(_likeList[tempIndex]['cluster'] != null && !_usedClusterList.contains(_likeList[tempIndex]['cluster'])) {
-          _usedClusterList.add(_likeList[tempIndex]['cluster']);
-          _usedIndexList.add(tempIndex);
-        }
-        tempIndex++;
-        if(_usedIndexList.length == 10 || _likeList.length == tempIndex) break;
-      }
+      _likeArtistList = temp.toList();
+      _recNumber = min(_likeArtistList.length, 10);
       setState(() {
         isLoaded = true;
       });
@@ -62,7 +53,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoaded && _usedIndexList.length != 0 ? Container(
+    return isLoaded && _likeArtistList.length != 0 ? Container(
       padding: EdgeInsets.only(top: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +78,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
       height: 269,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: _usedIndexList.length*2+1,
+        itemCount: _recNumber*2+1,
         itemBuilder: (BuildContext context, int index) {
           if(index==0) return SizedBox(width: 16);
           else if(index%2 == 1) return playlistContainer(((index-1)/2).floor());
@@ -98,10 +89,14 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
   }
 
   playlistContainer(int index) {
+    var artistName = _likeArtistList[index]['artist'];
+    var _contain = Random().nextInt(2) == 0 && !artistName.contains('(');
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        navigatorPush(context: context, widget: RecResultView(title: '${_likeList[_usedIndexList[index]]['title']} 연관 음악', cluster: _usedClusterList[index]));
+        _contain ?
+          navigatorPush(context: context, widget: RecResultView(title: '$artistName이(가) 참여한 노래', artist: artistName, contain: 1)) :
+          navigatorPush(context: context, widget: RecResultView(title: '$artistName의 노래', artist: artistName, contain: 0));
       },
       child: Container(
         margin: EdgeInsets.only(top: 14, bottom: 40),
@@ -128,7 +123,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
               subTitleBox('나만의 애창곡'),
               mainTitleBox('MIX ${index+1}'),
               SizedBox(height: 18),
-              contentBox('${_likeList[_usedIndexList[index]]['artist']}의 ${_likeList[_usedIndexList[index]]['title']}'),
+              _contain ? contentBox('$artistName이(가) 참여한 노래') : contentBox('$artistName의 노래'),
               suggestionBox('${suggestionSentence[index%5]}'),
             ]
           )

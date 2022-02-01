@@ -6,7 +6,6 @@ import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/searchView/searchView.dart';
 import 'package:vocalist/music/curationListContainer.dart';
 import 'package:vocalist/music/musicListContainer.dart';
-import 'package:vocalist/restApi/curationItemApi.dart';
 import 'package:vocalist/restApi/searchApi.dart';
 
 import '../../main.dart';

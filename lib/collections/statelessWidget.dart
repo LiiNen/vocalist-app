@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/style.dart';
-import 'package:vocalist/mainNavView/mainNavView.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   MainAppBar({this.title}) : preferredSize = Size.fromHeight(44.0);
@@ -187,12 +185,12 @@ searchBackButton(BuildContext context) {
   );
 }
 
-additionalButton({required String title, dynamic callback, bool isOpposite=false}) {
+additionalButton({required String title, dynamic callback, bool isOpposite=false, width=48.0}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {if(callback != null) callback();},
     child: Container(
-      width: 48, height: 21,
+      width: width, height: 21,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(11)),
         border: Border.all(color: Color(0xff8b63ff), width: 1),

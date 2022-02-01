@@ -9,20 +9,22 @@ import '../../main.dart';
 
 class RecResultView extends StatefulWidget {
   final String title;
-  final int cluster;
+  final String artist;
+  final int contain;
   final int curationId;
   final String curationContent;
-  RecResultView({required this.title, this.cluster=-1, this.curationId=-1, this.curationContent=''});
+  RecResultView({required this.title, this.artist='', this.contain=-1, this.curationId=-1, this.curationContent=''});
 
   @override
-  State<RecResultView> createState() => _RecResultView(title, cluster, curationId, curationContent);
+  State<RecResultView> createState() => _RecResultView(title, artist, contain, curationId, curationContent);
 }
 class _RecResultView extends State<RecResultView> {
   String title;
-  int cluster;
+  String artist;
+  int contain;
   int curationId;
   String curationContent;
-  _RecResultView(this.title, this.cluster, this.curationId, this.curationContent);
+  _RecResultView(this.title, this.artist, this.contain, this.curationId, this.curationContent);
 
   var _musicList = [];
   var _isLoaded = false;
@@ -30,15 +32,20 @@ class _RecResultView extends State<RecResultView> {
   @override
   void initState() {
     super.initState();
-    if(cluster != -1) _getRecMusicCluster();
+    if(contain != -1) _getRecMusicArtist(artist, contain);
     if(curationId != -1) _getRecMusicCuration();
   }
 
-  _getRecMusicCluster() async {
-    var temp = await getRecMusicCluster(userId: userInfo.id, cluster: cluster);
+  void _getRecMusicArtist(artist, contain) async {
+    var temp = await getRecMusicArtist(userId: userInfo.id, artist: artist, contain: contain);
     if(temp != null) {
-      _musicList = temp;
       setState(() {
+        if(contain == 0) {
+          _musicList = temp;
+        }
+        else if(contain == 1) {
+          _musicList = temp;
+        }
         _isLoaded = true;
       });
     }

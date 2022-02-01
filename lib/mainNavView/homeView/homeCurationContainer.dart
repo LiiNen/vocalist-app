@@ -25,7 +25,7 @@ class _HomeCurationContainer extends State<HomeCurationContainer> {
   }
 
   _getCurationSuggestion() async {
-    var temp = await getCurationWithCtype(ctype_id: ctype['id']);
+    var temp = await getCurationWithCtype(ctypeId: ctype['id']);
     if(temp != null) {
       setState(() {
         suggestionCurationList = temp;

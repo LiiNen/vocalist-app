@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
+import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 import 'package:vocalist/mainNavView/searchView/searchResultAllView.dart';
@@ -165,8 +166,16 @@ class _MusicListContainer extends State<MusicListContainer> {
               children: children
             ),
           ),
-          _isMR==1 ? Text('MR', style: textStyle(weight: 700, size: 12.0)) : Container(),
-          _isLIVE==1 ? Text('LIVE', style: textStyle(weight: 700, size: 12.0)) : Container()
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _isMR==1 ? additionalButton(title: 'MR', callback: (){}, width: 32.0) : Container(),
+                _isLIVE==1 ? additionalButton(title: 'LIVE', callback: (){}, width: 32.0) : Container(),
+                _isMR==1 || _isLIVE==1 ? SizedBox(height: 4) : Container(),
+              ]
+            )
+          )
         ]
       )
     );

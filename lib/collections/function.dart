@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
-import 'package:vocalist/music/musicInfoView.dart';
 
 navigatorPush({required context, required widget, replacement=false, all=false}) {
   replacement

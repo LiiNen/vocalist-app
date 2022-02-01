@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
@@ -7,7 +5,6 @@ import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/scrapView/addPlaylistView.dart';
 import 'package:vocalist/mainNavView/scrapView/playListMusicView.dart';
-import 'package:vocalist/mainNavView/searchView/searchResultView.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
 import 'package:vocalist/restApi/playlistItemApi.dart';
 
@@ -37,6 +34,7 @@ class _PlayListView extends State<PlayListView> {
     var _temp = await getPlaylist(userId: userInfo.id);
     setState(() {
       _playlist = _temp;
+      print(_playlist);
     });
   }
 
@@ -165,7 +163,7 @@ class _PlayListView extends State<PlayListView> {
               TextSpan(text: musicTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
               TextSpan(text: unicodeToEmoji(playlistEmoji), style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
-              TextSpan(text: playlistTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' $playlistTitle', style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' 플레이리스트에 추가하겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
             ]
           )
@@ -175,7 +173,9 @@ class _PlayListView extends State<PlayListView> {
   }
 
   _addMusicToPlaylist(musicId, playlistId) async {
+    print(musicId);print(playlistId);
     var response = await postPlaylistItem(playlistId: playlistId, musicId: musicId);
+    print(response);
     if(response) {
       Navigator.pop(context);
       if(!fromFront) Navigator.pop(context);
