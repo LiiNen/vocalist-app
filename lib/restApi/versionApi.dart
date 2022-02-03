@@ -17,7 +17,7 @@ getVersionChart() async {
   var response = await http.get(Uri.parse('$baseUrl$pathVersionChart'));
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
-    if(responseBody['status'] == true) return responseBody['body']['build'];
+    if(responseBody['status'] == true) return responseBody['body'];
     return null;
   }
   return null;
