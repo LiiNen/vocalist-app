@@ -27,6 +27,7 @@ class _ScrapView extends State<ScrapView> {
   ];
   var _friendList = [];
   var _friendWaitingList = [];
+  bool _hasFriend = true;
   TextEditingController _friendEmailController = TextEditingController();
 
   @override
@@ -49,15 +50,21 @@ class _ScrapView extends State<ScrapView> {
     _friendList = [];
     _friendWaitingList = [];
     var _temp = await getFriend(userId: userInfo.id);
-    for(var _friend in _temp) {
-      if(_friend['accept'] == 0 && _friend['applier'] == 0) {
-        _friendWaitingList.add(_friend);
+    if(_temp != null) {
+      for(var _friend in _temp) {
+        if(_friend['accept'] == 0 && _friend['applier'] == 0) {
+          _friendWaitingList.add(_friend);
+        }
+        else if(_friend['accept'] == 1) {
+          _friendList.add(_friend);
+        }
       }
-      else if(_friend['accept'] == 1) {
-        _friendList.add(_friend);
-      }
+      setState(() {
+        if(_temp.length == 0) {
+          _hasFriend = false;
+        }
+      });
     }
-    setState(() {});
   }
 
   @override
@@ -138,7 +145,7 @@ class _ScrapView extends State<ScrapView> {
             ]
           ),
           SizedBox(height: 16),
-        ] + List.generate(_friendList.length * 2, (index) {
+        ] + (_hasFriend ? List.generate(_friendList.length * 2, (index) {
           if(index%2 == 0) return GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {navigatorPush(context: context, widget: LikeListView(friendId: _friendList[(index/2).floor()]['friend_id'], friendName: _friendList[(index/2).floor()]['name']));},
@@ -153,7 +160,21 @@ class _ScrapView extends State<ScrapView> {
             )
           );
           else return SizedBox(height: 16);
-        })
+        }) : [Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              Text('아직 친구가 없습니다.', style: textStyle(weight: 600, size: 14.0)),
+              SizedBox(height: 12),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _showFriendDialog,
+                child: Text('친구 추가', style: textStyle(color: Color(0xff5642a0), weight: 600, size: 12.0))
+              ),
+              SizedBox(height: 16)
+            ]
+          )
+        )])
       )
     );
   }
@@ -229,8 +250,7 @@ class _ScrapView extends State<ScrapView> {
                   ),
                   onChanged: (value) {setState(() {});},
                   onSubmitted: (value) {
-                    _addFriendAction();
-                    Navigator.pop(context);
+                    _addFriendAction(context);
                   }
                 )
               )
@@ -243,8 +263,7 @@ class _ScrapView extends State<ScrapView> {
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        _addFriendAction();
-                        Navigator.pop(context);
+                        _addFriendAction(context);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -267,11 +286,17 @@ class _ScrapView extends State<ScrapView> {
     );
   }
 
-  _addFriendAction() async {
-    var response = await postFriend(userId: userInfo.id, email: _friendEmailController.text);
-    if(response == true) {
-      _getFriend();
-      showToast('친구 요청 완료!');
+  _addFriendAction(context) async {
+    if(_friendEmailController.text == '') {
+      showToast('이메일을 입력해주세요');
+    }
+    else {
+      var response = await postFriend(userId: userInfo.id, email: _friendEmailController.text);
+      if (response == true) {
+        _getFriend();
+        showToast('친구 요청 완료!');
+        Navigator.pop(context);
+      }
     }
   }
 
