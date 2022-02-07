@@ -8,7 +8,7 @@ class PolicyView extends StatefulWidget {
   PolicyView(this.index);
 
   @override
-  State<PolicyView> createState() => _PolicyView(index);
+  State<PolicyView> createState() => _PolicyView(index-1);
 }
 class _PolicyView extends State<PolicyView> {
   int index;
