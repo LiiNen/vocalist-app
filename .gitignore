@@ -49,3 +49,6 @@ app.*.map.json
 *restApi.dart
 
 ios/build/*
+
+*.jks
+*key.properties

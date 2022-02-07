@@ -67,7 +67,7 @@ class _AppleLoginView extends State<AppleLoginView> {
                 if (signUpResponse['id'] == 0) {
                   showToast('이미 가입된 아이디입니다.');
                 }
-                showToast('회원가입이 완료되었습니다!');
+                showToast('회원가입완료! 다시 로그인해주세요');
               }
             }
             else {
