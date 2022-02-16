@@ -24,6 +24,17 @@ Future<bool> onWillPop(BuildContext context) async {
   )) ?? false;
 }
 
+popUpdate(BuildContext context) async {
+  await showDialog(
+    context: context, builder: (context) => ConfirmDialog(
+      title: '현재 차트 업데이트 진행 중입니다.\n잠시 후 시도해주세요',
+      positiveAction: () {},
+      negativeAction: () {},
+      confirmAction: () {},
+    )
+  );
+}
+
 textFieldClear(TextEditingController controller) {
   controller.clear();
 }

@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vocalist/collections/style.dart';
@@ -9,6 +11,7 @@ import 'package:vocalist/collections/userInfo.dart';
 import 'package:vocalist/loginView/loginView.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/mainNavView/scrapView/playListView.dart';
+import 'package:vocalist/restApi/versionApi.dart';
 
 import 'collections/function.dart';
 import 'mainNavView/scrapView/likeListView.dart';
@@ -49,7 +52,18 @@ class _SplashView extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    new Future.delayed(new Duration(seconds: 1), _checkLogin);
+    _checkUpdate();
+  }
+
+  void _checkUpdate() async {
+    var _isUpdating = await getUpdate();
+    if(_isUpdating['build'] == '0') {
+      new Future.delayed(new Duration(seconds: 1), _checkLogin);
+    }
+    else {
+      await popUpdate(context);
+      exit(0);
+    }
   }
 
   void _checkLogin() async {
