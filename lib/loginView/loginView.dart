@@ -112,9 +112,6 @@ class _LoginView extends State<LoginView> {
       pref.setBool('isLogin', true);
       await setUserInfo(id: response['data']['id'], name: response['data']['name'], email: response['data']['email'], type: response['data']['type'], emoji: response['data']['emoji']);
       userInfo = await getUserInfo();
-      print(userInfo.id);
-      print(userInfo.name);
-      print(userInfo.emoji);
       return true;
     }
     return false;

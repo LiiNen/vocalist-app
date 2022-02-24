@@ -34,7 +34,6 @@ class _PlayListView extends State<PlayListView> {
     var _temp = await getPlaylist(userId: userInfo.id);
     setState(() {
       _playlist = _temp;
-      print(_playlist);
     });
   }
 
@@ -173,9 +172,7 @@ class _PlayListView extends State<PlayListView> {
   }
 
   _addMusicToPlaylist(musicId, playlistId) async {
-    print(musicId);print(playlistId);
     var response = await postPlaylistItem(playlistId: playlistId, musicId: musicId);
-    print(response);
     if(response) {
       Navigator.pop(context);
       if(!fromFront) Navigator.pop(context);

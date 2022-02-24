@@ -76,10 +76,8 @@ class _AppleLoginView extends State<AppleLoginView> {
           }
           break;
         case AuthorizationStatus.error:
-          print('error');
           break;
         case AuthorizationStatus.cancelled:
-          print('cancel');
           break;
       }
     }

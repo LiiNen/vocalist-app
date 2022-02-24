@@ -27,7 +27,6 @@ class _ChartView extends State<ChartView> {
   _getChart() async {
     var _temp = await getChart(userId: userInfo.id);
     _chartVersion = await getVersionChart();
-    print(_chartVersion);
     if(_temp != null) {
       setState(() {
         _chartList = _temp;

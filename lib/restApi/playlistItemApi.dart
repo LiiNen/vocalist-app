@@ -19,11 +19,8 @@ postPlaylistItem({required int playlistId, required int musicId}) async {
   var requestBody = Map();
   requestBody['playlist_id'] = playlistId.toString();
   requestBody['music_id'] = musicId.toString();
-  print('$baseUrl$pathPlaylistItem');
-  print(requestBody);
 
   var response = await http.post(Uri.parse('$baseUrl$pathPlaylistItem'), body: requestBody);
-  print(response.statusCode);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) return true;

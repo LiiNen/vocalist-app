@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vocalist/collections/style.dart';
@@ -72,12 +70,7 @@ class _SplashView extends State<SplashView> {
     _isLogin = pref.getBool('isLogin') ?? false;
     if(_isLogin == true) {
       userInfo = await getUserInfo();
-      setState(() {
-        print(userInfo.id);
-        print(userInfo.name);
-        print(userInfo.email);
-        print(userInfo.type);
-      });
+      setState(() {});
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(

@@ -42,7 +42,6 @@ class _HomeView extends State<HomeView> {
             MusicSuggestionContainer(),
             HomePlaylistContainer(),
           ]
-          //todo: curation db
           + curationContainerList
         )
       ),

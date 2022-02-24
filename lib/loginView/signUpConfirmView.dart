@@ -8,7 +8,7 @@ List<bool> checkList = [false, false, false];
 showSignUpConfirmDialog(BuildContext context) async {
   bool response = false;
   checkList = [false, false, false];
-  var dialogState = await showDialog(
+  await showDialog(
     context: context,
     builder: (context) {
       return SignUpConfirmDialog();
