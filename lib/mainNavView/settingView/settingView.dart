@@ -8,6 +8,7 @@ import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/collections/userInfo.dart';
 import 'package:vocalist/loginView/loginView.dart';
 import 'package:vocalist/mainNavView/settingView/nameModifyView.dart';
+import 'package:vocalist/mainNavView/settingView/noticeListView.dart';
 import 'package:vocalist/mainNavView/settingView/reportView.dart';
 import 'package:vocalist/mainNavView/settingView/withdrawalView.dart';
 import 'package:vocalist/restApi/userApi.dart';
@@ -97,6 +98,7 @@ class _SettingView extends State<SettingView> {
               SizedBox(height: 3.5),
               lineDivider(context: context),
               _titleBox('기타'),
+              buttonContainer(context: context, callback: _pushNavigatorNotice, title: '공지사항'),
               buttonContainer(context: context, callback: _versionDialog, title: '버전 정보 조회'),
               buttonContainer(context: context, callback: _pushNavigatorReport, title: '버그리포트'),
               buttonContainer(context: context, callback: _signOutDialog, title: '로그아웃'),
@@ -282,6 +284,9 @@ class _SettingView extends State<SettingView> {
   }
   _pushNavigatorWithdrawal() {
     navigatorPush(context: context, widget: WithdrawalView());
+  }
+  _pushNavigatorNotice() {
+    navigatorPush(context: context, widget: NoticeListView());
   }
 }
 
