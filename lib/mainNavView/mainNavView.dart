@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/mainNavView/chartView/chartView.dart';
 import 'package:vocalist/mainNavView/homeView/homeView.dart';
 import 'package:vocalist/mainNavView/scrapView/scrapView.dart';
 import 'package:vocalist/mainNavView/searchView/searchView.dart';
 import 'package:vocalist/mainNavView/settingView/settingView.dart';
+import 'package:vocalist/popupDialog.dart';
+import 'package:vocalist/restApi/noticeApi.dart';
 
 class MainNavView extends StatefulWidget {
   final int selectedIndex;
-  MainNavView({this.selectedIndex=0});
+  final bool notice;
+  MainNavView({this.selectedIndex=0, this.notice=false});
   @override
-  State<MainNavView> createState() => _MainNavView(selectedIndex);
+  State<MainNavView> createState() => _MainNavView(selectedIndex, notice);
 }
 class _MainNavView extends State<MainNavView> {
-  int _selectedIndex = 0;
-  _MainNavView(this._selectedIndex);
+  int _selectedIndex;
+  bool _notice;
+  _MainNavView(this._selectedIndex, this._notice);
 
   List<Widget> _navItemList = <Widget>[
     HomeView(),
@@ -23,6 +28,32 @@ class _MainNavView extends State<MainNavView> {
     SearchView(),
     SettingView()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    if(_notice) {
+      _getNoticeMain();
+      _notice = false;
+    }
+  }
+
+  void _getNoticeMain() async {
+    print('hello');
+    var notice = await getNotice(isMain: true);
+    if(notice != null) {
+      if(notice.length != 0) {
+        final pref = await SharedPreferences.getInstance();
+        var _notSeeDate = pref.getString('notSeeNoticeDate') ?? '';
+        if(_notSeeDate != DateTime.now().toString()) {
+          await showDialog(
+            context: context, builder: (context) => PopupDialog(title: notice[0]['title'], imageUrl: notice[0]['image_url'], content: notice[0]['content'], date: notice[0]['date'])
+          );
+          // show notice popup
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

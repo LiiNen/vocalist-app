@@ -53,7 +53,7 @@ class _AppleLoginView extends State<AppleLoginView> {
           if(loginResponse) {
             final pref = await SharedPreferences.getInstance();
             if(pref.getBool('isLogin')!) {
-              navigatorPush(context: context, widget: MainNavView(), replacement: true, all: true);
+              navigatorPush(context: context, widget: MainNavView(notice: true), replacement: true, all: true);
             }
           }
           else {
