@@ -74,7 +74,7 @@ class _SplashView extends State<SplashView> {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) => MainNavView(),
+          pageBuilder: (context, animation1, animation2) => MainNavView(notice: true,),
           transitionDuration: Duration.zero,
         ),
       );

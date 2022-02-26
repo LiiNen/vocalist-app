@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PopupDialog extends StatelessWidget {
   final String title;
@@ -27,7 +28,7 @@ class PopupDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           noticeImage(),
-          noticeButton(),
+          noticeButtonBox(),
         ]
       )
     );
@@ -35,15 +36,46 @@ class PopupDialog extends StatelessWidget {
 
   noticeImage() {
     return Container(
-      height: 200,
-      child: AspectRatio(
-        aspectRatio: 0.7,
-        child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg')
+      height: 300,
+      child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg',)
+      // child: AspectRatio(
+      //   aspectRatio: 0.7,
+      //   child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg')
+      // )
+    );
+  }
+
+  noticeButtonBox() {
+    return Container(
+      height: 100,
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+      child: Row(
+        children: [
+          notSeeNoticeButton(),
+          SizedBox(width: 20),
+          notSeeNoticeButton(),
+        ]
       )
     );
   }
 
-  noticeButton() {
-    return Container();
+  notSeeNoticeButton() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          notSeeNoticeButtonAction();
+          // todo: navigator pop
+        }
+      )
+    );
+  }
+
+  actionButton() {
+
+  }
+
+  notSeeNoticeButtonAction() async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setString('notSeeNoticeDate', DateTime.now().toString());
   }
 }
