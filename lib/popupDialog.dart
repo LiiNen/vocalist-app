@@ -46,24 +46,19 @@ class _PopupDialog extends State<PopupDialog> {
         navigatorPush(context: context, widget: NoticeView(widget.notice));
       },
       child: Container(
-        height: 300,
-        child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg',)
-      // child: AspectRatio(
-      //   aspectRatio: 0.7,
-      //   child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg')
-      // )
+        child: Image.network(widget.notice['image_url'] ?? 'https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/vloom/vloom_splash.png',)
       )
     );
   }
 
   noticeButtonBox() {
     return Container(
-      height: 100,
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 18),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           notSeeNoticeButton(),
+          SizedBox(width: 18),
           closeButton(),
         ]
       )
@@ -79,6 +74,7 @@ class _PopupDialog extends State<PopupDialog> {
           Navigator.pop(context);
         },
         child: Container(
+          height: 24,
           child: Center(
             child: Text('다시 보지 않기', style: textStyle(color: Colors.black, weight: 600, size: 18.0))
           )

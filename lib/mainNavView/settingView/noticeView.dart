@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NoticeView extends StatelessWidget {
   final dynamic noticeItem;
@@ -22,7 +23,7 @@ class NoticeView extends StatelessWidget {
               SizedBox(height: 6),
               lineDivider(context: context),
               SizedBox(height: 6),
-              noticeItem['image_url'] != null ? imageBox(noticeItem['image_url']) : Container(),
+              imageBox(noticeItem['image_url']),
               SizedBox(height: 12),
               textBox(text: noticeItem['content'], isTitle: false),
               SizedBox(height: 30),
@@ -34,17 +35,25 @@ class NoticeView extends StatelessWidget {
   }
 
   textBox({required String text, bool isTitle=false}) {
-    var _style = isTitle ? textStyle(weight: 700, size: 16.0) : textStyle(weight: 400, size: 12.0);
+    var _style = isTitle ? textStyle(weight: 700, size: 18.0) : textStyle(weight: 400, size: 14.0);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 18),
       child: Text(text, style: _style)
     );
   }
 
-  imageBox(String imageUrl) {
-    return AspectRatio(
-      aspectRatio: 0.7,
-      child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg')
-    );
+  imageBox(dynamic imageUrl) {
+    if(imageUrl != null) {
+      return GestureDetector(
+        onTap: () {
+          if(noticeItem['hyperlink'] != null) launch(noticeItem['hyperlink']);
+        },
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Image.network(imageUrl),
+        )
+      );
+    }
+    if(imageUrl == null) return Container();
   }
 }
