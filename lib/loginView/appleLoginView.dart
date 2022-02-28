@@ -49,7 +49,6 @@ class _AppleLoginView extends State<AppleLoginView> {
           }
 
           var loginResponse = await vloomLogin(firebaseUser.email!, 'apple');
-
           if(loginResponse) {
             final pref = await SharedPreferences.getInstance();
             if(pref.getBool('isLogin')!) {
@@ -61,7 +60,7 @@ class _AppleLoginView extends State<AppleLoginView> {
             if(_confirm) {
               var signUpResponse = await signupAction(email: firebaseUser.email!, name: firebaseUser.displayName!, type: 'apple');
               if(signUpResponse == null) {
-
+                showToast('다시 시도해주세요');
               }
               else {
                 if (signUpResponse['id'] == 0) {

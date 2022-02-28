@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vocalist/collections/function.dart';
+import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/mainNavView/settingView/noticeView.dart';
 
-class PopupDialog extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final String content;
-  final String date;
+class PopupDialog extends StatefulWidget {
+  final dynamic notice;
+  PopupDialog({required this.notice});
 
-  PopupDialog({required this.title, required this.imageUrl, required this.content, required this.date});
+  @override
+  State<PopupDialog> createState() => _PopupDialog();
+}
+
+class _PopupDialog extends State<PopupDialog> {
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +40,19 @@ class PopupDialog extends StatelessWidget {
   }
 
   noticeImage() {
-    return Container(
-      height: 300,
-      child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg',)
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+        navigatorPush(context: context, widget: NoticeView(widget.notice));
+      },
+      child: Container(
+        height: 300,
+        child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg',)
       // child: AspectRatio(
       //   aspectRatio: 0.7,
       //   child: Image.network('https://raw.githubusercontent.com/LiiNen/LiiNen/main/images/github-blog/invention-Gyeongi.jpg')
       // )
+      )
     );
   }
 
@@ -50,10 +61,10 @@ class PopupDialog extends StatelessWidget {
       height: 100,
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 18),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           notSeeNoticeButton(),
-          SizedBox(width: 20),
-          notSeeNoticeButton(),
+          closeButton(),
         ]
       )
     );
@@ -62,16 +73,34 @@ class PopupDialog extends StatelessWidget {
   notSeeNoticeButton() {
     return Expanded(
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () {
           notSeeNoticeButtonAction();
-          // todo: navigator pop
-        }
+          Navigator.pop(context);
+        },
+        child: Container(
+          child: Center(
+            child: Text('다시 보지 않기', style: textStyle(color: Colors.black, weight: 600, size: 18.0))
+          )
+        )
       )
     );
   }
 
-  actionButton() {
-
+  closeButton() {
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Container(
+          child: Center(
+            child: Text('닫기', style: textStyle(color: Colors.black, weight: 600, size: 18.0))
+          )
+        )
+      )
+    );
   }
 
   notSeeNoticeButtonAction() async {

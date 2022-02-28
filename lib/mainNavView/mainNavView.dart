@@ -47,7 +47,7 @@ class _MainNavView extends State<MainNavView> {
         var _notSeeDate = pref.getString('notSeeNoticeDate') ?? '';
         if(_notSeeDate != DateTime.now().toString()) {
           await showDialog(
-            context: context, builder: (context) => PopupDialog(title: notice[0]['title'], imageUrl: notice[0]['image_url'], content: notice[0]['content'], date: notice[0]['date'])
+            context: context, builder: (context) => PopupDialog(notice: notice[0])
           );
           // show notice popup
         }

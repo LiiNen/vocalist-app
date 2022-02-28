@@ -57,7 +57,7 @@ class _GoogleLoginView extends State<GoogleLoginView> {
       if(_confirm) {
         var signUpResponse = await signupAction(email: firebaseUser.email!, name: firebaseUser.displayName!, type: 'google');
         if(signUpResponse == null) {
-
+          showToast('다시 시도해주세요');
         }
         else {
           if (signUpResponse['id'] == 0) {
@@ -70,6 +70,5 @@ class _GoogleLoginView extends State<GoogleLoginView> {
         showToast('회원가입이 취소되었습니다.');
       }
     }
-
   }
 }
