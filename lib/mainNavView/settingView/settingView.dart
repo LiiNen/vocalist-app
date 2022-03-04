@@ -67,7 +67,7 @@ class _SettingView extends State<SettingView> {
   // }
 
   void _setEmoji() {
-    _emojiController.text = userInfo.emoji != '' ? unicodeToEmoji(userInfo.emoji) : '';
+    _emojiController.text = userInfo.emoji != '' ? userInfo.emoji : '';
   }
 
   TextEditingController controller = TextEditingController();

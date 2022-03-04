@@ -51,11 +51,3 @@ showConfirmDialog(BuildContext context, Widget dialog) async {
     builder: (context) => dialog
   )) ?? false;
 }
-
-emojiToUnicode(String emoji) {
-  return '0x${int.parse(emoji.runes.toString().replaceAll('(', '').replaceAll(')', '')).toRadixString(16).toString()}';
-}
-
-unicodeToEmoji(String target) {
-  return String.fromCharCode(int.parse(target));
-}

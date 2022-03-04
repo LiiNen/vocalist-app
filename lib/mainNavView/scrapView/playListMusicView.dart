@@ -46,7 +46,7 @@ class _PlayListMusicView extends State<PlayListMusicView> {
       body: isLoaded ? SingleChildScrollView(
         child: Column(
           children: [
-            Text(unicodeToEmoji(emoji), style: textStyle(size: 110.0)),
+            Text(emoji, style: textStyle(size: 110.0)),
             Text(title, style: textStyle(weight: 700, size: 24.0)),
             SizedBox(height: 31),
             Container(margin: EdgeInsets.symmetric(horizontal: 23), child: lineDivider(context: context)),

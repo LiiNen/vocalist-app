@@ -19,7 +19,7 @@ class _NameModifyView extends State<NameModifyView> {
   @override
   void initState() {
     super.initState();
-    if(userInfo.emoji != '') _emojiController.text = unicodeToEmoji(userInfo.emoji);
+    if(userInfo.emoji != '') _emojiController.text = userInfo.emoji;
   }
 
   @override
@@ -145,7 +145,7 @@ class _NameModifyView extends State<NameModifyView> {
   }
 
   _confirmAction() async {
-    await patchUser(id: userInfo.id, name: _nameController.text != '' ? _nameController.text : userInfo.name, emoji: emojiToUnicode(_emojiController.text));
+    await patchUser(id: userInfo.id, name: _nameController.text != '' ? _nameController.text : userInfo.name, emoji: _emojiController.text);
     Navigator.pushNamedAndRemoveUntil(context, '/setting', ModalRoute.withName('/'));
   }
 }

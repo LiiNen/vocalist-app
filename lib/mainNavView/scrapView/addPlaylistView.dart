@@ -150,7 +150,7 @@ class _AddPlaylistView extends State<AddPlaylistView> {
   //todo: fixing
   _confirmAction() async {
     if(_controller.text != '' && _emojiController.text != '') {
-      var response = await postPlaylist(userId: userInfo.id, title: _controller.text, emoji: emojiToUnicode(_emojiController.text));
+      var response = await postPlaylist(userId: userInfo.id, title: _controller.text, emoji: _emojiController.text);
       if(response == true) navigatorPush(context: context, widget: MainNavView(selectedIndex: 2,), replacement: true, all: true);
       else showToast('error');
     }

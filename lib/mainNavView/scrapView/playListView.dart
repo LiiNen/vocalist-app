@@ -120,7 +120,7 @@ class _PlayListView extends State<PlayListView> {
                   borderRadius: BorderRadius.all(Radius.circular(13)),
                 ),
                 child: Center(
-                  child: playlistItem['emoji'] == '' ? Container() : Text(unicodeToEmoji(playlistItem['emoji']), style: textStyle(size: 22.0))
+                  child: playlistItem['emoji'] == '' ? Container() : Text(playlistItem['emoji'], style: textStyle(size: 22.0))
                 )
               ),
               SizedBox(width: 25),
@@ -161,7 +161,7 @@ class _PlayListView extends State<PlayListView> {
             children: [
               TextSpan(text: musicTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
-              TextSpan(text: unicodeToEmoji(playlistEmoji), style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: playlistEmoji, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' $playlistTitle', style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' 플레이리스트에 추가하겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
             ]
