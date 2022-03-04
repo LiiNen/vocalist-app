@@ -39,13 +39,13 @@ class _MainNavView extends State<MainNavView> {
   }
 
   void _getNoticeMain() async {
-    print('hello');
     var notice = await getNotice(isMain: true);
     if(notice != null) {
       if(notice.length != 0) {
         final pref = await SharedPreferences.getInstance();
         var _notSeeDate = pref.getString('notSeeNoticeDate') ?? '';
-        if(_notSeeDate != DateTime.now().toString()) {
+        print(_notSeeDate);
+        if(_notSeeDate != getToday()) {
           await showDialog(
             context: context, builder: (context) => PopupDialog(notice: notice[0])
           );

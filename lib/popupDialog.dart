@@ -101,6 +101,6 @@ class _PopupDialog extends State<PopupDialog> {
 
   notSeeNoticeButtonAction() async {
     final pref = await SharedPreferences.getInstance();
-    pref.setString('notSeeNoticeDate', DateTime.now().toString());
+    pref.setString('notSeeNoticeDate', getToday());
   }
 }
