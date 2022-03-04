@@ -51,3 +51,9 @@ showConfirmDialog(BuildContext context, Widget dialog) async {
     builder: (context) => dialog
   )) ?? false;
 }
+
+String getToday() {
+  DateTime now = DateTime.now();
+  DateTime date = new DateTime(now.year, now.month, now.day);
+  return date.toString();
+}

@@ -22,7 +22,6 @@ class NoticeView extends StatelessWidget {
               textBox(text: noticeItem['title'], isTitle: true),
               SizedBox(height: 6),
               lineDivider(context: context),
-              SizedBox(height: 6),
               imageBox(noticeItem['image_url']),
               SizedBox(height: 12),
               textBox(text: noticeItem['content'], isTitle: false),
@@ -35,7 +34,7 @@ class NoticeView extends StatelessWidget {
   }
 
   textBox({required String text, bool isTitle=false}) {
-    var _style = isTitle ? textStyle(weight: 700, size: 18.0) : textStyle(weight: 400, size: 14.0);
+    var _style = isTitle ? textStyle(weight: 700, size: 18.0) : textStyle(weight: 400, size: 16.0);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 18),
       child: Text(text, style: _style)
