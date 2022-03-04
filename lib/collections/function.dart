@@ -53,9 +53,16 @@ showConfirmDialog(BuildContext context, Widget dialog) async {
 }
 
 emojiToUnicode(String emoji) {
-  return '0x${int.parse(emoji.runes.toString().replaceAll('(', '').replaceAll(')', '')).toRadixString(16).toString()}';
+  print(emoji.runes.toString());
+  return '0x${int.parse(emoji.runes.toString().replaceAll('(', '').split(',')[0].replaceAll(')', '')).toRadixString(16).toString()}';
 }
 
 unicodeToEmoji(String target) {
   return String.fromCharCode(int.parse(target));
+}
+
+String getToday() {
+  DateTime now = DateTime.now();
+  DateTime date = new DateTime(now.year, now.month, now.day);
+  return date.toString();
 }

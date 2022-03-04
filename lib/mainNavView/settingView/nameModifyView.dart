@@ -111,6 +111,7 @@ class _NameModifyView extends State<NameModifyView> {
   _emojiPicker() {
     return EmojiPickerWidget(
       onEmojiSelected: (String emoji) {
+        print(emoji);
         setState(() {
           _emojiController.text = emoji;
         });
