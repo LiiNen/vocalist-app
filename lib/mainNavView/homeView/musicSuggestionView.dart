@@ -5,7 +5,8 @@ import 'package:vocalist/music/musicListContainer.dart';
 
 class MusicSuggestionView extends StatefulWidget {
   final dynamic musicList;
-  MusicSuggestionView(this.musicList);
+  final bool isNew;
+  MusicSuggestionView(this.musicList, {this.isNew=false});
   @override
   State<MusicSuggestionView> createState() => _MusicSuggestionView(this.musicList);
 }
@@ -17,7 +18,7 @@ class _MusicSuggestionView extends State<MusicSuggestionView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: DefaultAppBar(title: '이런 노래도 있어요!', back: true),
+      appBar: DefaultAppBar(title: widget.isNew ? '신규 추가곡' : '이런 노래도 있어요!', back: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -35,7 +36,8 @@ class _MusicSuggestionView extends State<MusicSuggestionView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('이런 노래들도 있어요:)\n눌러서 상세한 노래를 들어보고, 불러봐요!', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 10.0)),
+          Text(widget.isNew ? '새로 추가된 노래에요!\n제보로 추가된 노래 및 신곡 최근 30개를 보여줄게요:)'
+              : '이런 노래들도 있어요:)\n눌러서 상세한 노래를 들어보고, 불러봐요!', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 10.0)),
           SizedBox(height: 15),
           lineDivider(context: context),
         ]

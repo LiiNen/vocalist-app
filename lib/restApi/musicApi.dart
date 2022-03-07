@@ -15,6 +15,18 @@ getMusic({int id = 0, required int userId}) async {
   return null;
 }
 
+getNewMusic({required int userId}) async {
+  String query = '/new?user_id=$userId';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathMusic$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return responseBody['body'];
+    return null;
+  }
+  return null;
+}
+
 getRecMusic({required int userId}) async {
   String query = '/rec?user_id=$userId';
 
