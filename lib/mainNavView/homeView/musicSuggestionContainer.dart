@@ -8,12 +8,14 @@ import 'package:vocalist/music/musicInfoView.dart';
 import 'package:vocalist/restApi/musicApi.dart';
 
 class MusicSuggestionContainer extends StatefulWidget {
+  final bool isNew;
+  MusicSuggestionContainer({this.isNew=false});
   @override
   State<MusicSuggestionContainer> createState() => _MusicSuggestionContainer();
 }
 class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
 
-  var recList = [];
+  var _musicList = [];
   bool isLoaded = false;
 
   @override
@@ -24,11 +26,18 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
 
   _getMusicSuggestion() async {
     var temp;
-    temp = await getRecMusic(userId: userInfo.id);
+    if(widget.isNew) {
+      temp = await getNewMusic(userId: userInfo.id);
+    }
+    else {
+      temp = await getRecMusic(userId: userInfo.id);
+      if(temp != null) {
+        temp.shuffle();
+      }
+    }
     if(temp != null) {
       setState(() {
-        temp.shuffle();
-        recList = temp.take(30).toList();
+        _musicList = temp.take(30).toList();
         isLoaded = true;
       });
     }
@@ -38,7 +47,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
   Widget build(BuildContext context) {
     return isLoaded ? Container(
       margin: EdgeInsets.symmetric(horizontal: 14),
-      padding: EdgeInsets.only(top: 29),
+      padding: EdgeInsets.only(top: 22),
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
@@ -47,7 +56,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
             children: [
               Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Text('이런 노래는 어떠세요?', style: textStyle(weight: 700, size: 14.0)),
+                child: Text(widget.isNew ? 'Vloom에 추가된 노래' : '이런 노래는 어떠세요?', style: textStyle(weight: 700, size: 14.0)),
               ),
               additionalButton(title: '더보기+', callback: _pushSuggestionView)
             ]
@@ -63,7 +72,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
   }
 
   _pushSuggestionView() {
-    navigatorPush(context: context, widget: MusicSuggestionView(recList));
+    navigatorPush(context: context, widget: MusicSuggestionView(_musicList, isNew: widget.isNew));
   }
 
   suggestionLine(int lineIndex) {
@@ -84,7 +93,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          navigatorPush(context: context, widget: MusicInfoView(musicId: recList[itemIndex]['id'], title: recList[itemIndex]['title'], artist: recList[itemIndex]['artist']));
+          navigatorPush(context: context, widget: MusicInfoView(musicId: _musicList[itemIndex]['id'], title: _musicList[itemIndex]['title'], artist: _musicList[itemIndex]['artist']));
         },
         child: Container(
           height: 49,
@@ -95,16 +104,16 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
           ),
           child: Row(
             children: [
-              Text(recList[itemIndex]['number'].toString(), style: textStyle(color: Color(0xff4f3497), weight:500, size: 14.0, spacing: -1)),
+              Text(_musicList[itemIndex]['number'].toString(), style: textStyle(color: Color(0xff4f3497), weight:500, size: 14.0, spacing: -1)),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(recList[itemIndex]['title'], style: textStyle(weight: 500, size: 11.0), overflow: TextOverflow.ellipsis,),
+                    Text(_musicList[itemIndex]['title'], style: textStyle(weight: 500, size: 11.0), overflow: TextOverflow.ellipsis,),
                     SizedBox(height: 3),
-                    Text(recList[itemIndex]['artist'], style: textStyle(color: Color(0xff747474), weight: 400, size: 10.0), overflow: TextOverflow.ellipsis,)
+                    Text(_musicList[itemIndex]['artist'], style: textStyle(color: Color(0xff747474), weight: 400, size: 10.0), overflow: TextOverflow.ellipsis,)
                   ]
                 )
               )

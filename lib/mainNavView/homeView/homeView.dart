@@ -39,8 +39,10 @@ class _HomeView extends State<HomeView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 7),
             MusicSuggestionContainer(),
             HomePlaylistContainer(),
+            MusicSuggestionContainer(isNew: true),
           ]
           + curationContainerList
         )
