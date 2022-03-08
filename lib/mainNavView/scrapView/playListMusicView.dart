@@ -50,10 +50,14 @@ class _PlayListMusicView extends State<PlayListMusicView> {
             Text(title, style: textStyle(weight: 700, size: 24.0)),
             SizedBox(height: 31),
             Container(margin: EdgeInsets.symmetric(horizontal: 23), child: lineDivider(context: context)),
-            MusicListContainer(musicList: _musicList),
+            MusicListContainer(musicList: _musicList, isPlaylist: true, callback: _removePlaylistItem),
           ]
         )
       ) : Container()
     );
+  }
+
+  void _removePlaylistItem() async {
+    print('hee');
   }
 }
