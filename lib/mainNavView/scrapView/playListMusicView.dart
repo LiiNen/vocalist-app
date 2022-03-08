@@ -50,10 +50,46 @@ class _PlayListMusicView extends State<PlayListMusicView> {
             Text(title, style: textStyle(weight: 700, size: 24.0)),
             SizedBox(height: 31),
             Container(margin: EdgeInsets.symmetric(horizontal: 23), child: lineDivider(context: context)),
-            MusicListContainer(musicList: _musicList),
+            MusicListContainer(musicList: _musicList, isPlaylist: true, callback: _removePlaylistItemCallback),
           ]
         )
       ) : Container()
     );
+  }
+
+  void _removePlaylistItemCallback({required int musicId, required String musicTitle}) async {
+    await removePlaylistItemDialog(musicId: musicId, musicTitle: musicTitle);
+  }
+
+  Future<bool> removePlaylistItemDialog({required musicId, required String musicTitle}) async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => ConfirmDialog(
+        title: '',
+        positiveAction: () {_removePlaylistItem(musicId);},
+        negativeAction: () {Navigator.pop(context);},
+        positiveWord: '확인',
+        negativeWord: '취소',
+        spanTitle: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(text: musicTitle, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+              TextSpan(text: emoji, style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' $title', style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
+              TextSpan(text: ' 플레이리스트에서 제거하시겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+            ]
+          )
+        ),
+      ),
+    )) ?? false;
+  }
+
+  void _removePlaylistItem(musicId) async {
+    var response = await deletePlaylistItem(playlistId: id, musicId: musicId);
+    if(response != null) {
+      showToast('성공적으로 제거되었습니다.');
+    }
+    _getPlaylist();
   }
 }

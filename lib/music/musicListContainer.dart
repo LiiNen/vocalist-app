@@ -18,20 +18,18 @@ class MusicListContainer extends StatefulWidget {
   final bool isFriend;
   final bool isEditing;
   final bool fromFront;
-  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.fromFront=false});
+  final bool isPlaylist;
+  final dynamic callback;
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.fromFront=false, this.isPlaylist=false, this.callback});
 
   @override
-  State<MusicListContainer> createState() => _MusicListContainer(musicList, isScrap, highlight.toLowerCase(), index, isSearchAll, isFriend, fromFront);
+  State<MusicListContainer> createState() => _MusicListContainer(musicList, highlight.toLowerCase(), index);
 }
 class _MusicListContainer extends State<MusicListContainer> {
   List<dynamic> musicList;
   String highlight;
   int searchIndex;
-  bool isScrap;
-  bool isSearchAll;
-  bool isFriend;
-  bool fromFront;
-  _MusicListContainer(this.musicList, this.isScrap, this.highlight, this.searchIndex, this.isSearchAll, this.isFriend, this.fromFront);
+  _MusicListContainer(this.musicList, this.highlight, this.searchIndex);
 
   int pitchValue = 0;
 
@@ -67,7 +65,7 @@ class _MusicListContainer extends State<MusicListContainer> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(_title, style: textStyle(weight: 700, size: 19.0)),
-              !isSearchAll ? GestureDetector(
+              !widget.isSearchAll ? GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
                   navigatorPush(context: context, widget: SearchResultAllView(searchIndex: searchIndex, input: highlight));
@@ -98,7 +96,7 @@ class _MusicListContainer extends State<MusicListContainer> {
             karaokeNumber(_music['number']),
             musicInfo(_music['title'], _music['artist'], _music['isLIVE'], _music['isMR']),
           ] + (widget.isEditing ? [likeBox(index, _music['islike'])] : [
-            isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
+            widget.isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
             playlistBox(index),
           ])
         )
@@ -233,19 +231,19 @@ class _MusicListContainer extends State<MusicListContainer> {
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                if (isFriend==false) {
+                                if (widget.isFriend==false) {
                                   patchPitch(userId: userInfo.id, musicId: musicList[index]['id'], pitch: pitchValue);
                                   Navigator.pop(context);
                                 }
                               },
                               child: Container(
                                 width: 40, padding:EdgeInsets.symmetric(vertical: 16),
-                                child: isFriend ? Container() : Text('완료', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0), textAlign: TextAlign.center,),
+                                child: widget.isFriend ? Container() : Text('완료', style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 12.0), textAlign: TextAlign.center,),
                               )
                             ),
                           ]
                         ),
-                        isFriend ?
+                        widget.isFriend ?
                           Text('친구가 메모해놓은 음정(key)을 보고\n같이 노래방에 갈 때 참고해봐요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,) :
                           Text('이 노래를 부를 때, ${userInfo.name}님이 부르기 편한\n음정(key)을 메모해보세요!', style: textStyle(weight: 400, size: 12.0), textAlign: TextAlign.center,),
                         SizedBox(height: 20),
@@ -325,7 +323,7 @@ class _MusicListContainer extends State<MusicListContainer> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if(isFriend == false) {
+        if(widget.isFriend == false) {
           setState(() {
             pitchValue = pitch;
             musicList[index]['pitch'] = pitch;
@@ -419,12 +417,12 @@ class _MusicListContainer extends State<MusicListContainer> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if(isScrap) _scrapModal(index);
+        if(widget.isScrap || widget.isPlaylist) _scrapModal(index);
         else _addPlaylist(index);
       },
       child: Container(
         child: Center(
-          child: Icon(isScrap ? Icons.more_vert_outlined : Icons.playlist_add_rounded, color: Color(0xffd4d4d4), size: 32.4)
+          child: Icon(widget.isScrap || widget.isPlaylist ? Icons.more_vert_outlined : Icons.playlist_add_rounded, color: Color(0xffd4d4d4), size: 32.4)
         )
       )
     );
@@ -466,8 +464,9 @@ class _MusicListContainer extends State<MusicListContainer> {
               SizedBox(height: 21),
               lineDivider(context: context),
               SizedBox(height: 12),
-              isFriend ? Container() : modalBox(0, index),
+              widget.isFriend || widget.isPlaylist ? Container() : modalBox(0, index),
               modalBox(1, index),
+              widget.isPlaylist ? modalBox(2, index) : Container()
             ]
           )
         );
@@ -484,6 +483,9 @@ class _MusicListContainer extends State<MusicListContainer> {
           if(index == 0) {
             _reloadList(musicIndex);
           }
+          if(index == 2) {
+            widget.callback(musicId: musicList[index]['id'], musicTitle: musicList[index]['title']);
+          }
           else {
             _addPlaylist(musicIndex);
           }
@@ -491,7 +493,9 @@ class _MusicListContainer extends State<MusicListContainer> {
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 12),
-        child: Text(index == 0 ? '좋아요 해제' : '플레이리스트 추가', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 14.0))
+        child: widget.isPlaylist ?
+          Text(index == 1 ? '다른 플레이리스트에 추가' : '플레이리스트에서 제거', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 14.0)) :
+          Text(index == 0 ? '좋아요 해제' : '플레이리스트에 추가', style: textStyle(color: Color(0xff7c7c7c), weight: 400, size: 14.0))
       )
     );
   }
@@ -510,6 +514,6 @@ class _MusicListContainer extends State<MusicListContainer> {
     var musicObject = Map();
     musicObject['id'] = musicList[index]['id'];
     musicObject['title'] = musicList[index]['title'];
-    navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject, fromFront: fromFront,));
+    navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject, fromFront: widget.fromFront,));
   }
 }
