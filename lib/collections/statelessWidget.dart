@@ -31,7 +31,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool back;
   final bool search;
-  DefaultAppBar({required this.title, this.back=false, this.search=false}) : preferredSize = Size.fromHeight(44.0);
+  final dynamic backCallback;
+  DefaultAppBar({required this.title, this.back=false, this.search=false, this.backCallback}) : preferredSize = Size.fromHeight(44.0);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            search ? searchBackButton(context) : backButton(context),
+            search ? searchBackButton(context) : backButton(context, backCallback),
             Expanded(child: Text(title, style: textStyle(color: Colors.black, weight: 700, size: 15.0), overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,)),
             SizedBox(width: 32)
           ]
@@ -154,10 +155,15 @@ class _ConfirmDialog extends State<ConfirmDialog> {
   }
 }
 
-backButton(BuildContext context) {
+backButton(BuildContext context, dynamic backCallback) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
-    onTap: () {Navigator.pop(context);},
+    onTap: () {
+      Navigator.pop(context);
+      if(backCallback != null) {
+        backCallback();
+      }
+    },
     child: Container(
       width: 32,
       height: 32,

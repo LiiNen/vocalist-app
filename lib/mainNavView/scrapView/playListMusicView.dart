@@ -10,7 +10,8 @@ class PlayListMusicView extends StatefulWidget {
   final int id;
   final String title;
   final String emoji;
-  PlayListMusicView({required this.id, required this.title, required this.emoji});
+  final dynamic backCallback;
+  PlayListMusicView({required this.id, required this.title, required this.emoji, this.backCallback});
 
   @override
   State<PlayListMusicView> createState() => _PlayListMusicView(id, title, emoji);
@@ -27,10 +28,10 @@ class _PlayListMusicView extends State<PlayListMusicView> {
   @override
   void initState() {
     super.initState();
-    _getPlaylist();
+    _getPlaylistItem();
   }
 
-  void _getPlaylist() async {
+  void _getPlaylistItem() async {
     var _temp = await getPlaylistItem(playlistId: id, userId: userInfo.id, type: 'part');
     setState(() {
       _musicList = _temp;
@@ -42,7 +43,7 @@ class _PlayListMusicView extends State<PlayListMusicView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: DefaultAppBar(title: '플레이리스트 상세', back: true),
+      appBar: DefaultAppBar(title: '플레이리스트 상세', back: true, backCallback: widget.backCallback),
       body: isLoaded ? SingleChildScrollView(
         child: Column(
           children: [
@@ -50,7 +51,7 @@ class _PlayListMusicView extends State<PlayListMusicView> {
             Text(title, style: textStyle(weight: 700, size: 24.0)),
             SizedBox(height: 31),
             Container(margin: EdgeInsets.symmetric(horizontal: 23), child: lineDivider(context: context)),
-            MusicListContainer(musicList: _musicList, isPlaylist: true, callback: _removePlaylistItemCallback),
+            MusicListContainer(musicList: _musicList, isPlaylist: true, callback: _removePlaylistItemCallback, backCallback: widget.backCallback),
           ]
         )
       ) : Container()
@@ -89,7 +90,10 @@ class _PlayListMusicView extends State<PlayListMusicView> {
     var response = await deletePlaylistItem(playlistId: id, musicId: musicId);
     if(response != null) {
       showToast('성공적으로 제거되었습니다.');
+      setState(() {
+        isLoaded = false;
+      });
     }
-    _getPlaylist();
+    _getPlaylistItem();
   }
 }

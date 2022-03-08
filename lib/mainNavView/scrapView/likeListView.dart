@@ -9,7 +9,8 @@ import 'package:vocalist/restApi/loveApi.dart';
 class LikeListView extends StatefulWidget {
   final int friendId;
   final String friendName;
-  LikeListView({this.friendId=-1, this.friendName=''});
+  final dynamic backCallback;
+  LikeListView({this.friendId=-1, this.friendName='', this.backCallback});
   @override
   State<LikeListView> createState() => _LikeListView(friendId, friendName);
 }
@@ -51,7 +52,7 @@ class _LikeListView extends State<LikeListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar(title: friendName!='' ? '$friendName님의 애창곡' : '좋아요한 노래 목록', back: true),
+      appBar: DefaultAppBar(title: friendName!='' ? '$friendName님의 애창곡' : '좋아요한 노래 목록', back: true, backCallback: widget.backCallback),
       backgroundColor: Colors.white,
       body: _isLoaded ? _likeList.length == 0 ?
         Column(
