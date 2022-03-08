@@ -163,7 +163,7 @@ class _PlayListView extends State<PlayListView> {
               TextSpan(text: ' 를\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
               TextSpan(text: unicodeToEmoji(playlistEmoji), style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
               TextSpan(text: ' $playlistTitle', style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0)),
-              TextSpan(text: ' 플레이리스트에 추가하겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+              TextSpan(text: ' 플레이리스트에 추가하시겠습니까?', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
             ]
           )
         ),

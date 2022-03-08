@@ -484,7 +484,7 @@ class _MusicListContainer extends State<MusicListContainer> {
             _reloadList(musicIndex);
           }
           if(index == 2) {
-            widget.callback();
+            widget.callback(musicId: musicList[index]['id'], musicTitle: musicList[index]['title']);
           }
           else {
             _addPlaylist(musicIndex);
