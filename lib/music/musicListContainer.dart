@@ -17,10 +17,11 @@ class MusicListContainer extends StatefulWidget {
   final bool isSearchAll;
   final bool isFriend;
   final bool isEditing;
+  final bool isPlaylistEditing;
   final bool fromFront;
   final bool isPlaylist;
   final dynamic callback;
-  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.fromFront=false, this.isPlaylist=false, this.callback});
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.isPlaylistEditing=false, this.fromFront=false, this.isPlaylist=false, this.callback});
 
   @override
   State<MusicListContainer> createState() => _MusicListContainer(musicList, highlight.toLowerCase(), index);
@@ -83,6 +84,13 @@ class _MusicListContainer extends State<MusicListContainer> {
 
   musicItemContainer(int index) {
     var _music = musicList[index];
+
+    var _rightSide = <Widget>[];
+    if(widget.isEditing) _rightSide = [likeBox(index, _music['islike'])];
+    else if(widget.isScrap) _rightSide = [pitchBox(index), playlistBox(index)];
+    else if(widget.isPlaylistEditing) _rightSide = [Container()];
+    else _rightSide = [likeBox(index, _music['islike']), playlistBox(index)];
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {navigatorPush(context: context, widget: MusicInfoView(musicId: _music['id'], title: _music['title'], artist: _music['artist']));},
@@ -95,10 +103,7 @@ class _MusicListContainer extends State<MusicListContainer> {
             indexBox(index),
             karaokeNumber(_music['number']),
             musicInfo(_music['title'], _music['artist'], _music['isLIVE'], _music['isMR']),
-          ] + (widget.isEditing ? [likeBox(index, _music['islike'])] : [
-            widget.isScrap ? pitchBox(index) : likeBox(index, _music['islike']),
-            playlistBox(index),
-          ])
+          ] + _rightSide
         )
       )
     );

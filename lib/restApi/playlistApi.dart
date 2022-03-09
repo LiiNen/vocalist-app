@@ -64,6 +64,23 @@ deletePlaylist({required int id}) async {
   return null;
 }
 
+patchPlaylist({required int id, required String title, required String emoji}) async {
+  var requestBody = Map();
+  requestBody['id'] = id.toString();
+  requestBody['title'] = title;
+  requestBody['emoji'] = emoji;
+
+  var response = await http.patch(Uri.parse('$baseUrl$pathPlaylist'), body: requestBody);
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) {
+      return true;
+    }
+    return null;
+  }
+  return null;
+}
+
 postPlaylistFromCuration({required int userId, required int curationId}) async {
   var requestBody = Map();
   requestBody['user_id'] = userId.toString();

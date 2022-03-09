@@ -31,7 +31,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool back;
   final bool search;
-  DefaultAppBar({required this.title, this.back=false, this.search=false}) : preferredSize = Size.fromHeight(44.0);
+  final dynamic actionButton;
+  DefaultAppBar({required this.title, this.back=false, this.search=false, this.actionButton}) : preferredSize = Size.fromHeight(44.0);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             search ? searchBackButton(context) : backButton(context),
             Expanded(child: Text(title, style: textStyle(color: Colors.black, weight: 700, size: 15.0), overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,)),
-            SizedBox(width: 32)
+            actionButton == null ? SizedBox(width: 32) : actionButton
           ]
         )
       )
