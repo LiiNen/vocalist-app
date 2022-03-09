@@ -4,6 +4,7 @@ import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/scrapView/likeListView.dart';
+import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 import 'package:vocalist/restApi/friendApi.dart';
 import 'package:vocalist/restApi/loveApi.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
@@ -17,12 +18,12 @@ class _ScrapView extends State<ScrapView> {
     {
       'title': '좋아요한 노래',
       'count': -1,
-      'route': '/likeList'
+      'route': LikeListView
     },
     {
       'title': '저장한 플레이리스트',
       'count': -1,
-      'route': '/playList'
+      'route': PlayListView
     }
   ];
   var _friendList = [];
@@ -33,6 +34,10 @@ class _ScrapView extends State<ScrapView> {
   @override
   void initState() {
     super.initState();
+    _initState();
+  }
+
+  void _initState() {
     _getCount();
     _getFriend();
   }
@@ -93,7 +98,10 @@ class _ScrapView extends State<ScrapView> {
     var _menuObject = _menuObjectList[index];
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {Navigator.pushNamed(context, _menuObject['route'].toString());},
+      onTap: () {
+        if(index == 0) navigatorPush(context: context, widget: LikeListView(backCallback: _initState));
+        else if(index == 1) navigatorPush(context: context, widget: PlayListView(backCallback: _initState));
+      },
       child: Container(
         margin: EdgeInsets.only(top: 16),
         padding: EdgeInsets.symmetric(horizontal: 16),

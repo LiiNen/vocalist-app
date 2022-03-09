@@ -21,6 +21,7 @@ class MusicListContainer extends StatefulWidget {
   final bool fromFront;
   final bool isPlaylist;
   final dynamic callback;
+  final dynamic backCallback;
   MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.isPlaylistEditing=false, this.fromFront=false, this.isPlaylist=false, this.callback});
 
   @override
@@ -457,12 +458,14 @@ class _MusicListContainer extends State<MusicListContainer> {
                   SizedBox(width: 15),
                   Text(musicList[index]['number'] != null ? musicList[index]['number'].toString() : '00000', style: textStyle(weight: 700, size: 21.0)),
                   SizedBox(width: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(musicList[index]['title'], style: textStyle(weight: 700, size: 13.0)),
-                      Text(musicList[index]['artist'], style: textStyle(weight: 500, size: 10.0)),
-                    ]
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(musicList[index]['title'], style: textStyle(weight: 700, size: 13.0), overflow: TextOverflow.ellipsis,),
+                        Text(musicList[index]['artist'], style: textStyle(weight: 500, size: 10.0)),
+                      ]
+                    )
                   )
                 ]
               ),
@@ -488,10 +491,10 @@ class _MusicListContainer extends State<MusicListContainer> {
           if(index == 0) {
             _reloadList(musicIndex);
           }
-          if(index == 2) {
-            widget.callback(musicId: musicList[index]['id'], musicTitle: musicList[index]['title']);
+          else if(index == 2) {
+            widget.callback(musicId: musicList[musicIndex]['id'], musicTitle: musicList[musicIndex]['title']);
           }
-          else {
+          else if(index == 1) {
             _addPlaylist(musicIndex);
           }
         });
@@ -519,6 +522,6 @@ class _MusicListContainer extends State<MusicListContainer> {
     var musicObject = Map();
     musicObject['id'] = musicList[index]['id'];
     musicObject['title'] = musicList[index]['title'];
-    navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject, fromFront: widget.fromFront,));
+    navigatorPush(context: context, widget: PlayListView(isAdding: true, object: musicObject, fromFront: widget.fromFront, backCallback: widget.backCallback));
   }
 }

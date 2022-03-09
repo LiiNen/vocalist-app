@@ -12,7 +12,8 @@ class PlayListView extends StatefulWidget {
   final bool isAdding;
   final dynamic object;
   final bool fromFront;
-  PlayListView({this.isAdding=false, this.object, this.fromFront=false});
+  final dynamic backCallback;
+  PlayListView({this.isAdding=false, this.object, this.fromFront=false, this.backCallback});
   @override
   State<PlayListView> createState() => _PlayListView(isAdding, object, fromFront);
 }
@@ -50,7 +51,7 @@ class _PlayListView extends State<PlayListView> {
     });
 
     return Scaffold(
-      appBar: DefaultAppBar(title: '저장한 플레이리스트', back: true),
+      appBar: DefaultAppBar(title: '저장한 플레이리스트', back: true, backCallback: widget.backCallback,),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
@@ -106,7 +107,7 @@ class _PlayListView extends State<PlayListView> {
             addMusicDialog(musicTitle: object!['title'], playlistTitle: playlistItem['title'], playlistEmoji: playlistItem['emoji'], firstAction: () {_addMusicToPlaylist(object['id'], playlistItem['id']);}, secondAction: () {_cancel(context);});
           }
           if(!isAdding) {
-            navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id'], emoji: playlistItem['emoji']));
+            navigatorPush(context: context, widget: PlayListMusicView(title: playlistItem['title'], id: playlistItem['id'], emoji: playlistItem['emoji'], backCallback: _getPlaylist,));
           }
         },
         child: Container(
@@ -176,6 +177,7 @@ class _PlayListView extends State<PlayListView> {
     if(response) {
       Navigator.pop(context);
       if(!fromFront) Navigator.pop(context);
+      widget.backCallback();
       showToast('플레이리스트 추가 완료!');
     }
     else {
