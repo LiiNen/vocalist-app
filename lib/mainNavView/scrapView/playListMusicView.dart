@@ -69,12 +69,17 @@ class _PlayListMusicView extends State<PlayListMusicView> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.6,
                     child: Text(title, style: textStyle(weight: 700, size: 24.0), overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
-                  )
+                  ),
+                  SizedBox(height: 31),
                 ] : <Widget>[
                   editEmojiContainer(),
                   editTitleContainer(),
+                  SizedBox(height: 16),
+                  GestureDetector(
+                    child: additionalButton(title: '이 플레이리스트 제거하기', width: 120.0, isOpposite: true, callback: _deletePlaylistDialog)
+                  ),
+                  SizedBox(height: 16),
                 ]) + [
-                  SizedBox(height: 31),
                   Container(margin: EdgeInsets.symmetric(horizontal: 23), child: lineDivider(context: context)),
                   MusicListContainer(musicList: _musicList, isPlaylist: true, callback: _removePlaylistItemCallback, isPlaylistEditing: _isEditing, backCallback: widget.backCallback),
                 ]
@@ -101,20 +106,23 @@ class _PlayListMusicView extends State<PlayListMusicView> {
 
   _setPlaylistEditing() async {
     if(_isEditing) {
-      var _titleChanged = _controller.text != title;
+      var _titleChanged = (_controller.text != title && _controller.text != '');
       var _emojiChanged = _emojiController.text != emoji;
       if(_titleChanged || _emojiChanged) {
         var _response = await patchPlaylist(id: id, title: _titleChanged ? _controller.text : title, emoji: _emojiChanged ? _emojiController.text : emoji);
         if(_response != null) {
           showToast('변경사항 저장 완료');
+          title = _titleChanged ? _controller.text : title;
+          emoji = _emojiChanged ? _emojiController.text : emoji;
         }
         else {
           showToast('네트워크 에러');
         }
       }
-      _getPlaylist();
+      _getPlaylistItem();
     }
     setState(() {
+      isEmojiFocused = false;
       _isEditing = !_isEditing;
       if(_isEditing == false) {
         _isLoaded = false;
@@ -196,9 +204,39 @@ class _PlayListMusicView extends State<PlayListMusicView> {
     if(response != null) {
       showToast('성공적으로 제거되었습니다.');
       setState(() {
-        isLoaded = false;
+        _isLoaded = false;
       });
     }
     _getPlaylistItem();
+  }
+
+  _deletePlaylistDialog() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => ConfirmDialog(
+        title: '',
+        positiveAction: () {_deletePlaylist();},
+        negativeAction: () {},
+        positiveWord: '확인', negativeWord: '취소',
+        spanTitle: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(text: '$emoji $title', style: textStyle(color: Color(0xff433e57), weight: 700, size: 14.0),),
+              TextSpan(text: ' 가 삭제됩니다.\n', style: textStyle(color: Color(0xff707070), weight: 500, size: 14.0)),
+              TextSpan(text: '이 작업은 돌이킬 수 없습니다.', style: textStyle(color: Color(0xff707070), weight: 700, size: 12.0)),
+            ]
+          )
+        ),
+      )
+    )) ?? false;
+  }
+
+  void _deletePlaylist() async {
+    var response = await deletePlaylist(id: id);
+    if(response != null) {
+      Navigator.pop(context);
+      showToast('성공적으로 제거되었습니다.');
+      widget.backCallback();
+    }
   }
 }

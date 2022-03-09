@@ -22,7 +22,7 @@ class MusicListContainer extends StatefulWidget {
   final bool isPlaylist;
   final dynamic callback;
   final dynamic backCallback;
-  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.isPlaylistEditing=false, this.fromFront=false, this.isPlaylist=false, this.callback});
+  MusicListContainer({required this.musicList, this.isScrap=false, this.highlight='', this.index=0, this.isSearchAll=false, this.isFriend=false, this.isEditing=false, this.isPlaylistEditing=false, this.fromFront=false, this.isPlaylist=false, this.callback, this.backCallback});
 
   @override
   State<MusicListContainer> createState() => _MusicListContainer(musicList, highlight.toLowerCase(), index);
