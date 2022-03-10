@@ -99,7 +99,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
           navigatorPush(context: context, widget: RecResultView(title: '$artistName의 노래', artist: artistName, contain: 0));
       },
       child: Container(
-        margin: EdgeInsets.only(top: 14, bottom: 40),
+        margin: EdgeInsets.only(top: 14, bottom: 22),
         width: 219, height: 215,
         decoration: BoxDecoration(
           image: DecorationImage(
