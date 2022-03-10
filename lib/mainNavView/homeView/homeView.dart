@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/adMob/adMobItem.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/mainNavView/homeView/homeCurationContainer.dart';
 import 'package:vocalist/mainNavView/homeView/homePlaylistContainer.dart';
@@ -42,6 +43,7 @@ class _HomeView extends State<HomeView> {
             SizedBox(height: 7),
             MusicSuggestionContainer(),
             HomePlaylistContainer(),
+            AdMobBanner(),
             MusicSuggestionContainer(isNew: true),
           ]
           + curationContainerList

@@ -67,7 +67,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
             ]
           ),
           playlistScrollView(),
-          lineDivider(context: context, margin: 14)
+          // lineDivider(context: context, margin: 14)
         ],
       )
     ) : Container();

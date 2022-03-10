@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/adMob/adMobItem.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
@@ -40,8 +41,14 @@ class _MusicListContainer extends State<MusicListContainer> {
     return Column(
       children: <Widget>[titleBox()] + (
         musicList.length != 0 ?
-          List.generate(musicList.length, (index) {
-            return musicItemContainer(index);
+          List.generate(musicList.length > 10 ? musicList.length+1 : musicList.length, (index) {
+            if(index == 10) {
+              return AdMobBanner();
+            }
+            else if(index > 10) {
+              return musicItemContainer(index-1);
+            }
+            else return musicItemContainer(index);
           }) :
           [
             SizedBox(height: 20),
