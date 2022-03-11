@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "403764420619-3oetupi703fmqg78gmsthgtdgnbqdmuu.apps.googleusercontent.com",
+          "client_id": "403764420619-0dng0q7v62ch7eepm293c9un8vu1m9ng.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.co.vloom.app.vocalist",
+            "certificate_hash": "7c490514acc3e827029999e34083f7fc3b1414ac"
+          }
+        },
+        {
+          "client_id": "403764420619-q28fh99sbabaqi4hca1pgrbictoser2o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "kr.co.vloom.app.vocalist",

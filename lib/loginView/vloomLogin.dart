@@ -7,7 +7,6 @@ import '../main.dart';
 
 vloomLogin(String email, String type) async {
   var loginResponse = await loginApi(email: email, type: type);
-  print(loginResponse.statusCode);
   if(loginResponse == null) {
     showToast('네트워크를 확인해주세요');
   }
