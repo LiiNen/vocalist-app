@@ -104,7 +104,7 @@ class _ReportView extends State<ReportView> {
     var _email = _emailController.text == '' ? userInfo.email : _emailController.text;
     var result = await postBugReport(userId: userInfo.id, title: _titleController.text, content: _contentController.text, email: _email);
     if(result == null) {
-      // error
+      showToast('네트워크 상태를 확인해주세요.');
     }
     else {
       showToast('버그리포트가 정상적으로 접수되었습니다.');

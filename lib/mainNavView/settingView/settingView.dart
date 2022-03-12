@@ -92,8 +92,6 @@ class _SettingView extends State<SettingView> {
               buttonContainer(context: context, callback: _emailCheck, title: '연결된 계정', rightItem: Text(userInfo.email, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: null, title: '소셜로그인', rightItem: Text(userInfo.type=='google' ? '구글' : '애플', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
               buttonContainer(context: context, callback: _karaokeChangeFalse, title: '주이용 노래방', rightItem: Text(_karaoke, style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
-              // buttonContainer(context: context, callback: null, title: '검색 기록 저장', rightItem: Text('ON', style: textStyle(color: Color(0xffd1d1d1), weight: 400, size: 13.0),)),
-              // buttonContainer(context: context, callback: null, title: '이용 약관'),
               // buttonContainer(context: context, callback: null, title: '개인정보 취급 방침'),
               SizedBox(height: 3.5),
               lineDivider(context: context),

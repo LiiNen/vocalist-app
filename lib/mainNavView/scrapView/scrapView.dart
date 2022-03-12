@@ -119,7 +119,6 @@ class _ScrapView extends State<ScrapView> {
               children: [
                 Text(_menuObject['count'].toString(), style: textStyle(color: Color(0xffd1d1d1), weight: 700, size: 14.0)),
                 SizedBox(width: 4.3),
-                // todo: arrow right button
               ]
             )
           ]

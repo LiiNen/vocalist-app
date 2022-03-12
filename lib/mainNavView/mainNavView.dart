@@ -48,7 +48,6 @@ class _MainNavView extends State<MainNavView> {
           await showDialog(
             context: context, builder: (context) => PopupDialog(notice: notice[0])
           );
-          // show notice popup
         }
       }
     }

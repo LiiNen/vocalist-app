@@ -43,9 +43,7 @@ class _AddPlaylistView extends State<AddPlaylistView> {
                   setEmojiContainer(),
                   SizedBox(height: 33),
                   playlistTitleContainer(),
-                  SizedBox(height: 16),
-                  addMusicButton(),
-                  SizedBox(height: 46),
+                  SizedBox(height: 82),
                   confirmButton(confirmAction: _confirmAction),
                   Expanded(
                     child: Container()
@@ -134,20 +132,6 @@ class _AddPlaylistView extends State<AddPlaylistView> {
     );
   }
 
-  addMusicButton() {
-    return SizedBox(height: 20);
-    // return Align(
-    //   alignment: Alignment.centerRight,
-    //   child: GestureDetector(
-    //     behavior: HitTestBehavior.translucent,
-    //     onTap: () {},
-    //     child: Text('+ 곡 추가하기', style: textStyle(color: Color(0xff7156d2), weight: 500, size: 14.0))
-    //   )
-    // );
-  }
-
-
-  //todo: fixing
   _confirmAction() async {
     if(_controller.text != '' && _emojiController.text != '') {
       var response = await postPlaylist(userId: userInfo.id, title: _controller.text, emoji: _emojiController.text);
