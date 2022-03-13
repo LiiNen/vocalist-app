@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kr.co.vloom.app.vocalist">
    <application
-        android:label="vloom"
+        android:label="VLOOM"
         android:icon="@mipmap/vloom_icon">
         <activity
             android:name=".MainActivity"
@@ -40,7 +40,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-2157411230431534~6093208127"/>
 
         <activity
            android:name="com.aboutyou.dart_packages.sign_in_with_apple.SignInWithAppleCallback"
