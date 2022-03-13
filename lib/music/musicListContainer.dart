@@ -116,7 +116,7 @@ class _MusicListContainer extends State<MusicListContainer> {
   
   indexBox(index) {
     return Container(
-      width: 24,
+      width: 26,
       child: Text((index+1).toString(), style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 17.0, spacing: index+1 >= 100 ? -2.5 : -1), textAlign: TextAlign.center)
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vocalist/adMob/adMobItem.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
@@ -13,7 +14,8 @@ import '../../main.dart';
 class SearchResultView extends StatefulWidget {
   final String input;
   final int index;
-  SearchResultView({required this.input, required this.index});
+  final dynamic backCallback;
+  SearchResultView({required this.input, required this.index, this.backCallback});
 
   @override
   State<SearchResultView> createState() => _SearchResultView(input, index);
@@ -58,7 +60,7 @@ class _SearchResultView extends State<SearchResultView> {
       onTap: () {FocusManager.instance.primaryFocus?.unfocus();},
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: DefaultAppBar(title: '검색 결과', back: true, search: false),
+        appBar: DefaultAppBar(title: '검색 결과', back: true, search: false, backCallback: widget.backCallback,),
         body: SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -89,6 +91,12 @@ class _SearchResultView extends State<SearchResultView> {
                 isLoaded && onFilterSelected == 0 && musicList[2] != null ?
                 CurationListContainer(curationList: musicList[2].take(6).toList(),) :
                   Container(),
+                isLoaded && onFilterSelected == 0 ? Column(
+                  children: [
+                    SizedBox(height: 34),
+                    AdMobBanner(),
+                  ]
+                ) : Container()
               ]
             )
           )
@@ -155,7 +163,7 @@ class _SearchResultView extends State<SearchResultView> {
       searchHistoryList.insert(0, input);
       pref.setStringList('searchHistory', searchHistoryList);
 
-      navigatorPush(context: context, widget: SearchResultView(input: input, index: onFilterSelected), replacement: true);
+      navigatorPush(context: context, widget: SearchResultView(input: input, index: onFilterSelected, backCallback: widget.backCallback,), replacement: true);
     }
   }
 

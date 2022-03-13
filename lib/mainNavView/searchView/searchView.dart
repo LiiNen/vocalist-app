@@ -182,7 +182,7 @@ class _SearchView extends State<SearchView> {
       searchHistoryList.insert(0, input);
       pref.setStringList('searchHistory', searchHistoryList);
 
-      navigatorPush(context: context, widget: SearchResultView(input: input, index: onFilterSelected));
+      navigatorPush(context: context, widget: SearchResultView(input: input, index: onFilterSelected, backCallback: _loadSearchHistory,));
     }
   }
 
