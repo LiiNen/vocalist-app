@@ -56,17 +56,20 @@ class _CurationListContainer extends State<CurationListContainer> {
   }
 
   curationContainer(int index) {
+    var _item = curationList[index];
+    var _imgId = _item['img_id'] != null ? _item['img_id'] : _item['id'];
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        navigatorPush(context: context, widget: RecResultView(title: '${curationList[index]['title']}', curationId: curationList[index]['id'], curationContent: curationList[index]['content']));
+        navigatorPush(context: context, widget: RecResultView(title: '${_item['title']}', curationId: _item['id'], curationContent: _item['content']));
       },
       child: Container(
         margin: EdgeInsets.only(top: 22),
         width: 117, height: 117,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage('$curationImageUrlStart${curationList[index]['id']}$curationImageUrlEnd'),
+            image: NetworkImage('$curationImageUrlStart$_imgId$curationImageUrlEnd'),
             fit: BoxFit.fill
           ),
           borderRadius: BorderRadius.all(Radius.circular(23)),
