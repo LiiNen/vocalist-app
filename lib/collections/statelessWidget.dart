@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:vocalist/collections/style.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
-  MainAppBar({this.title}) : preferredSize = Size.fromHeight(44.0);
+  MainAppBar({this.title, this.tap}) : preferredSize = Size.fromHeight(44.0);
   @override
   final Size preferredSize;
   final String? title;
+  final dynamic tap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
       title: Container(
         child: Row(
           children: [
-            Text(title != null ? title! : 'vloom', style: textStyle(weight: 700, size: 24.0)),
+            GestureDetector(
+              onTap: () {tap();},
+              child: Text(title != null ? title! : 'vloom', style: textStyle(weight: 700, size: 24.0)),
+            )
           ]
         )
       ),

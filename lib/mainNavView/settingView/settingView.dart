@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vocalist/adMob/easterEggView.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
@@ -26,6 +27,7 @@ class _SettingView extends State<SettingView> {
   String _karaoke = '';
   // var _karaokeList = ['TJ', '금영'];
   String newVersion = '';
+  int tapCounter = 0;
 
   @override
   void initState() {
@@ -76,7 +78,7 @@ class _SettingView extends State<SettingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: MainAppBar(title: '더보기'),
+      appBar: MainAppBar(title: '더보기', tap: tapAppBar),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 30),
         child: SingleChildScrollView(
@@ -106,6 +108,14 @@ class _SettingView extends State<SettingView> {
         )
       )
     );
+  }
+
+  tapAppBar() {
+    tapCounter = tapCounter + 1;
+    if(tapCounter > 10) {
+      navigatorPush(context: context, widget: EasterEggView());
+      tapCounter = 0;
+    }
   }
 
   setEmojiContainer() {
