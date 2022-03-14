@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/adMob/adMobItem.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
+import 'package:vocalist/main.dart';
+import 'package:vocalist/mainNavView/scrapView/userListContainer.dart';
+import 'package:vocalist/restApi/searchApi.dart';
 
 class SearchFriendView extends StatefulWidget {
   final dynamic backCallback;
@@ -17,6 +21,11 @@ class _SearchFriendView extends State<SearchFriendView> {
   var onFilterSelected = 0;
   var filterTitleList = ['', '이름으로 검색', '이메일로 검색'];
 
+  bool isNameLoaded = false;
+  var userByName = [];
+  bool isEmailLoaded = false;
+  var userByEmail = [];
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -31,9 +40,14 @@ class _SearchFriendView extends State<SearchFriendView> {
             margin: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
+                searchTextField(),
                 searchFilterContainer(),
                 lineDivider(context: context),
-                ///todo: return container results by filter
+                isNameLoaded && (onFilterSelected == 0 || onFilterSelected == 1) ?
+                  UserListContainer(userList: userByName, searchType: '이름',) : Container(),
+                isEmailLoaded && (onFilterSelected == 0 || onFilterSelected == 2) ?
+                  UserListContainer(userList: userByEmail, searchType: '이메일',) : Container(),
+                isNameLoaded && isEmailLoaded ? AdMobBanner() : Container()
               ]
             )
           )
@@ -132,6 +146,33 @@ class _SearchFriendView extends State<SearchFriendView> {
   }
 
   searchAction(String input) async {
-    ///todo: search Action
+    setState(() {
+      isNameLoaded = false;
+      userByName = [];
+      isEmailLoaded = false;
+      userByEmail = [];
+    });
+    await _searchName(input);
+    await _searchEmail(input);
+  }
+
+  _searchName(String input) async {
+    var _temp = await searchUserName(userId: userInfo.id, input: input);
+    if(_temp != null) {
+      setState(() {
+        userByName = _temp;
+        isNameLoaded = true;
+      });
+    }
+  }
+
+  _searchEmail(String input) async {
+    var _temp = await searchUserEmail(userId: userInfo.id, input: input);
+    if(_temp != null) {
+      setState(() {
+        userByEmail = _temp;
+        isEmailLoaded = true;
+      });
+    }
   }
 }

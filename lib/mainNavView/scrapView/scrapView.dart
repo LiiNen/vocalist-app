@@ -5,6 +5,7 @@ import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/scrapView/likeListView.dart';
 import 'package:vocalist/mainNavView/scrapView/playListView.dart';
+import 'package:vocalist/mainNavView/scrapView/searchFriendView.dart';
 import 'package:vocalist/restApi/friendApi.dart';
 import 'package:vocalist/restApi/loveApi.dart';
 import 'package:vocalist/restApi/playlistApi.dart';
@@ -146,7 +147,10 @@ class _ScrapView extends State<ScrapView> {
               Text('친구 애창곡 보기', style: textStyle(color: Color(0xff5642a0), weight: 700, size: 14.0)),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: _showFriendDialog,
+                onTap: () {
+                  // _showFriendDialog();
+                  navigatorPush(context: context, widget: SearchFriendView(backCallback: _getFriend,));
+                },
                 child: Icon(Icons.person_add_outlined, size: 22, color: Color(0xff7c7c7c))
               )
             ]

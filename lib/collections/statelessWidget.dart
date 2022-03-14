@@ -196,12 +196,12 @@ searchBackButton(BuildContext context) {
   );
 }
 
-additionalButton({required String title, dynamic callback, bool isOpposite=false, width=48.0}) {
+additionalButton({required String title, dynamic callback, bool isOpposite=false, width=48.0, height=21.0}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {if(callback != null) callback();},
     child: Container(
-      width: width, height: 21,
+      width: width, height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(11)),
         border: Border.all(color: Color(0xff8b63ff), width: 1),

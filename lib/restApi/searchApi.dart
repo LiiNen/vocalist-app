@@ -38,3 +38,27 @@ searchCuration({required int userId, required String input}) async {
   }
   return null;
 }
+
+searchUserEmail({required int userId, required String input}) async {
+  var query = '/user/email?user_id=$userId&input=$input';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathSearch$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return responseBody['body'];
+    return null;
+  }
+  return null;
+}
+
+searchUserName({required int userId, required String input}) async {
+  var query = '/user/name?user_id=$userId&input=$input';
+
+  var response = await http.get(Uri.parse('$baseUrl$pathSearch$query'));
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return responseBody['body'];
+    return null;
+  }
+  return null;
+}
