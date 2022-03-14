@@ -30,7 +30,6 @@ class _ScrapView extends State<ScrapView> {
   var _friendList = [];
   var _friendWaitingList = [];
   bool _hasFriend = true;
-  TextEditingController _friendEmailController = TextEditingController();
 
   @override
   void initState() {
@@ -148,7 +147,6 @@ class _ScrapView extends State<ScrapView> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  // _showFriendDialog();
                   navigatorPush(context: context, widget: SearchFriendView(backCallback: _getFriend,));
                 },
                 child: Icon(Icons.person_add_outlined, size: 22, color: Color(0xff7c7c7c))
@@ -179,7 +177,10 @@ class _ScrapView extends State<ScrapView> {
               SizedBox(height: 12),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: _showFriendDialog,
+                onTap: () {
+                  // _showFriendDialog();
+                  navigatorPush(context: context, widget: SearchFriendView(backCallback: _getFriend,));
+                },
                 child: Text('친구 추가', style: textStyle(color: Color(0xff5642a0), weight: 600, size: 12.0))
               ),
               SizedBox(height: 16)
@@ -229,86 +230,6 @@ class _ScrapView extends State<ScrapView> {
         })
       )
     ) : Container();
-  }
-
-  _showFriendDialog() async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => _addFriendDialog()
-    )) ?? false;
-  }
-
-  _addFriendDialog() {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
-      elevation: 0,
-      backgroundColor: Colors.white,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              height: 112,
-              margin: EdgeInsets.symmetric(horizontal: 12),
-              child: Center(
-                child: TextField(
-                  controller: _friendEmailController,
-                  decoration: InputDecoration(
-                    hintText: '친구의 이메일을 입력해주세요'
-                  ),
-                  onChanged: (value) {setState(() {});},
-                  onSubmitted: (value) {
-                    _addFriendAction(context);
-                  }
-                )
-              )
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 52,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        _addFriendAction(context);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xffebebeb), width: 1),
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4)),
-                          color: Color(0xfffbfbfb),
-                        ),
-                        child: Center(
-                          child: Text('친구 요청', style: textStyle(color: Color(0xff7156d2), weight: 600, size: 14.0))
-                        )
-                      )
-                    )
-                  )
-                )
-              ]
-            )
-          ]
-        )
-      )
-    );
-  }
-
-  _addFriendAction(context) async {
-    if(_friendEmailController.text == '') {
-      showToast('이메일을 입력해주세요');
-    }
-    else {
-      var response = await postFriend(userId: userInfo.id, email: _friendEmailController.text);
-      if (response == true) {
-        _getFriend();
-        showToast('친구 요청 완료!');
-        Navigator.pop(context);
-      }
-    }
   }
 
   _friendAcceptDialog({required String name, required int id}) {

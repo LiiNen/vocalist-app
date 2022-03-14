@@ -96,7 +96,7 @@ class _UserListContainer extends State<UserListContainer> {
 
   addFriendDialog(user) {
     showConfirmDialog(context, ConfirmDialog(
-      title: '${user['name']}님에게\n친구요청을 보내시겠습니까?',
+      title: '${user['emoji']} ${user['name']}님에게\n친구요청을 보내시겠습니까?',
       positiveAction: () {addFriendAction(user['email']);},
       negativeAction: () {},
       confirmAction: null,
