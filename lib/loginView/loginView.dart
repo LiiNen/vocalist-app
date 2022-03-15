@@ -63,7 +63,7 @@ class _LoginView extends State<LoginView> {
           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2, bottom: 10),
           child: Image.asset('asset/image/splashLogo.png', height: 60)
         ),
-        Text('음역대 분석 노래방 서비스', style: textStyle(weight: 600, size: 18.0))
+        Text('노래방 필수 어플리케이션', style: textStyle(weight: 600, size: 18.0))
       ]
     );
   }
