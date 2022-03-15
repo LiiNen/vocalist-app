@@ -22,11 +22,27 @@
           }
         },
         {
+          "client_id": "403764420619-fquahli55uobo3p4iojsp1llqqdelsh5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.co.vloom.app.vocalist",
+            "certificate_hash": "203892d4a2af4cacc065b9bdf255df80c14af00d"
+          }
+        },
+        {
           "client_id": "403764420619-q28fh99sbabaqi4hca1pgrbictoser2o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "kr.co.vloom.app.vocalist",
             "certificate_hash": "8657e15e6904fa80ddf6a2d381d28120517a8fc7"
+          }
+        },
+        {
+          "client_id": "403764420619-voa2n9b3nq9sa0bb0kkdtmobiimak1pp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.co.vloom.app.vocalist",
+            "certificate_hash": "ee2ba63407a58783da17e2d0819cafeb9ea61341"
           }
         },
         {
