@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vocalist/adMob/adMobItem.dart';
+import 'package:vocalist/adMob/adMobBanner.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/mainNavView/homeView/homeCurationContainer.dart';
 import 'package:vocalist/mainNavView/homeView/homePlaylistContainer.dart';
