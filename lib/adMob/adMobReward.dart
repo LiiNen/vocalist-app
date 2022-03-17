@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'adMobHelper.dart';
 
 RewardedAd? _rewardedAd;
 int _numRewardedLoadAttempts = 0;
-int _maxLoadAttempts = 3;
+int _maxLoadAttempts = 5;
 
-initAdMobRewarded() {
-  RewardedAd.load(
+initAdMobRewarded() async {
+  await RewardedAd.load(
     adUnitId: AdHelper.rewardedAdUnitId,
     request: AdRequest(),
     rewardedAdLoadCallback: RewardedAdLoadCallback(
@@ -28,7 +27,7 @@ initAdMobRewarded() {
   );
 }
 
-showAdMobRewarded() {
+showAdMobRewarded({dynamic callback}) {
   if(_rewardedAd == null) {
     return;
   }
@@ -43,13 +42,12 @@ showAdMobRewarded() {
     onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
       print('$ad onAdFailedToShowFullScreenContent: $error');
       ad.dispose();
-      initAdMobRewarded();
     },
   );
-
   _rewardedAd!.setImmersiveMode(true);
   _rewardedAd!.show(
     onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+      callback();
       print('$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
     }
   );

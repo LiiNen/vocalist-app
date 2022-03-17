@@ -35,5 +35,17 @@ postEventUser({required int userId, required String phone}) async {
     var responseBody = json.decode(response.body);
     if(responseBody['status'] == true) return true;
   }
-  return false;
+  return null;
+}
+
+patchEventUser({required int userId}) async {
+  var requestBody = Map();
+  requestBody['user_id'] = userId.toString();
+
+  var response = await http.patch(Uri.parse('$baseUrl$pathEvent/user'), body: requestBody);
+  if(response.statusCode == 200) {
+    var responseBody = json.decode(response.body);
+    if(responseBody['status'] == true) return true;
+  }
+  return null;
 }

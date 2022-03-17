@@ -37,14 +37,15 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool search;
   final dynamic backCallback;
   final dynamic actionButton;
-  DefaultAppBar({required this.title, this.back=false, this.search=false, this.actionButton, this.backCallback}) : preferredSize = Size.fromHeight(44.0);
+  final Color color;
+  DefaultAppBar({required this.title, this.back=false, this.search=false, this.actionButton, this.backCallback, this.color=Colors.white}) : preferredSize = Size.fromHeight(44.0);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
       centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: color,
       automaticallyImplyLeading: false,
       title: Container(
         child: Row(

@@ -12,12 +12,14 @@ import 'package:vocalist/mainNavView/mainNavView.dart';
 import 'package:vocalist/mainNavView/scrapView/playListView.dart';
 import 'package:vocalist/restApi/versionApi.dart';
 
+import 'adMob/adMobReward.dart';
 import 'collections/function.dart';
 import 'mainNavView/scrapView/likeListView.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
+  initAdMobRewarded();
   runApp(MyApp());
 }
 
