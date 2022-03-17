@@ -29,6 +29,7 @@ class _EventView extends State<EventView> {
     setState(() {
       _count = widget.eventInfo['count'];
     });
+    _getEventCount();
     _getEventUser();
   }
 
@@ -37,7 +38,6 @@ class _EventView extends State<EventView> {
     if(_temp != null) {
       setState(() {
         _count = _temp['count'];
-        _phone = _temp['phone'];
       });
     }
   }
@@ -68,15 +68,21 @@ class _EventView extends State<EventView> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
           ),
-          Image.network(
-            widget.eventInfo['img_url'],
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.contain,
+          Container(
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom==0.0 // keyboard not shown
+              ? 0
+              : MediaQuery.of(context).viewInsets.bottom + 100
+            ),
+            child: Image.network(
+              widget.eventInfo['img_url'],
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              fit: BoxFit.contain,
+            ),
           ),
           Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: DefaultAppBar(title: '진행 중인 이벤트', color: Colors.transparent),
+            appBar: DefaultAppBar(title: '', color: Colors.transparent),
             body: _isEventUserLoaded ? (widget.eventInfo['img_url']!='' ? Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -108,7 +114,7 @@ class _EventView extends State<EventView> {
         ),
         SizedBox(height: 5),
         Text('현재 참여 인원: $_count명', style: textStyle(weight: 700)),
-        SizedBox(height: 60),
+        SizedBox(height: MediaQuery.of(context).viewInsets.bottom==0.0 ? 60 : 20),
       ]
     );
   }
@@ -122,8 +128,8 @@ class _EventView extends State<EventView> {
         }
       },
       child: Container(
-        width: 140,
-        height: 50,
+        width: 120,
+        height: 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(30)),
           border: Border.all(color: Color(0xff8b63ff), width: 1),
@@ -131,8 +137,8 @@ class _EventView extends State<EventView> {
         ),
         child: Center(
           child: !isComplete ?
-            Text(title, style: textStyle(color: Color(0xff8b63ff), weight: 600, size: 16.0), textAlign: TextAlign.center,) :
-            Text('응모완료!', style: textStyle(color: Colors.white, weight: 600, size: 16.0))
+            Text(title, style: textStyle(color: Color(0xff8b63ff), weight: 600, size: 15.0), textAlign: TextAlign.center,) :
+            Text('응모완료!', style: textStyle(color: Colors.white, weight: 600, size: 15.0))
         )
       )
     );
