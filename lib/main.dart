@@ -16,6 +16,8 @@ import 'adMob/adMobReward.dart';
 import 'collections/function.dart';
 import 'mainNavView/scrapView/likeListView.dart';
 
+bool isDevMode = true;
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
