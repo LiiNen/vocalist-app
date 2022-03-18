@@ -47,7 +47,7 @@ class _SearchFriendView extends State<SearchFriendView> {
                   UserListContainer(userList: userByName, searchType: '이름',) : Container(),
                 isEmailLoaded && (onFilterSelected == 0 || onFilterSelected == 2) ?
                   UserListContainer(userList: userByEmail, searchType: '이메일',) : Container(),
-                isNameLoaded && isEmailLoaded ? AdMobBanner() : Container()
+                isNameLoaded && isEmailLoaded && !isAdIgnore ? AdMobBanner() : Container()
               ]
             )
           )

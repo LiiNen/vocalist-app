@@ -41,7 +41,7 @@ class _MusicListContainer extends State<MusicListContainer> {
     return Column(
       children: <Widget>[titleBox()] + (
         musicList.length != 0 ?
-          List.generate(musicList.length > 10 ? musicList.length+1 : musicList.length, (index) {
+          List.generate(musicList.length > 10 && !isAdIgnore ? musicList.length+1 : musicList.length, (index) {
             if(index == musicList.length) {
               return AdMobBanner();
             }

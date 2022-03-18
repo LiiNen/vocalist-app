@@ -91,7 +91,7 @@ class _SearchResultView extends State<SearchResultView> {
                 isLoaded && onFilterSelected == 0 && musicList[2] != null ?
                 CurationListContainer(curationList: musicList[2].take(6).toList(),) :
                   Container(),
-                isLoaded && onFilterSelected == 0 ? Column(
+                isLoaded && onFilterSelected == 0 && !isAdIgnore ? Column(
                   children: [
                     SizedBox(height: 34),
                     AdMobBanner(),

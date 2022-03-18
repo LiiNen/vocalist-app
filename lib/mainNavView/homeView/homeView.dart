@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vocalist/adMob/adMobBanner.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/main.dart';
 import 'package:vocalist/mainNavView/homeView/homeCurationContainer.dart';
 import 'package:vocalist/mainNavView/homeView/homePlaylistContainer.dart';
 import 'package:vocalist/mainNavView/homeView/musicSuggestionContainer.dart';
@@ -62,7 +63,7 @@ class _HomeView extends State<HomeView> {
             _eventBannerImgUrl != '' ? eventBanner() : Container(),
             MusicSuggestionContainer(isNew: true),
             HomePlaylistContainer(),
-            AdMobBanner(),
+            !isAdIgnore ? AdMobBanner() : Container(),
             MusicSuggestionContainer(),
           ]
           + curationContainerList

@@ -62,5 +62,5 @@ String getToday() {
 
 setAdIgnore() async {
   final pref = await SharedPreferences.getInstance();
-  isAdIgnore = (pref.getInt('adCount') ?? 0) < 1 ? false : true;
+  isAdIgnore = (pref.getInt('adCount') ?? 0) < 5 ? false : true;
 }

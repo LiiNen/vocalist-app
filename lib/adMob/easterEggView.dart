@@ -50,6 +50,13 @@ class _EasterEggView extends State<EasterEggView> {
         height: MediaQuery.of(context).size.height,
         child: _adCount!=null ? Column(
           children: [
+            SizedBox(height: 10),
+            Text('더보기 탭의 상단 \'더보기\'를 11회 터치 시'
+                '\n본 페이지로 이동됩니다.', style: textStyle(weight: 500, size: 12.0), textAlign: TextAlign.center),
+            Expanded(child: Container()),
+            Text('반복되고 관심없는 배너 광고, 지겨우셨죠?'
+                '\n유료 결제 없이, 광고를 제거해드립니다!'
+                '\n더 이상 보기 싫은 광고 OUT!', style: textStyle(weight: 700, size: 16.0), textAlign: TextAlign.center),
             Expanded(child: Container()),
             _descriptionBox(),
             additionalButton(title: !isAdIgnore ? '불쌍한 개발자를 위해 광고보기' : '광고... 더 봐주실래요?', callback: _adWatch, width: 140.0, height: 30.0),
@@ -63,16 +70,21 @@ class _EasterEggView extends State<EasterEggView> {
   }
 
   _descriptionBox() {
-    return !isAdIgnore ? Column(
-      children: [
-        Text('아래의 광고보기를 5회 이상 진행하실 경우\n앱 내의 모든 배너 광고가 사라집니다.', style: textStyle(weight: 600, size: 11.0), textAlign: TextAlign.center),
-        SizedBox(height: 10),
-      ],
-    ) : Container();
+    return Container(
+      child: Column(
+        children: [
+          Text(!isAdIgnore
+            ? '아래의 광고보기를 5회 이상 진행하실 경우\n앱 내의 모든 배너 광고가 사라집니다.'
+            : '모든 배너 광고가 제거되었습니다!\n😃감사합니다😃',
+            style: textStyle(weight: 600, size: 11.0), textAlign: TextAlign.center),
+          SizedBox(height: 10),
+        ],
+      )
+    );
   }
 
   _adCountBox() {
-    return Text(!isAdIgnore ? '현재 광고 시청 횟수: ${_adCount!} / 5회' : '모든 배너 광고가 제거되었습니다!',
+    return Text('현재 광고 시청 횟수: ${_adCount!} / 5회',
       style: textStyle(weight: 600, size: 12.0));
   }
 
