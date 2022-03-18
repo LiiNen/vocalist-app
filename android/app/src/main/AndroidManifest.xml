@@ -8,6 +8,7 @@
         android:icon="@mipmap/vloom_icon">
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

@@ -4,7 +4,7 @@ import 'adMobHelper.dart';
 
 RewardedAd? _rewardedAd;
 int _numRewardedLoadAttempts = 0;
-int _maxLoadAttempts = 5;
+int _maxLoadAttempts = 3;
 
 initAdMobRewarded() async {
   await RewardedAd.load(
