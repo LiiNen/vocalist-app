@@ -17,6 +17,7 @@ import 'collections/function.dart';
 import 'mainNavView/scrapView/likeListView.dart';
 
 bool isDevMode = true;
+bool isAdIgnore = false;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,6 +59,7 @@ class _SplashView extends State<SplashView> {
   void initState() {
     super.initState();
     _checkUpdate();
+    setAdIgnore();
   }
 
   void _checkUpdate() async {

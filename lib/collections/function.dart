@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
+import 'package:vocalist/main.dart';
 
 navigatorPush({required context, required widget, replacement=false, all=false}) {
   replacement
@@ -56,4 +58,9 @@ String getToday() {
   DateTime now = DateTime.now();
   DateTime date = new DateTime(now.year, now.month, now.day);
   return date.toString();
+}
+
+setAdIgnore() async {
+  final pref = await SharedPreferences.getInstance();
+  isAdIgnore = (pref.getInt('adCount') ?? 0) < 1 ? false : true;
 }
