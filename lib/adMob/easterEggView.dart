@@ -4,7 +4,6 @@ import 'package:vocalist/adMob/adMobReward.dart';
 import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
-import 'package:vocalist/main.dart';
 
 class EasterEggView extends StatefulWidget {
   @override
@@ -12,6 +11,7 @@ class EasterEggView extends StatefulWidget {
 }
 class _EasterEggView extends State<EasterEggView> {
   int? _adCount;
+  bool? _isBannerActive;
 
   @override
   void initState() {
@@ -22,6 +22,7 @@ class _EasterEggView extends State<EasterEggView> {
   void _getAdCount() async {
     final pref = await SharedPreferences.getInstance();
     setState(() {
+      _isBannerActive = pref.getBool('isBannerActive') ?? false;
       _adCount = pref.getInt('adCount') ?? 0;
     });
   }
@@ -31,6 +32,7 @@ class _EasterEggView extends State<EasterEggView> {
     pref.setInt('adCount', _adCount!+1);
     if(_adCount!+1 == 5) {
       setAdIgnore();
+      _setBannerActive();
       showConfirmDialog(context, ConfirmDialog(
         title: '광고가 보인다면 앱을 재실행해주세요\n감사합니다😃',
         positiveAction: null, negativeAction: null,
@@ -38,6 +40,15 @@ class _EasterEggView extends State<EasterEggView> {
       ));
     }
     _getAdCount();
+  }
+
+  void _setBannerActive() async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setBool('isBannerActive', !_isBannerActive!);
+    setAdIgnore();
+    setState(() {
+      _isBannerActive = pref.getBool('isBannerActive') ?? false;
+    });
   }
 
   @override
@@ -59,7 +70,7 @@ class _EasterEggView extends State<EasterEggView> {
                 '\n더 이상 보기 싫은 광고 OUT!', style: textStyle(weight: 700, size: 16.0), textAlign: TextAlign.center),
             Expanded(child: Container()),
             _descriptionBox(),
-            additionalButton(title: !isAdIgnore ? '불쌍한 개발자를 위해 광고보기' : '광고... 더 봐주실래요?', callback: _adWatch, width: 140.0, height: 30.0),
+            _adButtonBox(),
             SizedBox(height: 5),
             _adCountBox(),
             SizedBox(height: 40),
@@ -73,13 +84,26 @@ class _EasterEggView extends State<EasterEggView> {
     return Container(
       child: Column(
         children: [
-          Text(!isAdIgnore
+          Text(_adCount! < 5
             ? '아래의 광고보기를 5회 이상 진행하실 경우\n앱 내의 모든 배너 광고가 사라집니다.'
             : '모든 배너 광고가 제거되었습니다!\n😃감사합니다😃',
             style: textStyle(weight: 600, size: 11.0), textAlign: TextAlign.center),
           SizedBox(height: 10),
         ],
       )
+    );
+  }
+
+  _adButtonBox() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: _adCount! < 5 ? [
+        additionalButton(title: '불쌍한 개발자를 위해 광고보기', callback: _adWatch, width: 140.0, height: 30.0, isOpposite: true),
+      ] : [
+        additionalButton(title: '광고... 더 봐주실래요?', callback: _adWatch, width: 100.0, height: 30.0, isOpposite: false),
+        SizedBox(width: 10),
+        additionalButton(title: !_isBannerActive! ? '배너... 다시 보실래요?' : '배너 다시 보지 않기', callback: _setBannerActive, width: 100.0, height: 30.0, isOpposite: _isBannerActive!)
+      ]
     );
   }
 

@@ -62,5 +62,8 @@ String getToday() {
 
 setAdIgnore() async {
   final pref = await SharedPreferences.getInstance();
+
   isAdIgnore = (pref.getInt('adCount') ?? 0) < 5 ? false : true;
+  var _isBannerActive = pref.getBool('isBannerActive');
+  if(_isBannerActive != null) isAdIgnore = !_isBannerActive;
 }
