@@ -56,7 +56,7 @@ class _MusicSuggestionContainer extends State<MusicSuggestionContainer> {
             children: [
               Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Text(widget.isNew ? 'VLOOM에 추가된 노래' : '이런 노래는 어떠세요?', style: textStyle(weight: 700, size: 14.0)),
+                child: Text(widget.isNew ? 'VLOOM에 추가된 노래' : '무작위 노래 추천!', style: textStyle(weight: 700, size: 14.0)),
               ),
               additionalButton(title: '더보기+', callback: _pushSuggestionView)
             ]

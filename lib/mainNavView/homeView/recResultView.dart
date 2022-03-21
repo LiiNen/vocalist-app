@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vocalist/collections/function.dart';
 import 'package:vocalist/collections/statelessWidget.dart';
 import 'package:vocalist/collections/style.dart';
 import 'package:vocalist/music/musicListContainer.dart';
 import 'package:vocalist/restApi/curationItemApi.dart';
 import 'package:vocalist/restApi/musicApi.dart';
+import 'package:vocalist/restApi/playlistApi.dart';
 
 import '../../main.dart';
 
@@ -68,6 +70,7 @@ class _RecResultView extends State<RecResultView> {
       appBar: DefaultAppBar(title: title, back: true),
       body: _isLoaded ? SingleChildScrollView(
         child: Container(
+          width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
               curationContent != '' ? curationContentBox() : Container(),
@@ -85,11 +88,23 @@ class _RecResultView extends State<RecResultView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(curationContent, style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 14.0)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(curationContent, style: textStyle(color: Color(0xff7c7c7c), weight: 500, size: 14.0)),
+              additionalButton(title: '플레이리스트에 추가', width: 100.0, isOpposite: true, callback: exportPlaylist)
+            ]
+          ),
           SizedBox(height: 15),
           lineDivider(context: context),
         ]
       )
     );
+  }
+
+  exportPlaylist() async {
+    var _temp = await postPlaylistFromCuration(userId: userInfo.id, curationId: curationId);
+    if(_temp != null) showToast('플레이리스트 추가 완료!');
+    else showToast('네트워크를 확인해주세요');
   }
 }

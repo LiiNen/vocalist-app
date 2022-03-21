@@ -62,7 +62,7 @@ class _HomePlaylistContainer extends State<HomePlaylistContainer> {
             children: [
               Container(
                 margin: EdgeInsets.only(left: 22),
-                child: Text('나만을 위한 플레이리스트', style: textStyle(weight: 700, size: 14.0)),
+                child: Text('이런 노래는 어때요?', style: textStyle(weight: 700, size: 14.0)),
               ),
             ]
           ),
