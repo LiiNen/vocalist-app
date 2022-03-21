@@ -62,7 +62,7 @@ class _EasterEggView extends State<EasterEggView> {
         child: _adCount!=null ? Column(
           children: [
             SizedBox(height: 10),
-            Text('더보기 탭의 상단 \'더보기\'를 11회 터치 시'
+            Text('더보기 탭의 상단 \'더보기\'를 5회 터치 시'
                 '\n본 페이지로 이동됩니다.', style: textStyle(weight: 500, size: 12.0), textAlign: TextAlign.center),
             Expanded(child: Container()),
             Text('반복되고 관심없는 배너 광고, 지겨우셨죠?'

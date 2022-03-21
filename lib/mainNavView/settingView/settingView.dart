@@ -100,7 +100,7 @@ class _SettingView extends State<SettingView> {
               _titleBox('기타'),
               buttonContainer(context: context, callback: _pushNavigatorNotice, title: '공지사항'),
               buttonContainer(context: context, callback: _versionDialog, title: '버전 정보 조회'),
-              buttonContainer(context: context, callback: _pushNavigatorReport, title: '버그리포트'),
+              buttonContainer(context: context, callback: _pushNavigatorReport, title: '문의 / 버그 리포트'),
               buttonContainer(context: context, callback: _signOutDialog, title: '로그아웃'),
               buttonContainer(context: context, callback: _pushNavigatorWithdrawal, title: '탈퇴하기'),
             ]
@@ -112,7 +112,7 @@ class _SettingView extends State<SettingView> {
 
   tapAppBar() {
     tapCounter = tapCounter + 1;
-    if(tapCounter > 10) {
+    if(tapCounter > 4) {
       navigatorPush(context: context, widget: EasterEggView());
       tapCounter = 0;
     }

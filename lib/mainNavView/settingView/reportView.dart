@@ -27,7 +27,7 @@ class _ReportView extends State<ReportView> {
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        appBar: DefaultAppBar(title: '버그 리포트', back: true),
+        appBar: DefaultAppBar(title: '문의 / 버그 리포트', back: true),
         body: Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.symmetric(horizontal: 28),
@@ -57,7 +57,7 @@ class _ReportView extends State<ReportView> {
               ),
               Column(
                 children: [
-                  bottomAlignButton(title: '버그 리포트 보내기', callback: _sendReport),
+                  bottomAlignButton(title: '제출하기', callback: _sendReport),
                   SizedBox(height: 32),
                 ]
               )
