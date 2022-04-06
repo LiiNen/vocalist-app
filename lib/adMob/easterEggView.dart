@@ -30,7 +30,7 @@ class _EasterEggView extends State<EasterEggView> {
   void _setAdCount() async {
     final pref = await SharedPreferences.getInstance();
     pref.setInt('adCount', _adCount!+1);
-    if(_adCount!+1 == 5) {
+    if(_adCount!+1 == 3) {
       setAdIgnore();
       _setBannerActive();
       showConfirmDialog(context, ConfirmDialog(
@@ -85,7 +85,7 @@ class _EasterEggView extends State<EasterEggView> {
       child: Column(
         children: [
           Text(_adCount! < 5
-            ? '아래의 광고보기를 5회 이상 진행하실 경우\n앱 내의 모든 배너 광고가 사라집니다.'
+            ? '아래의 광고보기를 3회 이상 진행하실 경우\n앱 내의 모든 배너 광고가 사라집니다.\n(1일 1회 시청 가능합니다.)'
             : '모든 배너 광고가 제거되었습니다!\n😃감사합니다😃',
             style: textStyle(weight: 600, size: 11.0), textAlign: TextAlign.center),
           SizedBox(height: 10),
@@ -98,7 +98,7 @@ class _EasterEggView extends State<EasterEggView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: _adCount! < 5 ? [
-        additionalButton(title: '불쌍한 개발자를 위해 광고보기', callback: _adWatch, width: 140.0, height: 30.0, isOpposite: true),
+        additionalButton(title: '배너 제거를 위해 광고보기', callback: _adWatch, width: 140.0, height: 30.0, isOpposite: true),
       ] : [
         additionalButton(title: '광고... 더 봐주실래요?', callback: _adWatch, width: 100.0, height: 30.0, isOpposite: false),
         SizedBox(width: 10),

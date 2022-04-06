@@ -76,7 +76,7 @@ class _PopupDialog extends State<PopupDialog> {
         child: Container(
           height: 24,
           child: Center(
-            child: Text('다시 보지 않기', style: textStyle(color: Colors.black, weight: 600, size: 18.0))
+            child: Text('오늘하루 보지않기', style: textStyle(color: Colors.black, weight: 600, size: 16.0))
           )
         )
       )
@@ -92,7 +92,7 @@ class _PopupDialog extends State<PopupDialog> {
         },
         child: Container(
           child: Center(
-            child: Text('닫기', style: textStyle(color: Colors.black, weight: 600, size: 18.0))
+            child: Text('닫기', style: textStyle(color: Colors.black, weight: 600, size: 16.0))
           )
         )
       )
