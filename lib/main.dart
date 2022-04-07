@@ -16,7 +16,7 @@ import 'adMob/adMobReward.dart';
 import 'collections/function.dart';
 import 'mainNavView/scrapView/likeListView.dart';
 
-bool isDevMode = true;
+bool isDevMode = false;
 bool isAdIgnore = false;
 
 void main() {
