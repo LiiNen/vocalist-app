@@ -41,7 +41,7 @@ class _SearchView extends State<SearchView> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [

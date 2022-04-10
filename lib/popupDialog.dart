@@ -58,7 +58,6 @@ class _PopupDialog extends State<PopupDialog> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           notSeeNoticeButton(),
-          SizedBox(width: 18),
           closeButton(),
         ]
       )
@@ -84,16 +83,16 @@ class _PopupDialog extends State<PopupDialog> {
   }
 
   closeButton() {
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Container(
-          child: Center(
-            child: Text('닫기', style: textStyle(color: Colors.black, weight: 600, size: 16.0))
-          )
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        height: 24,
+        width: 96,
+        child: Center(
+          child: Text('닫기', style: textStyle(color: Colors.black, weight: 600, size: 16.0))
         )
       )
     );
