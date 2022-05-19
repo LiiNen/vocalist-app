@@ -74,7 +74,7 @@ class _EasterEggView extends State<EasterEggView> {
             SizedBox(height: 5),
             _adCountBox(),
             SizedBox(height: 40),
-          ]
+            ]
         ) : Container()
       )
     );
@@ -84,8 +84,8 @@ class _EasterEggView extends State<EasterEggView> {
     return Container(
       child: Column(
         children: [
-          Text(_adCount! < 5
-            ? '아래의 광고보기를 3회 이상 진행하실 경우\n앱 내의 모든 배너 광고가 사라집니다.\n(1일 1회 시청 가능합니다.)'
+          Text(_adCount! < 3
+            ? '배너 제거 토큰을 3개 이상 획득하실 경우\n앱 내의 모든 배너 광고가 사라집니다.\n(1일 1회 시청 가능합니다.)'
             : '모든 배너 광고가 제거되었습니다!\n😃감사합니다😃',
             style: textStyle(weight: 600, size: 11.0), textAlign: TextAlign.center),
           SizedBox(height: 10),
@@ -97,18 +97,18 @@ class _EasterEggView extends State<EasterEggView> {
   _adButtonBox() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: _adCount! < 5 ? [
-        additionalButton(title: '배너 제거를 위해 광고보기', callback: _adWatch, width: 140.0, height: 30.0, isOpposite: true),
+      children: _adCount! < 3 ? [
+        additionalButton(title: '광고보고 배너 제거 토큰 얻기', callback: _adWatch, width: 140.0, height: 30.0, isOpposite: true),
       ] : [
-        additionalButton(title: '광고... 더 봐주실래요?', callback: _adWatch, width: 100.0, height: 30.0, isOpposite: false),
+        additionalButton(title: '배너 제거 토큰 얻기', callback: _adWatch, width: 100.0, height: 30.0, isOpposite: false),
         SizedBox(width: 10),
-        additionalButton(title: !_isBannerActive! ? '배너... 다시 보실래요?' : '배너 다시 보지 않기', callback: _setBannerActive, width: 100.0, height: 30.0, isOpposite: _isBannerActive!)
+        additionalButton(title: !_isBannerActive! ? '광고 배너 다시 보기' : '배너 다시 보지 않기', callback: _setBannerActive, width: 100.0, height: 30.0, isOpposite: _isBannerActive!)
       ]
     );
   }
 
   _adCountBox() {
-    return Text('현재 광고 시청 횟수: ${_adCount!} / 5회',
+    return Text('현재 배너 제거 토큰: ${_adCount!} / 3 개',
       style: textStyle(weight: 600, size: 12.0));
   }
 

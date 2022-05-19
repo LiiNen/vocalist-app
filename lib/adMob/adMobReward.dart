@@ -1,4 +1,5 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:vocalist/collections/function.dart';
 
 import 'adMobHelper.dart';
 
@@ -29,6 +30,7 @@ initAdMobRewarded() async {
 
 showAdMobRewarded({dynamic callback}) {
   if(_rewardedAd == null) {
+    showToast('시청 가능한 광고가 없습니다.\n나중에 다시 시도해주세요!');
     return;
   }
   _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(

@@ -18,8 +18,8 @@ class _EventView extends State<EventView> {
   int _count = -1;
 
   bool _isParticipate = false;
-  bool _isAdParticipate = false;
   String _phone = '';
+  int _userCount = -1;
 
   bool _isEventUserLoaded = false;
 
@@ -47,8 +47,8 @@ class _EventView extends State<EventView> {
     if(_temp != null) {
       setState(() {
         _isParticipate = _temp['participate'] == 1;
-        _isAdParticipate = _temp['ad_participate'] == 1;
         _phone = _temp['phone'];
+        _userCount = _temp['participate'] + _temp['ad_participate'];
         if(_phone != '') {
           _phoneController.text = _phone;
         }
@@ -82,7 +82,7 @@ class _EventView extends State<EventView> {
           ),
           Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: DefaultAppBar(title: '', color: Colors.transparent),
+            appBar: DefaultAppBar(title: 'VLOOM 출시 이벤트!', color: Colors.transparent),
             body: _isEventUserLoaded ? (widget.eventInfo['img_url']!='' ? Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -108,12 +108,13 @@ class _EventView extends State<EventView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               postEventButton(_postEvent, '응모하기', _isParticipate),
-              postEventButton(_postEventAd, '광고보고\n추가 응모하기', _isAdParticipate),
+              postEventButton(_postEventAd, '광고보고\n추가 응모하기', false),
             ]
           )
         ),
         SizedBox(height: 5),
         Text('현재 참여 인원: $_count명', style: textStyle(weight: 700)),
+        Text('내 응모 횟수: $_userCount회', style: textStyle(weight: 700)),
         SizedBox(height: MediaQuery.of(context).viewInsets.bottom==0.0 ? 60 : 20),
       ]
     );
@@ -129,7 +130,7 @@ class _EventView extends State<EventView> {
       },
       child: Container(
         width: 120,
-        height: 45,
+        height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(30)),
           border: Border.all(color: Color(0xff8b63ff), width: 1),
@@ -137,8 +138,8 @@ class _EventView extends State<EventView> {
         ),
         child: Center(
           child: !isComplete ?
-            Text(title, style: textStyle(color: Color(0xff8b63ff), weight: 600, size: 15.0), textAlign: TextAlign.center,) :
-            Text('응모완료!', style: textStyle(color: Colors.white, weight: 600, size: 15.0))
+          Text(title, style: textStyle(color: Color(0xff8b63ff), weight: 600, size: 12.0), textAlign: TextAlign.center,) :
+          Text('응모완료!', style: textStyle(color: Colors.white, weight: 600, size: 12.0))
         )
       )
     );
@@ -164,6 +165,7 @@ class _EventView extends State<EventView> {
 
   _postEventAd(String _dummy) async {
     if(_isParticipate == false) {
+      showToast('기본 응모부터 해주세요!');
       return;
     }
     else {
@@ -172,7 +174,7 @@ class _EventView extends State<EventView> {
   }
 
   _adComplete() async {
-    var _temp = await patchEventUser(userId: userInfo.id);
+    var _temp = await patchEventUser(userId: userInfo.id, count: _userCount);
     if(_temp != null) {
       setState(() {
         _isEventUserLoaded = false;

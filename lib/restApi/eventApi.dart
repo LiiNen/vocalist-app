@@ -38,9 +38,10 @@ postEventUser({required int userId, required String phone}) async {
   return null;
 }
 
-patchEventUser({required int userId}) async {
+patchEventUser({required int userId, required int count}) async {
   var requestBody = Map();
   requestBody['user_id'] = userId.toString();
+  requestBody['count'] = count.toString();
 
   var response = await http.patch(Uri.parse('$baseUrl$pathEvent/user'), body: requestBody);
   if(response.statusCode == 200) {
