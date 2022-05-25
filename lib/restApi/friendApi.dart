@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:vocalist/restApi/userApi.dart';
 
 import 'restApi.dart';
 
@@ -15,14 +16,20 @@ getFriend({required int userId}) async {
   return null;
 }
 
-postFriend({required int userId, required String email}) async {
+postFriend({required int userId, required int responseUserId}) async {
   var requestBody = Map();
   requestBody['user_id'] = userId.toString();
-  requestBody['email'] = email;
+  var temp = await getUser(id: responseUserId);
+  if(temp != null) {
+    print(temp);
+    requestBody['email'] = temp['email'].toString();
+  }
+  else return false;
 
   var response = await http.post(Uri.parse('$baseUrl$pathFriend'), body: requestBody);
   if(response.statusCode == 200) {
     var responseBody = json.decode(response.body);
+    print(responseBody);
     if(responseBody['status'] == true) return true;
     return false;
   }

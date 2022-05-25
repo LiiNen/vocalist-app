@@ -97,7 +97,7 @@ class _UserListContainer extends State<UserListContainer> {
   addFriendDialog(user) {
     showConfirmDialog(context, ConfirmDialog(
       title: '${user['emoji']} ${user['name']}님에게\n친구요청을 보내시겠습니까?',
-      positiveAction: () {addFriendAction(user['email']);},
+      positiveAction: () {addFriendAction(user['id']);},
       negativeAction: () {},
       confirmAction: null,
       positiveWord: '네',
@@ -105,8 +105,8 @@ class _UserListContainer extends State<UserListContainer> {
     ));
   }
 
-  addFriendAction(userEmail) async {
-    var response = await postFriend(userId: userInfo.id, email: userEmail);
+  addFriendAction(responseUserId) async {
+    var response = await postFriend(userId: userInfo.id, responseUserId: responseUserId);
     if(response == true) {
       showToast('친구 요청 완료!');
     }
