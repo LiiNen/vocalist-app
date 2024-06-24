@@ -55,8 +55,10 @@ class _MainNavView extends State<MainNavView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => onWillPop(context),
+    return PopScope(
+      onPopInvoked: (dipPop) {
+        onWillPop(context);
+      },
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Center(

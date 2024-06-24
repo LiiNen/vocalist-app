@@ -16,7 +16,7 @@ import 'adMob/adMobReward.dart';
 import 'collections/function.dart';
 import 'mainNavView/scrapView/likeListView.dart';
 
-bool isDevMode = false;
+bool isDevMode = true;
 bool isAdIgnore = false;
 
 void main() {
@@ -101,8 +101,10 @@ class _SplashView extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => onWillPop(context),
+    return PopScope(
+      onPopInvoked: (dipPop) {
+        onWillPop(context);
+      },
       child: Scaffold(
         body: Container(
           width: MediaQuery.of(context).size.width,
