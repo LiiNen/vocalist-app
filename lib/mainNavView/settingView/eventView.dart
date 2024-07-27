@@ -169,7 +169,7 @@ class _EventView extends State<EventView> {
       return;
     }
     else {
-      showAdMobRewarded(callback: _adComplete);
+      // showAdMobRewarded(callback: _adComplete);
     }
   }
 

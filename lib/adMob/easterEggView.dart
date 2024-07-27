@@ -113,6 +113,6 @@ class _EasterEggView extends State<EasterEggView> {
   }
 
   _adWatch() async {
-    showAdMobRewarded(callback: _setAdCount);
+    // showAdMobRewarded(callback: _setAdCount);
   }
 }
