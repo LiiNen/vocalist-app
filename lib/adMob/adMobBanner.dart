@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'adMobHelper.dart';
 
 class AdMobBanner extends StatefulWidget {
   @override

@@ -1,12 +1,8 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vocalist/collections/function.dart';
-import 'package:vocalist/loginView/signUpConfirmView.dart';
-import 'package:vocalist/loginView/vloomLogin.dart';
 import 'package:vocalist/mainNavView/mainNavView.dart';
-import 'package:vocalist/restApi/loginApi.dart';
 
 class GoogleLoginView extends StatefulWidget {
   @override

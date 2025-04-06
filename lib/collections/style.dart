@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-TextStyle textStyle({color: const Color(0xff3c354d), weight: int, double size: 14.0, double spacing: 0}) {
+TextStyle textStyle({color = const Color(0xff3c354d), weight = int, double size = 14.0, double spacing = 0}) {
   FontWeight fontWeight = FontWeight.normal;
   switch(weight) {
     case 400:
